@@ -39,11 +39,7 @@
             </p>
           </div>
         </div>
-        <div class="mt-[245px] lg:mt-[64px]">
-          <p class="text-gray-500 text-sm mb-2">
-            By using Altara, you are agreeing to our
-            <span class="text-primary">Terms of Service</span>
-          </p>
+        <div class="mt-[245px] lg:mt-[64px] w-[312px]">
           <DefButton name="Login" :action="Login" />
         </div>
       </div>

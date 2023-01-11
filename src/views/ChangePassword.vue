@@ -12,45 +12,41 @@
             <Business class="left-3 absolute top-3 z-10" />
             <input
               type="text"
-              v-model="password.old"
-              class="focus:outline-none w-[312px] h-[50px] rounded-xs p-3 px-12 background placeholder:text-gray-400"
-              placeholder="Old Password"
-            />
-            <p
-              v-if="!password.old && attemptSubmit"
-              class="text-red-500 text-xs absolute -bottom-4"
-            >
-             Please enter Old Password
-            </p>
-          </div>
-          <div class="relative flex flex-col w-full">
-            <Password class="left-3 absolute top-3 z-10" />
-            <input
-              type="password"
               v-model="password.new"
               class="focus:outline-none w-[312px] h-[50px] rounded-xs p-3 px-12 background placeholder:text-gray-400"
               placeholder="New Password"
             />
             <p
-              v-if="password.new !== password.old && attemptSubmit && password.new"
-              class="text-red-500 text-xs absolute -bottom-4"
-            >
-             Old password and new password does not match
-            </p>
-            <p
               v-if="!password.new && attemptSubmit"
               class="text-red-500 text-xs absolute -bottom-4"
             >
-            Please enter new password
+             Please enter New Password
+            </p>
+          </div>
+          <div class="relative flex flex-col w-full">
+            <Password class="left-3 absolute top-3 z-10" />
+            <input
+              type="text"
+              v-model="password.confirm"
+              class="focus:outline-none w-[312px] h-[50px] rounded-xs p-3 px-12 background placeholder:text-gray-400"
+              placeholder="Confirm Password"
+            />
+            <p
+              v-if="password.new !== password.confirm && attemptSubmit && password.confirm"
+              class="text-red-500 text-xs absolute -bottom-4"
+            >
+             New pasword and confirm password does not match
+            </p>
+            <p
+              v-if="!password.confirm && attemptSubmit"
+              class="text-red-500 text-xs absolute -bottom-4"
+            >
+            Please enter confirm password
             </p>
           </div>
         </div>
-        <div class="mt-[245px] lg:mt-[64px]">
-          <p class="text-gray-500 text-sm mb-2">
-            By using Altara, you are agreeing to our
-            <span class="text-primary">Terms of Service</span>
-          </p>
-          <DefButton name="Reset Password" :action="Login" />
+        <div class="mt-[245px] lg:mt-[64px] w-[312px]">
+          <DefButton name="Change Password" :action="Login" />
         </div>
       </div>
     </div>
@@ -70,15 +66,15 @@ export default {
     return {
       attemptSubmit: false,
       password: {
-        old: "",
-        ne: "",
+        new: "",
+        confirm: "",
       },
     };
   },
   methods: {
     Login(event) {
       this.attemptSubmit = true;
-      if (this.password.old =="" || this.password.new == "" || this.password.old !==   this.password.new) {
+      if (this.password.new =="" || this.password.confirm == "" || this.password.new !==   this.password.confirm) {
       } else {
         alert("completed");
       }
