@@ -12,27 +12,27 @@
             <Business class="left-3 absolute top-3 z-10" />
             <input
               type="text"
-              v-model="loginData.name"
+              v-model="username"
               class="focus:outline-none w-[312px] h-[50px] rounded-xs p-3 px-12 background placeholder:text-gray-400"
-              placeholder="Business name"
+              placeholder="Email Address"
             />
             <p
-              v-if="!loginData.name && attemptSubmit"
+              v-if="!username && attemptSubmit"
               class="text-red-500 text-xs absolute -bottom-4"
             >
-              Please enter your Business name
+              Please enter your Email
             </p>
           </div>
           <div class="relative flex flex-col w-full">
             <Password class="left-3 absolute top-3 z-10" />
             <input
               type="password"
-              v-model="loginData.password"
+              v-model="password"
               class="focus:outline-none w-[312px] h-[50px] rounded-xs p-3 px-12 background placeholder:text-gray-400"
               placeholder="Password"
             />
             <p
-              v-if="!loginData.password && attemptSubmit"
+              v-if="!password && attemptSubmit"
               class="text-red-500 text-xs absolute -bottom-4"
             >
               Please enter your password
@@ -41,6 +41,7 @@
         </div>
         <div class="mt-[245px] lg:mt-[64px] w-[312px]">
           <DefButton name="Login" :action="Login" />
+          <!-- <button @click.prevent="Login">Login </button> -->
         </div>
       </div>
     </div>
@@ -59,28 +60,22 @@ export default {
   data() {
     return {
       attemptSubmit: false,
-      loginData: {
-        name: "",
+        username: "",
         password: "",
-      },
     };
   },
   methods: {
     Login(event) {
       this.attemptSubmit = true;
-      if (this.loginData.name == "" || this.loginData.password == "") {
+      if (this.username == "" || this.password == "") {
       } else {
-        alert("completed");
+       this.$store.dispatch("Login", {username: this.username, password:this.password})
       }
       //
       event.preventDefault();
     },
   },
-  computed: {
-    emptyData(data) {
-      return data === "";
-    },
-  },
+
 };
 </script>
 <style scoped>

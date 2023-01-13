@@ -5,9 +5,10 @@ import App from './App.vue'
 import router from './router'
 import './registerServiceWorker'
 import './assets/base.css'
-const app = createApp(App)
+import store from "./store";
 
-app.use(createPinia())
+const app = createApp(App)
 app.use(router)
+app.use(store);
 
 app.mount('#app')
