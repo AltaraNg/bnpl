@@ -1,5 +1,5 @@
 import router from "../router";
-import Apis from "../services/Apis";
+import Apis from "../services/Apis.js";
 
 export const Login = ({ commit }, data) => {
   Apis.login(data).then((response) => {
