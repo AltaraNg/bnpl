@@ -12,35 +12,41 @@
             <Business class="left-3 absolute top-3 z-10" />
             <input
               type="text"
-              v-model="loginData.name"
+              v-model="password.new"
               class="focus:outline-none w-[312px] h-[50px] rounded-xs p-3 px-12 background placeholder:text-gray-400"
-              placeholder="Business name"
+              placeholder="New Password"
             />
             <p
-              v-if="!loginData.name && attemptSubmit"
+              v-if="!password.new && attemptSubmit"
               class="text-red-500 text-xs absolute -bottom-4"
             >
-              Please enter your Business name
+             Please enter New Password
             </p>
           </div>
           <div class="relative flex flex-col w-full">
             <Password class="left-3 absolute top-3 z-10" />
             <input
-              type="password"
-              v-model="loginData.password"
+              type="text"
+              v-model="password.confirm"
               class="focus:outline-none w-[312px] h-[50px] rounded-xs p-3 px-12 background placeholder:text-gray-400"
-              placeholder="Password"
+              placeholder="Confirm Password"
             />
             <p
-              v-if="!loginData.password && attemptSubmit"
+              v-if="password.new !== password.confirm && attemptSubmit && password.confirm"
               class="text-red-500 text-xs absolute -bottom-4"
             >
-              Please enter your password
+             New pasword and confirm password does not match
+            </p>
+            <p
+              v-if="!password.confirm && attemptSubmit"
+              class="text-red-500 text-xs absolute -bottom-4"
+            >
+            Please enter confirm password
             </p>
           </div>
         </div>
         <div class="mt-[245px] lg:mt-[64px] w-[312px]">
-          <DefButton name="Login" :action="Login" />
+          <DefButton name="Change Password" :action="Login" />
         </div>
       </div>
     </div>
@@ -59,28 +65,25 @@ export default {
   data() {
     return {
       attemptSubmit: false,
-      loginData: {
-        name: "",
-        password: "",
+      password: {
+        new: "",
+        confirm: "",
       },
     };
   },
   methods: {
     Login(event) {
       this.attemptSubmit = true;
-      if (this.loginData.name == "" || this.loginData.password == "") {
+      if (this.password.new =="" || this.password.confirm == "" || this.password.new !==   this.password.confirm) {
       } else {
         alert("completed");
       }
       //
       event.preventDefault();
+    //   this.attemptSubmit = false;
     },
   },
-  computed: {
-    emptyData(data) {
-      return data === "";
-    },
-  },
+ 
 };
 </script>
 <style scoped>
