@@ -11,9 +11,6 @@ export const ResetPassword = ({ commit }, data) => {
   Apis.resetpassword(data).then((response) => {
     commit("RESET_PASSWORD", response.data.token);
     if (response) {
-      // router.push({
-      //   name: "OTP",
-      // });
     }
   });
 };
