@@ -5,15 +5,15 @@
     <div
       class="bg-white h-screen lg:h-fit lg:py-16 py-none lg:border lg:rounded-lg lg:shadow w-full lg:w-1/2 flex items-center justify-center"
     >
-      <div class="flex flex-col items-center justify-center w-full">
+      <div class="flex flex-col items-center  justify-center w-full">
         <img src="../assets/images/logo.png" />
-        <div class="mt-[60px] lg:mt-[36px] space-y-12">
+        <div class="mt-[40px] lg:mt-[36px] space-y-12 w-full lg:px-16 px-0">
           <div class="relative flex flex-col w-full">
             <Business class="left-3 absolute top-3 z-10" />
             <input
               type="text"
               v-model="username"
-              class="focus:outline-none w-[312px] h-[50px] rounded-xs p-3 px-12 background placeholder:text-gray-400"
+              class="focus:outline-none w-[312px] lg:w-full rounded-md h-[50px] rounded-xs p-3 px-12 background placeholder:text-gray-400"
               placeholder="Email Address"
             />
             <p
@@ -28,7 +28,7 @@
             <input
               type="password"
               v-model="password"
-              class="focus:outline-none w-[312px] h-[50px] rounded-xs p-3 px-12 background placeholder:text-gray-400"
+              class="focus:outline-none w-[312px] lg:w-full rounded-md h-[50px] rounded-xs p-3 px-12 background placeholder:text-gray-400"
               placeholder="Password"
             />
             <p
@@ -39,7 +39,7 @@
             </p>
           </div>
         </div>
-        <div class="mt-[245px] lg:mt-[64px] w-[312px]">
+        <div class="mt-[200px] lg:mt-[64px] w-[312px] lg:w-full lg:px-16 px-0">
           <DefButton name="Login" :action="Login" :loading=loader />
           <!-- <button @click.prevent="Login">Login </button> -->
         </div>
