@@ -6,3 +6,6 @@ export const LOGIN = (state, data) => {
 };
 
 export const RESET_PASSWORD = (state, token) => {};
+export const LOADING =(state, loadingState)=>{
+  state.status.loading = loadingState
+}

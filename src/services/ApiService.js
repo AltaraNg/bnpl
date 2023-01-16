@@ -1,5 +1,4 @@
 import axios from "axios";
-import toastr from "toastr";
 export class Apiservice {
   constructor() {
     this.baseUrl = "https://bnpl-play-api.herokuapp.com/api/";
@@ -52,7 +51,6 @@ export class Apiservice {
         this.requestConfig
       );
       this.resetRequestConfig();
-      toastr.success("Success")
       return result.data;
     } catch (error) {
       this.handleErrors(error);
@@ -61,8 +59,6 @@ export class Apiservice {
 
   handleErrors(error) {
     this.resetRequestConfig();
-    console.log(error)
-    toastr.error(error.response.data.errors.message ? error.response.data.errors.message : error.response.data.message);
    
   }
 
@@ -75,4 +71,3 @@ export class Apiservice {
     this.requestConfig = {};
   }
 }
-

@@ -12,12 +12,12 @@
             <Business class="left-3 absolute top-3 z-10" />
             <input
               type="text"
-              v-model="password.new"
+              v-model="data.password"
               class="focus:outline-none w-[312px] h-[50px] rounded-xs p-3 px-12 background placeholder:text-gray-400"
               placeholder="New Password"
             />
             <p
-              v-if="!password.new && attemptSubmit"
+              v-if="!data.password && attemptSubmit"
               class="text-red-500 text-xs absolute -bottom-4"
             >
              Please enter New Password
@@ -27,18 +27,18 @@
             <Password class="left-3 absolute top-3 z-10" />
             <input
               type="text"
-              v-model="password.confirm"
+              v-model="data.confirm_password"
               class="focus:outline-none w-[312px] h-[50px] rounded-xs p-3 px-12 background placeholder:text-gray-400"
               placeholder="Confirm Password"
             />
             <p
-              v-if="password.new !== password.confirm && attemptSubmit && password.confirm"
+              v-if="data.password !== data.confirm_password && attemptSubmit && data.confirm_password"
               class="text-red-500 text-xs absolute -bottom-4"
             >
              New pasword and confirm password does not match
             </p>
             <p
-              v-if="!password.confirm && attemptSubmit"
+              v-if="!data.confirm_password && attemptSubmit"
               class="text-red-500 text-xs absolute -bottom-4"
             >
             Please enter confirm password
@@ -65,18 +65,20 @@ export default {
   data() {
     return {
       attemptSubmit: false,
-      password: {
-        new: "",
-        confirm: "",
+      data: {
+        password: "",
+        confirm_password: "",
+        otp:'',
+        username:''
       },
     };
   },
   methods: {
     Login(event) {
       this.attemptSubmit = true;
-      if (this.password.new =="" || this.password.confirm == "" || this.password.new !==   this.password.confirm) {
+      if (this.data.password =="" || this.data.confirm_password == "" || this.data.password !==   this.data.confirm_password) {
       } else {
-        alert("completed");
+        this.$store.dispatch("ResetPassword", this.data);
       }
       //
       event.preventDefault();

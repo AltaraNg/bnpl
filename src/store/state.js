@@ -1,6 +1,7 @@
 export default {
-  userdata: {
-    
+  userdata: {},
+  status: {
+    loading: false,
+    error: false,
   },
-  token: null,
 };

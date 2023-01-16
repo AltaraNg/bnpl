@@ -40,7 +40,7 @@
           </div>
         </div>
         <div class="mt-[245px] lg:mt-[64px] w-[312px]">
-          <DefButton name="Login" :action="Login" />
+          <DefButton name="Login" :action="Login" :loading=loader />
           <!-- <button @click.prevent="Login">Login </button> -->
         </div>
       </div>
@@ -60,8 +60,9 @@ export default {
   data() {
     return {
       attemptSubmit: false,
-        username: "",
-        password: "",
+      username: "",
+      password: "",
+      loader:false
     };
   },
   methods: {
@@ -69,13 +70,15 @@ export default {
       this.attemptSubmit = true;
       if (this.username == "" || this.password == "") {
       } else {
-       this.$store.dispatch("Login", {username: this.username, password:this.password})
+        this.$store.dispatch("Login", {
+          username: this.username,
+          password: this.password,
+        });
       }
       //
       event.preventDefault();
     },
   },
-
 };
 </script>
 <style scoped>
