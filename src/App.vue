@@ -1,5 +1,6 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import NavBar from './components/Nav.vue';
 </script>
 
 <template>
@@ -7,9 +8,11 @@ import { RouterLink, RouterView } from 'vue-router'
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </nav> -->
-
-
-  <RouterView />
+<div class="w-full">
+   <NavBar v-if="!$route.meta.noAuth"/>
+  <RouterView class="pt-16" />
+</div>
+ 
 </template>
 
 <style scoped>
