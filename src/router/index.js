@@ -29,7 +29,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const userdata = JSON.parse(localStorage.getItem("userdata"));
+  const userdata = JSON.parse(localStorage.getItem("vuex"))?.userdata;
   if ( !to.matched.some((route) => route.meta.noAuth)) {
     !userdata ? next("login") : next();
     return;

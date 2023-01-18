@@ -12,7 +12,7 @@ import createPersistedState from "vuex-persistedstate";
 export default new Vuex.Store({
   plugins: [
     createPersistedState({
-      storage: window.sessionStorage,
+      storage: window.localStorage,
     }),
   ],
   state,

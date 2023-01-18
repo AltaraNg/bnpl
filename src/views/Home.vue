@@ -1,12 +1,12 @@
 <template>
-  <main class="px-5 w-full  ">
-    <div class="space-y-6  relative  h-fit" >
+  <main class="px-5 w-full bg-white  " >
+    <div class="space-y-4  relative  h-fit" >
        <header class="text-lg font-bold tracking-wide leading-5">Recent Transactions</header>
     <div class="flex items-center w-full justify-between lg:justify-start  space-x-2">
       <input type="text" class=" w-full lg:w-1/3 rounded-full h-[44px] border"/>
       <search class=""/>
     </div>
-    <div class=" space-y-6 lg:space-y-0 h-[500px] lg:h-[300px] lg:h-auto  overflow-y-scroll  lg:flex lg:flex-wrap  lg:justify-between">
+    <div class=" space-y-6 lg:space-y-0 halfHeigh  lg:h-auto  overflow-y-scroll  lg:flex lg:flex-wrap  lg:justify-between">
        <div v-for="order in orders" :key="order.id" class=" lg:w-0.3   " >
       <div class="bg-primary w-full  rounded-md shadow-xs text-white p-3 flex items-center justify-between lg:mb-4">
         <div class="space-y-5 lg:space-y-0">
@@ -140,3 +140,9 @@ export default{
   }
 }
 </script>
+<style scoped>
+.halfHeigh{
+  height: 50vh;
+}
+
+</style>
