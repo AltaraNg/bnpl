@@ -8,16 +8,7 @@
     <div class="lg:hidden" @click="toggle" >
       <hamburger />
     </div>
-    <div class="lg:flex hidden space-x-16 text-primary text-sm font-semibold">
-      <p>Get Started</p>
-      <p>Profile</p>
-    </div>
-    <button
-      class="bg-primary hidden lg:block rounded text-white px-3 py-1 text-sm"
-      @click="logOut"
-    >
-      LogOut
-    </button>
+
     <Transition name="slide-fade">
       <div class="fixed z-50 top-0  w-screen 
                   h-screen  left-0 overlay"  v-if="show" ref="overlay" @click="clickaway">     </div>
