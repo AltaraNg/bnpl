@@ -17,7 +17,7 @@ import SideBar from "./components/SideBar.vue";
         class="hidden lg:block w-1/5 z-50 absolute top-0 right-0"
         v-if="!$route.meta.noAuth"
       />
-      <RouterView class="pt-16 lg:w-4/5" />
+      <RouterView class="pt-16 " :class="!$route.meta.noAuth ?'lg:w-4/5' :'w-full'" />
     </div>
   </div>
 </template>

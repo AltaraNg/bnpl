@@ -1,7 +1,7 @@
 <template>
      <div
         
-        class="w-full bg-blue-100 overflow-hidden h-screen   lg:flex flex-col items-center justify-center space-y-16" 
+        class=" bg-blue-100 overflow-hidden h-screen   lg:flex flex-col items-center justify-center space-y-16" 
       >
         <div>
          
@@ -18,6 +18,7 @@
       </div>
 </template>
 <script>
+import router from '../router';
 export default{
     methods:{
          logOut() {
