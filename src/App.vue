@@ -14,8 +14,9 @@ import SideBar from "./components/SideBar.vue";
     <NavBar v-if="!$route.meta.noAuth" class="sticky top-0" />
     <div class="  overflow-hidden lg:flex block">
       <SideBar
-        class="hidden lg:block w-1/5 z-50 absolute top-0 right-0"
-        v-if="!$route.meta.noAuth"
+      :class="$route.meta.noAuth ? 'hidden' :'lg:block'"
+        class="hidden  w-1/5 z-50 absolute top-0 right-0"
+        v-show="!$route.meta.noAuth"
       />
       <RouterView class="pt-16 " :class="!$route.meta.noAuth ?'lg:w-4/5' :'w-full'" />
     </div>

@@ -68,8 +68,6 @@ export default {
       data: {
         password: "",
         confirm_password: "",
-        otp:'',
-        username:''
       },
     };
   },
@@ -78,13 +76,16 @@ export default {
       this.attemptSubmit = true;
       if (this.data.password =="" || this.data.confirm_password == "" || this.data.password !==   this.data.confirm_password) {
       } else {
-        this.$store.dispatch("ResetPassword", this.data);
+        this.$store.dispatch("ResetPassword", {...this.data, ...this.$route.params});
       }
       //
       event.preventDefault();
     //   this.attemptSubmit = false;
     },
   },
+  mounted(){
+    console.log(this.$route.params);
+  }
  
 };
 </script>

@@ -18,9 +18,10 @@ const router = createRouter({
       },
     },
     {
-      path: "/change_password",
+      path: "/change/password/otp=:otp&username=:username",
       name: "change_password",
       component: () => import("../views/ChangePassword.vue"),
+      // redirect:"/change/password",
       meta: {
         noAuth: true,
       },
