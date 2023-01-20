@@ -9,3 +9,6 @@ export const RESET_PASSWORD = (state, data) => {
 export const LOADING =(state, loadingState)=>{
   state.status.loading = loadingState
 }
+export const ERROR = (state, error)=>{
+  state.status.error = error
+}

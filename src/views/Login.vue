@@ -9,34 +9,35 @@
         <img src="../assets/images/logo.png" />
         <div class="mt-[30px] lg:mt-[36px] space-y-12 w-full lg:px-16 px-0">
           <div class="relative flex flex-col w-full">
-            <Business class="left-3 absolute top-3 z-10" />
+            <!-- <Business class="left-3 absolute top-3 z-10" /> -->
             <input
               type="text"
               v-model="username"
-              class="focus:outline-none  w-full rounded-md h-[50px] rounded-xs p-3 px-12 background placeholder:text-gray-400"
+              class="focus:outline-none  w-full rounded-md h-[50px] rounded-xs p-3 px-3 background placeholder:text-gray-400"
               placeholder="Email Address"
             />
             <p
               v-if="!username && attemptSubmit"
-              class="text-red-500 text-xs absolute -bottom-4"
+              class="text-red-500 text-xs lg:text-sm absolute -bottom-4"
             >
               Please enter your Email
             </p>
           </div>
           <div class="relative flex flex-col w-full">
-            <Password class="left-3 absolute top-3 z-10" />
+            <!-- <Password class="left-3 absolute top-3 z-10" /> -->
             <input
               type="password"
               v-model="password"
-              class="focus:outline-none w-full rounded-md h-[50px] rounded-xs p-3 px-12 background placeholder:text-gray-400"
+              class="focus:outline-none w-full rounded-md h-[50px] rounded-xs p-3 px-3 background placeholder:text-gray-400"
               placeholder="Password"
             />
             <p
               v-if="!password && attemptSubmit"
-              class="text-red-500 text-xs absolute -bottom-4"
+              class="text-red-500 text-xs lg:text-sm absolute -bottom-4"
             >
               Please enter your password
             </p>
+            <p class="text-red-500 text-xs lg:text-sm absolute -bottom-8" v-if="$store.state.status.error && validated">{{$store.state.status.error}}</p>
           </div>
         </div>
         <div class="mt-[150px] lg:mt-[64px] w-full lg:px-16 px-0">
@@ -62,7 +63,8 @@ export default {
       attemptSubmit: false,
       username: "",
       password: "",
-      loader:false
+      loader:false,
+      validated:false
     };
   },
   methods: {
@@ -70,6 +72,7 @@ export default {
       this.attemptSubmit = true;
       if (this.username == "" || this.password == "") {
       } else {
+        this.validated= true
         this.$store.dispatch("Login", {
           username: this.username,
           password: this.password,

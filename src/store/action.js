@@ -12,7 +12,7 @@ export const Login = ({ commit }, data) => {
       });
       commit("LOADING", false);
     }else{
-      alert("The provided credentials are incorrect");
+      commit("ERROR", "The provided credentials are incorrect");
       commit("LOADING", false);
     }
     
