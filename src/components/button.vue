@@ -1,15 +1,21 @@
 <template>
   <main>
     <button
-      class="w-full rounded-md border-primary border background py-3 hover:bg-primary hover:text-white hover:font-semibold"
+      class="w-full flex items-center justify-center rounded-md border-primary border background py-3 px-4 "
       @click="action"
     >
-      {{ name }}
+    <slot name="icon" ></slot>
+    <loader v-if="$store.state.status.loading"/>
+     <p v-else class="pl-2">{{ name }}</p> 
     </button>
   </main>
 </template>
 <script>
+import loader from '../assets/svgs/loader.vue'
 export default {
+  components:{
+    loader,
+  },
   props: {
     name: {
       required: true,
@@ -18,7 +24,7 @@ export default {
     action:{
         required:true,
         type:Function
-    }
+    },
   },
 };
 </script>
