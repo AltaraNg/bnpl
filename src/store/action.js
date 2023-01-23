@@ -2,21 +2,19 @@ import router from "../router";
 import Apis from "../services/ApiCalls.js";
 
 export const Login = ({ commit }, data) => {
-  commit("LOADING", true)
+  commit("LOADING", true);
   Apis.login(data).then((response) => {
-    if(response){
+    if (response) {
       commit("LOGIN", response);
-      console.log(response,'cation');
       router.push({
         name: "home",
       });
       commit("LOADING", false);
-    }else{
-      alert('Try again')
+    } else {
+      alert("Try again");
       commit("LOADING", false);
     }
-    
-  })
+  });
 };
 export const ResetPassword = ({ commit }, data) => {
   commit("LOADING", true);
@@ -31,8 +29,5 @@ export const ResetPassword = ({ commit }, data) => {
       alert("Try again");
       commit("LOADING", false);
     }
-   
   });
 };
-
-;

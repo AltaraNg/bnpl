@@ -1,8 +1,8 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
+import { createRouter, createWebHistory } from "vue-router";
+import Home from "../views/Home.vue";
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(process.env.BASE_URL),
   routes: [
     {
       path: "/",
@@ -31,13 +31,12 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const userdata = JSON.parse(localStorage.getItem("vuex"))?.userdata;
-  if ( !to.matched.some((route) => route.meta.noAuth)) {
+  if (!to.matched.some((route) => route.meta.noAuth)) {
     !userdata ? next("login") : next();
     return;
   }
 
-  
   next();
 });
 
-export default router
+export default router;

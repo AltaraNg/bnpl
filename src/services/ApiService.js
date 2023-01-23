@@ -1,7 +1,7 @@
 import axios from "axios";
 export class Apiservice {
   constructor() {
-    this.baseUrl = "https://bnpl-play-api.herokuapp.com/api/";
+    this.baseUrl = process.env.API_URL;
     this.requestConfig = {};
     this.api_connector = axios.create({
       baseURL: this.baseUrl,
@@ -10,7 +10,6 @@ export class Apiservice {
       },
     });
   }
- 
 
   setRequestHeaders(header) {
     if (this?.requestConfig.headers) {
@@ -57,9 +56,8 @@ export class Apiservice {
     }
   }
 
-  handleErrors(error) {
+  handleErrors() {
     this.resetRequestConfig();
-   
   }
 
   changeBaseURL(url) {
