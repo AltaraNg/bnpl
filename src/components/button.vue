@@ -1,19 +1,19 @@
 <template>
   <main>
     <button
-      class="w-full flex items-center justify-center rounded-md border-primary border background py-3 px-4 "
+      class="w-full flex items-center justify-center rounded-md border-primary border background py-3 px-4"
       @click="action"
     >
-    <slot name="icon" ></slot>
-    <loader v-if="$store.state.status.loading"/>
-     <p v-else class="pl-2">{{ name }}</p> 
+      <slot name="icon"></slot>
+      <loader v-if="$store.state.status.loading" />
+      <p v-else class="pl-2">{{ name }}</p>
     </button>
   </main>
 </template>
 <script>
-import loader from '../assets/svgs/loader.vue'
+import loader from "../assets/svgs/loader.vue";
 export default {
-  components:{
+  components: {
     loader,
   },
   props: {
@@ -21,9 +21,9 @@ export default {
       required: true,
       type: String,
     },
-    action:{
-        required:true,
-        type:Function
+    action: {
+      required: true,
+      type: Function,
     },
   },
 };

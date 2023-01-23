@@ -5,22 +5,25 @@
     <div>
       <img src="../assets/images/logo2.png" />
     </div>
-    <div class="lg:hidden" @click="toggle" >
+    <div class="lg:hidden" @click="toggle">
       <hamburger />
     </div>
 
     <Transition name="slide-fade">
-      <div class="fixed z-50 top-0  w-screen 
-                  h-screen  left-0 overlay"  v-if="show" ref="overlay" @click="clickaway">     </div>
-    </Transition>
-     <Transition name="slide-fade">
-        <div
+      <div
+        class="fixed z-50 top-0 w-screen h-screen left-0 overlay"
         v-if="show"
-        class="w-2/3 bg-white h-screen z-50 absolute top-0 right-0 lg:hidden flex flex-col items-center justify-center space-y-16" 
+        ref="overlay"
+        @click="clickaway"
+      ></div>
+    </Transition>
+    <Transition name="slide-fade">
+      <div
+        v-if="show"
+        class="w-2/3 bg-white h-screen z-50 absolute top-0 right-0 lg:hidden flex flex-col items-center justify-center space-y-16"
       >
-       <close class="absolute w-6 top-5 right-5"  @click="toggle" />
+        <close class="absolute w-6 top-5 right-5" @click="toggle" />
         <div>
-         
           <img src="../assets/images/logo2.png" />
         </div>
         <p>Get Started</p>
@@ -32,8 +35,7 @@
           LogOut
         </button>
       </div>
-     </Transition>
-    
+    </Transition>
   </div>
 </template>
 <script>
@@ -60,11 +62,9 @@ export default {
     },
     clickaway(event) {
       let overlay = this.$refs.overlay;
-      if (event.target == overlay ) {
-        console.log('no close modal');
-        this.toggle()
+      if (event.target == overlay) {
+        this.toggle();
       }
-      console.log(' close modal');
     },
     mounted() {
       document.addEventListener("click", this.clickaway);

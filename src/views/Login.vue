@@ -5,7 +5,7 @@
     <div
       class="bg-white h-screen lg:h-fit lg:py-16 py-none lg:border lg:rounded-lg lg:shadow w-full lg:w-1/2 flex items-center justify-center"
     >
-      <div class="flex flex-col items-center  justify-center w-full">
+      <div class="flex flex-col items-center justify-center w-full">
         <img src="../assets/images/logo.png" />
         <div class="mt-[40px] lg:mt-[36px] space-y-12 w-full lg:px-16 px-0">
           <div class="relative flex flex-col w-full">
@@ -40,7 +40,7 @@
           </div>
         </div>
         <div class="mt-[200px] lg:mt-[64px] w-[312px] lg:w-full lg:px-16 px-0">
-          <DefButton name="Login" :action="Login" :loading=loader />
+          <DefButton name="Login" :action="Login" :loading="loader" />
           <!-- <button @click.prevent="Login">Login </button> -->
         </div>
       </div>
@@ -62,13 +62,14 @@ export default {
       attemptSubmit: false,
       username: "",
       password: "",
-      loader:false
+      loader: false,
     };
   },
   methods: {
     Login(event) {
       this.attemptSubmit = true;
       if (this.username == "" || this.password == "") {
+        // Wy do we have an empty block her Blessing?
       } else {
         this.$store.dispatch("Login", {
           username: this.username,
