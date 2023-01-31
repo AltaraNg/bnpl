@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
+import DashBoard from "@/views/DashBoard.vue";
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
@@ -22,6 +23,14 @@ const router = createRouter({
       name: "change_password",
       component: () => import("../views/ChangePassword.vue"),
       // redirect:"/change/password",
+      meta: {
+        noAuth: true,
+      },
+    },
+    {
+      path: "/dashboard",
+      name: "DashBoard",
+      component: DashBoard,
       meta: {
         noAuth: true,
       },
