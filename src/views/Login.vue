@@ -24,9 +24,18 @@
             </p>
           </div>
           <div class="relative flex flex-col w-full">
-            <!-- <Password class="left-3 absolute top-3 z-10" /> -->
+            <eyeclose
+              class="right-3 absolute cursor-pointer top-3 z-10"
+              v-if="hide"
+              @click="togglePassword"
+            />
+            <eyeopen
+              class="right-3 absolute cursor-pointer top-3 z-10"
+              @click="togglePassword"
+              v-else
+            />
             <input
-              type="password"
+              :type="hide ? 'password' : 'text'"
               v-model="password"
               class="focus:outline-none w-full rounded-md h-[50px] rounded-xs p-3 px-3 background placeholder:text-gray-400"
               placeholder="Password"
@@ -46,7 +55,7 @@
           </div>
         </div>
         <div class="mt-[150px] lg:mt-[64px] w-full lg:px-16 px-0">
-          <DefButton name="Login" :action="Login" :loading="loader" />
+          <DefButton name="Login" :action="login" :loading="loader" />
           <!-- <button @click.prevent="Login">Login </button> -->
         </div>
       </div>
@@ -55,12 +64,17 @@
 </template>
 <script>
 import DefButton from "../components/button.vue";
+import eyeclose from "@/assets/svgs/eyeclose.vue";
+import eyeopen from "@/assets/svgs/eyeopen.vue";
 export default {
   components: {
     DefButton,
+    eyeclose,
+    eyeopen,
   },
   data() {
     return {
+      hide: true,
       attemptSubmit: false,
       username: "",
       password: "",
@@ -69,7 +83,7 @@ export default {
     };
   },
   methods: {
-    Login(event) {
+    login(event) {
       this.attemptSubmit = true;
       if (this.username == "" || this.password == "") {
         // Wy do we have an empty block her Blessing?
@@ -83,6 +97,9 @@ export default {
       //
       event.preventDefault();
     },
+    togglePassword(){
+      this.hide = !this.hide
+    }
   },
 };
 </script>

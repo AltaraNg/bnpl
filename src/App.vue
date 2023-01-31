@@ -15,7 +15,7 @@ import SideBar from "./components/SideBar.vue";
     <div class="overflow-hidden lg:flex justify-end block">
       <SideBar
         :class="$route.meta.noAuth ? 'hidden' : 'lg:block'"
-        class="hidden w-1/5 z-50 absolute top-0 left-0"
+        class="hidden w-1/6 z-50 absolute top-0 left-0"
         v-show="!$route.meta.noAuth"
       />
       <RouterView

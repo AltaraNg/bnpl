@@ -7,7 +7,7 @@
     >
       <div class="flex flex-col items-center justify-center w-full">
         <img src="../assets/images/logo.png" />
-        <div class="mt-[40px] lg:mt-[36px] space-y-12 w-full lg:px-16 px-0">
+        <div class="mt-[40px] lg:mt-[36px] space-y-12 lg:w-full w-[312px]f lg:px-16 px-0">
           <div class="relative flex flex-col w-full">
             <input
               type="text"
@@ -15,9 +15,19 @@
               class="focus:outline-none w-[312px] lg:w-full rounded-md h-[50px] rounded-xs p-3 px-3 background placeholder:text-gray-400"
               placeholder="New Password"
             />
+             <p
+              v-if="
+               ( data.password.length < 4  && data.password.length > 1)  &&
+                attemptSubmit &&
+                data.password == data.confirm_password
+              "
+              class="text-red-500 text-sm absolute -bottom-5"
+            >
+              Password should have at least four character
+            </p>
             <p
               v-if="!data.password && attemptSubmit"
-              class="text-red-500 text-xs absolute -bottom-4"
+              class="text-red-500 text-sm absolute -bottom-5"
             >
               Please enter New Password
             </p>
@@ -35,23 +45,23 @@
                 attemptSubmit &&
                 data.confirm_password
               "
-              class="text-red-500 text-xs absolute -bottom-4"
+              class="text-red-500 text-sm absolute -bottom-5"
             >
               New pasword and confirm password does not match
             </p>
             <p
               v-if="!data.confirm_password && attemptSubmit"
-              class="text-red-500 text-xs absolute -bottom-4"
+              class="text-red-500 text-sm absolute -bottom-5"
             >
               Please enter confirm password
             </p>
             <p
               v-if="
-                data.password.length < 4 &&
+               ( data.password.length < 4  && data.password.length > 1)  &&
                 attemptSubmit &&
                 data.password == data.confirm_password
               "
-              class="text-red-500 text-xs absolute -bottom-4"
+              class="text-red-500 text-sm absolute -bottom-5"
             >
               Password should have at least four character
             </p>

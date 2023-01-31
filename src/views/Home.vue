@@ -1,11 +1,11 @@
 <template>
   <main class="px-5 w-full bg-white">
     <div class="space-y-4 relative h-fit">
-      <header class="text-lg font-bold tracking-wide leading-5">
+      <header class="text-lg font-bold tracking-wide ">
         Recent Transactions
       </header>
       <div
-        class="flex items-center w-full justify-between lg:justify-start space-x-2"
+        class="flex items-center  pb-8  w-full justify-between lg:justify-start space-x-2"
       >
         <input
           type="text"
@@ -14,7 +14,7 @@
         <search class="" />
       </div>
       <div
-        class="space-y-6 lg:space-y-0 halfHeigh lg:h-auto overflow-y-scroll lg:flex lg:flex-wrap lg:justify-between"
+        class="space-y-6 lg:space-y-0 halfHeigh  lg:h-auto overflow-y-scroll lg:flex lg:flex-wrap lg:justify-between"
       >
         <div v-for="order in orders" :key="order.id" class="lg:w-0.3">
           <div
@@ -35,7 +35,7 @@
         </div>
       </div>
 
-      <div class="lg:w-full lg:flex lg:justify-end lg:items-center">
+      <div class="lg:w-full lg:hidden lg:justify-end lg:items-center block">
         <defaultButton name="Create New Order">
           <template v-slot:icon>
             <plus />
