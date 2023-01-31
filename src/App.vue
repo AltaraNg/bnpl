@@ -5,10 +5,6 @@ import SideBar from "./components/SideBar.vue";
 </script>
 
 <template>
-  <!-- <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav> -->
 
   <div class="overflow-hidden h-screen">
     <NavBar v-if="!$route.meta.noAuth" class="sticky top-0" />
