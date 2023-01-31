@@ -10,7 +10,7 @@ import SideBar from "./components/SideBar.vue";
         <RouterLink to="/about">About</RouterLink>
       </nav> -->
 
-  <div class="overflow-hidden h-screen">
+  <div class="h-screen">
     <NavBar v-if="!$route.meta.noAuth" class="sticky top-0" />
     <div class="overflow-hidden lg:flex block">
       <SideBar
