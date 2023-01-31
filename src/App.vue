@@ -12,14 +12,14 @@ import SideBar from "./components/SideBar.vue";
 
   <div class="overflow-hidden h-screen">
     <NavBar v-if="!$route.meta.noAuth" class="sticky top-0" />
-    <div class="overflow-hidden lg:flex block">
+    <div class="overflow-hidden lg:flex justify-end block">
       <SideBar
         :class="$route.meta.noAuth ? 'hidden' : 'lg:block'"
-        class="hidden w-1/5 z-50 absolute top-0 right-0"
+        class="hidden w-1/5 z-50 absolute top-0 left-0"
         v-show="!$route.meta.noAuth"
       />
       <RouterView
-        class="pt-16"
+        class="pt-8"
         :class="!$route.meta.noAuth ? 'lg:w-4/5' : 'w-full'"
       />
     </div>

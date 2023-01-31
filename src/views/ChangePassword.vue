@@ -1,6 +1,6 @@
 <template>
   <main
-    class="lg:flex lg:items-center h-screen lg:bg-[url('../assets/images/background.png')] lg:justify-end lg:p-8 px-10"
+    class="lg:flex lg:items-center h-screen lg:bg-[url('../assets/images/background.png')] lg:justify-center lg:p-8 px-10"
   >
     <div
       class="bg-white h-screen lg:h-fit lg:py-16 py-none lg:border lg:rounded-lg lg:shadow w-full lg:w-1/2 flex items-center justify-center"
@@ -9,11 +9,10 @@
         <img src="../assets/images/logo.png" />
         <div class="mt-[40px] lg:mt-[36px] space-y-12 w-full lg:px-16 px-0">
           <div class="relative flex flex-col w-full">
-            <Business class="left-3 absolute top-3 z-10" />
             <input
               type="text"
               v-model="data.password"
-              class="focus:outline-none w-[312px] lg:w-full rounded-md h-[50px] rounded-xs p-3 px-12 background placeholder:text-gray-400"
+              class="focus:outline-none w-[312px] lg:w-full rounded-md h-[50px] rounded-xs p-3 px-3 background placeholder:text-gray-400"
               placeholder="New Password"
             />
             <p
@@ -24,11 +23,10 @@
             </p>
           </div>
           <div class="relative flex flex-col w-full">
-            <Password class="left-3 absolute top-3 z-10" />
             <input
               type="text"
               v-model="data.confirm_password"
-              class="focus:outline-none w-[312px] lg:w-full rounded-md h-[50px] rounded-xs p-3 px-12 background placeholder:text-gray-400"
+              class="focus:outline-none w-[312px] lg:w-full rounded-md h-[50px] rounded-xs p-3 px-3 background placeholder:text-gray-400"
               placeholder="Confirm Password"
             />
             <p
@@ -47,6 +45,16 @@
             >
               Please enter confirm password
             </p>
+            <p
+              v-if="
+                data.password.length < 4 &&
+                attemptSubmit &&
+                data.password == data.confirm_password
+              "
+              class="text-red-500 text-xs absolute -bottom-4"
+            >
+              Password should have at least four character
+            </p>
           </div>
         </div>
         <div class="mt-[200px] lg:mt-[64px] w-[312px] lg:w-full lg:px-16 px-0">
@@ -57,13 +65,9 @@
   </main>
 </template>
 <script>
-import Business from "../assets/svgs/business.vue";
-import Password from "../assets/svgs/password.vue";
 import DefButton from "../components/button.vue";
 export default {
   components: {
-    Business,
-    Password,
     DefButton,
   },
   data() {
@@ -81,9 +85,10 @@ export default {
       if (
         this.data.password == "" ||
         this.data.confirm_password == "" ||
-        this.data.password !== this.data.confirm_password
+        this.data.password !== this.data.confirm_password ||
+        this.data.password.length < 4
       ) {
-        // Wy do we have an empty block her Blessing?
+        console.log("somethign");
       } else {
         this.$store.dispatch("ResetPassword", {
           ...this.data,
@@ -94,9 +99,6 @@ export default {
       event.preventDefault();
       //   this.attemptSubmit = false;
     },
-  },
-  mounted() {
-    // Mounted
   },
 };
 </script>

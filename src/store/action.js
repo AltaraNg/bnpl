@@ -11,7 +11,7 @@ export const Login = ({ commit }, data) => {
       });
       commit("LOADING", false);
     } else {
-      alert("Try again");
+      commit("ERROR", "The provided credentials are incorrect");
       commit("LOADING", false);
     }
   });
