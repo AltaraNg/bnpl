@@ -147,11 +147,16 @@
         </div>
 
         <h2 class="mx-auto mt-8 max-w-6xl px-4 text-lg font-medium leading-6 text-gray-900 sm:px-6 lg:px-8">
-          Modal Test
+          Modal/Notification Test
         </h2>
-        <div class="mx-auto mt-4 max-w-6xl px-4 text-lg font-medium leading-6 text-gray-900 sm:px-6 lg:px-8">
+        <div class="mx-auto mt-4 max-w-6xl px-4 text-lg font-medium leading-6 text-gray-900 sm:px-6 lg:px-8 space-x-4">
           <button type="button" @click="showModal=true"
             class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-0">Show Modal</button>
+          <button type="button" @click="notify()"
+            class="inline-flex items-center rounded-md border border-transparent bg-green-600 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-0">Show Notification</button>
+          <button type="button" @click="handleError()"
+            class="inline-flex items-center rounded-md border border-transparent bg-red-600 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-0">Show
+            Error Notification</button>
         </div>
       </div>
     </div>
@@ -189,8 +194,20 @@ import BaseModal from "@/components/BaseModal.vue";
 import { ScaleIcon, CheckIcon } from "@heroicons/vue/24/outline";
 import { BanknotesIcon, ChevronRightIcon } from "@heroicons/vue/20/solid";
 import { DialogTitle } from "@headlessui/vue";
+import { useStore } from 'vuex'
 
 const showModal = ref(false);
+const store = useStore();
+
+const notify = () => {
+  // time is the count down, default to 5, 0 to persist
+  store.commit('notification/notify', {type: "success", message: "Congratulations, you now have a working notification", time: 0});
+}
+
+const handleError = () => {
+  // time is the count down, default to 5, 0 to persist
+  store.commit('notification/notify', { type: "error", message: "Please Contact Administrator" });
+}
 
 const cards = [
   { name: "No of Sales", href: "#", icon: ScaleIcon, amount: "50" },
