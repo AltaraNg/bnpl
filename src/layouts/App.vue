@@ -1,4 +1,3 @@
-<!-- eslint-disable prettier/prettier -->
 <template>
   <div class="!pt-0">
     <TransitionRoot as="template" :show="sidebarOpen">
@@ -29,15 +28,11 @@
                 </div>
                 <nav class="mt-5 space-y-1 px-2">
                   <a v-for="item in navigation" :key="item.name" :href="item.href" :class="[
-                    item.current
-                      ? 'bg-gray-900 text-white'
-                      : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                    item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                     'group flex items-center px-2 py-2 text-base font-medium rounded-md',
                   ]">
                     <component :is="item.icon" :class="[
-                      item.current
-                        ? 'text-gray-300'
-                        : 'text-gray-400 group-hover:text-gray-300',
+                      item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
                       'mr-4 flex-shrink-0 h-6 w-6',
                     ]" aria-hidden="true" />
                     {{ item.name }}
@@ -54,9 +49,7 @@
                     </div>
                     <div class="ml-3">
                       <p class="text-base font-medium text-white">Tom Cook</p>
-                      <p class="text-sm font-medium text-gray-400 group-hover:text-gray-300">
-                        View profile
-                      </p>
+                      <p class="text-sm font-medium text-gray-400 group-hover:text-gray-300">View profile</p>
                     </div>
                   </div>
                 </a>
@@ -80,17 +73,11 @@
           </div>
           <nav class="mt-5 flex-1 space-y-1 px-2">
             <a v-for="item in navigation" :key="item.name" :href="item.href" :class="[
-              item.current
-                ? 'bg-gray-900 text-white'
-                : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+              item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
               'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
             ]">
-              <component :is="item.icon" :class="[
-                item.current
-                  ? 'text-gray-300'
-                  : 'text-gray-400 group-hover:text-gray-300',
-                'mr-3 flex-shrink-0 h-6 w-6',
-              ]" aria-hidden="true" />
+              <component :is="item.icon" :class="[item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300', 'mr-3 flex-shrink-0 h-6 w-6']"
+                aria-hidden="true" />
               {{ item.name }}
             </a>
           </nav>
@@ -105,9 +92,7 @@
               </div>
               <div class="ml-3">
                 <p class="text-sm font-medium text-white">Tom Cook</p>
-                <p class="text-xs font-medium text-gray-300 group-hover:text-gray-200">
-                  View profile
-                </p>
+                <p class="text-xs font-medium text-gray-300 group-hover:text-gray-200">View profile</p>
               </div>
             </div>
           </a>
@@ -130,24 +115,9 @@
 </template>
 
 <script setup>
-// eslint-disable prettier/prettier
 import { ref } from "vue";
-import {
-  Dialog,
-  DialogPanel,
-  TransitionChild,
-  TransitionRoot,
-} from "@headlessui/vue";
-import {
-  Bars3Icon,
-  CalendarIcon,
-  ChartBarIcon,
-  FolderIcon,
-  HomeIcon,
-  InboxIcon,
-  UsersIcon,
-  XMarkIcon,
-} from "@heroicons/vue/24/outline";
+import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from "@headlessui/vue";
+import { Bars3Icon, CalendarIcon, ChartBarIcon, FolderIcon, HomeIcon, InboxIcon, UsersIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 
 const navigation = [
   { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
