@@ -1,7 +1,7 @@
 import axios from "axios";
 export class Apiservice {
   constructor() {
-    this.baseUrl = process.env.VUE_APP_API_URL;
+    this.baseUrl =  "https://bnpl-play-api.herokuapp.com/api/";
     this.requestConfig = {};
     this.api_connector = axios.create({
       baseURL: this.baseUrl,

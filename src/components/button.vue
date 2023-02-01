@@ -1,7 +1,7 @@
 <template>
   <main>
     <button
-      class="w-full flex items-center justify-center rounded-md border-primary border background py-3 px-4"
+      class="w-full flex items-center text-sm justify-center text-white rounded-md border-primary border bg-primary py-2 px-4"
       @click="action"
     >
       <slot name="icon"></slot>
