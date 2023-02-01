@@ -1,14 +1,16 @@
 <template>
     <div class="!p-0 min-h-[100vh] flex">
-        <img class="hidden lg:block h-screen w-auto max-w-lg" src="https://images.unsplash.com/photo-1498758536662-35b82cd15e29?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2102&q=80" alt="Bolster, Helping startups scale their CEOs, CXOs, Boards" />
+        <img class="hidden lg:block h-screen w-auto max-w-lg"
+            src="https://images.unsplash.com/photo-1498758536662-35b82cd15e29?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2102&q=80"
+            alt="Altara" />
         <div class="flex items-center justify-center w-full">
             <div class="mx-auto w-full max-w-sm lg:w-96">
                 <h2 class="mt-4 text-4xl font-semibold">Sign In</h2>
                 <p class="mt-2 mb-4">
                     Don't have an account yet?
-                    <a href="#" class="text-blue-500 font-semibold"> Sign Up</a>
+                    <a href="#" class="text-blue-500 font-semibold">Contact Us</a>
                 </p>
-                <form :actions="false" id="signinForm" name="signinForm">
+                <form :actions="false" id="form" name="form">
                     <div>
                         <label for="email" class="block text-xs font-medium text-gray-700">Email address</label>
                         <div class="mt-0.5">
@@ -30,7 +32,6 @@
                             in</button>
                         <p class="mt-4 text-xs font-normal">
                             &copy; {{ copyright() }}
-                            <a href="#" class="text-blue-500 text-xs" target="_blank"> Privacy Policy</a> |
                             <a href="#" class="text-blue-500 text-xs" target="_blank">Terms of Service</a>
                         </p>
                     </div>
