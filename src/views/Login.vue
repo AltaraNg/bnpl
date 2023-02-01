@@ -9,11 +9,11 @@
         <img src="../assets/images/logo.png" />
         <div class="mt-[30px] lg:mt-[36px] space-y-12 w-full lg:px-16 px-0">
           <div class="relative flex flex-col w-full">
-            <!-- <Business class="left-3 absolute top-3 z-10" /> -->
+            <Business class="left-3 absolute top-3 z-10" />
             <input
               type="text"
               v-model="username"
-              class="focus:outline-none w-full rounded-md h-[50px] rounded-xs p-3 px-3 background placeholder:text-gray-400"
+              class="focus:outline-none w-full rounded-md h-[50px] pl-10 rounded-xs p-3 px-3 background placeholder:text-gray-400"
               placeholder="Email Address"
             />
             <p
@@ -34,10 +34,11 @@
               @click="togglePassword"
               v-else
             />
+            <Password class="left-3 absolute top-3 z-10" />
             <input
               :type="hide ? 'password' : 'text'"
               v-model="password"
-              class="focus:outline-none w-full rounded-md h-[50px] rounded-xs p-3 px-3 background placeholder:text-gray-400"
+              class="focus:outline-none w-full rounded-md h-[50px] rounded-xs p-3 pl-10 px-3 background placeholder:text-gray-400"
               placeholder="Password"
             />
             <p
@@ -66,11 +67,15 @@
 import DefButton from "../components/button.vue";
 import eyeclose from "@/assets/svgs/eyeclose.vue";
 import eyeopen from "@/assets/svgs/eyeopen.vue";
+import Business from "../assets/svgs/business.vue"
+import Password from "@/assets/svgs/password.vue";
 export default {
   components: {
     DefButton,
     eyeclose,
     eyeopen,
+    Business,
+    Password
   },
   data() {
     return {

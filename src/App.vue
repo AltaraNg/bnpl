@@ -6,7 +6,7 @@ import SideBar from "./components/SideBar.vue";
 
 <template>
 
-  <div class="overflow-hidden h-screen">
+  <div class="h-screen">
     <NavBar v-if="!$route.meta.noAuth" class="sticky top-0" />
     <div class="overflow-hidden lg:flex justify-end block">
       <SideBar
