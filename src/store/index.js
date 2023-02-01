@@ -6,16 +6,20 @@ import state from "./state";
 import * as actions from "./action";
 import * as mutations from "./mutation";
 import createPersistedState from "vuex-persistedstate";
+import notification from "./notification";
 
 // vue.use(Vuex);
 
 export default new Vuex.Store({
-  plugins: [
-    createPersistedState({
-      storage: window.localStorage,
-    }),
-  ],
-  state,
-  mutations,
-  actions,
+    plugins: [
+        createPersistedState({
+            storage: window.localStorage,
+        }),
+    ],
+    modules: {
+        notification,
+    },
+    state,
+    mutations,
+    actions,
 });
