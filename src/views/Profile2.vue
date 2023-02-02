@@ -125,6 +125,60 @@
                                     </div>
                                 </div>
 
+                                <!-- Privacy section -->
+                                <div class="divide-y divide-gray-200 pt-6">
+                                    <div class="px-4 sm:px-6">
+                                        <div>
+                                            <h2 class="text-lg font-medium leading-6 text-gray-900">Privacy</h2>
+                                            <p class="mt-1 text-sm text-gray-500">Ornare eu a volutpat eget vulputate. Fringilla commodo amet.</p>
+                                        </div>
+                                        <ul role="list" class="mt-2 divide-y divide-gray-200">
+                                            <SwitchGroup as="li" class="flex items-center justify-between py-4">
+                                                <div class="flex flex-col">
+                                                    <SwitchLabel as="p" class="text-sm font-medium text-gray-900" passive>Available to hire</SwitchLabel>
+                                                    <SwitchDescription class="text-sm text-gray-500">Nulla amet tempus sit accumsan. Aliquet turpis sed sit
+                                                        lacinia.
+                                                    </SwitchDescription>
+                                                </div>
+                                                <Switch v-model="availableToHire" :class="[
+                                                    availableToHire ? 'bg-teal-500' : 'bg-gray-200',
+                                                    'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2',
+                                                ]">
+                                                    <span aria-hidden="true" :class="[
+                                                        availableToHire ? 'translate-x-5' : 'translate-x-0',
+                                                        'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
+                                                    ]" />
+                                                </Switch>
+                                            </SwitchGroup>
+                                            <SwitchGroup as="li" class="flex items-center justify-between py-4">
+                                                <div class="flex flex-col">
+                                                    <SwitchLabel as="p" class="text-sm font-medium text-gray-900" passive>Make account private</SwitchLabel>
+                                                    <SwitchDescription class="text-sm text-gray-500">Pharetra morbi dui mi mattis tellus sollicitudin cursus
+                                                        pharetra.</SwitchDescription>
+                                                </div>
+                                                <Switch v-model="privateAccount" :class="[
+                                                    privateAccount ? 'bg-teal-500' : 'bg-gray-200',
+                                                    'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2',
+                                                ]">
+                                                    <span aria-hidden="true" :class="[
+                                                        privateAccount ? 'translate-x-5' : 'translate-x-0',
+                                                        'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
+                                                    ]" />
+                                                </Switch>
+                                            </SwitchGroup>
+                                        </ul>
+                                    </div>
+                                    <div class="mt-4 flex justify-end py-4 px-4 sm:px-6">
+                                        <button type="button"
+                                            class="inline-flex justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2">
+                                            Cancel
+                                        </button>
+                                        <button type="submit"
+                                            class="ml-5 inline-flex justify-center rounded-md border border-transparent bg-sky-700 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-sky-800 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2">
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -135,22 +189,22 @@
 </template>
 
 <script setup>
-import {   reactive } from "vue";
-import { Disclosure, } from "@headlessui/vue";
-import {userdata} from '../utilities/GlobalFunctions'
+import { ref, reactive } from "vue";
+import { Disclosure, Switch, SwitchDescription, SwitchGroup, SwitchLabel } from "@headlessui/vue";
+
 const user = {
     name: "Debbie Lewis",
-    id: userdata.id,
+    id: "DEC4B",
     email: "debbielewis@example.com",
     imageUrl:
         "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=320&h=320&q=80",
 };
 
-console.log(userdata);
-const names = userdata.full_name.split(' ')
+const availableToHire = ref(true);
+const privateAccount = ref(false);
 const form = reactive({
-    firstname: names[0],
-    lastname: names[1],
+    firstname: "Elon",
+    lastname: "Flinstone",
     company: "Starlink Inc",
 });
 </script>

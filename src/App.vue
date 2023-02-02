@@ -1,24 +1,26 @@
 <script setup>
 import { RouterView } from "vue-router";
 import NavBar from "./components/Nav.vue";
-import SideBar from "./components/SideBar.vue";
+import SideBarMain from './components/SideBarMain.vue'
 import Notification from "@/components/Notification.vue"
 </script>
 
 <template>
 
-  <div class="h-screen">
+  <div class="">
     <NavBar v-if="!$route.meta.noAuth" class="sticky top-0" />
-    <div class="overflow-hidden lg:flex justify-end block">
-      <SideBar
+    <div class="overflow-hidden lg:flex  block">
+      <SideBarMain
         :class="$route.meta.noAuth ? 'hidden' : 'lg:block'"
-        class="hidden w-1/6 z-50 absolute top-0 left-0"
+        class="hidden w-1/6 "
         v-show="!$route.meta.noAuth"
       />
-      <RouterView
-        class="pt-8"
-        :class="!$route.meta.noAuth ? 'lg:w-4/5' : 'w-full'"
+      <div class="flex items-center  lg:w-5/6  justify-center">
+        <RouterView
+        :class="!$route.meta.noAuth ? 'lg:w-5/6' : 'w-full'"
       />
+      </div>
+      
     </div>
   </div>
   <Notification />

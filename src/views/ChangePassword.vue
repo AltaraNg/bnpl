@@ -4,7 +4,7 @@
         <div class="flex items-center justify-center w-full">
             <div class="mx-auto w-full max-w-sm lg:w-96 space-y-8">
                 <img src="../assets/images/logo.png" />
-                <form :actions="false" id="signinForm" name="signinForm" class="space-y-5">
+                <form :actions="false" id="changePasswordForm" name="changePasswordForm" class="space-y-5">
                     <div>
                         <label for="new_password" class="block text-xs font-medium text-gray-700">New Password</label>
                         <div class="mt-0.5">

@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import DashBoard from "@/views/DashBoard.vue";
-import SignIn from "@/views/SignIn.vue";
+import Settings from "@/views/Settings.vue";
 import Profile from "@/views/Profile.vue";
 
 const router = createRouter({
@@ -9,12 +9,12 @@ const router = createRouter({
     routes: [
         {
             path: "/",
-            name: "home",
+            name: "Dashboard",
             component: Home,
         },
         {
             path: "/login",
-            name: "login",
+            name: "Login",
             component: () => import("../views/Login.vue"),
             meta: {
                 noAuth: true,
@@ -38,20 +38,14 @@ const router = createRouter({
             },
         },
         {
-            path: "/sign-in",
-            name: "SignIn",
-            component: SignIn,
-            meta: {
-                noAuth: true,
-            },
+            path: "/settings",
+            name: "Settings",
+            component: Settings,
         },
         {
             path: "/profile",
             name: "Profile",
             component: Profile,
-            meta: {
-                noAuth: true,
-            },
         },
     ],
 });
