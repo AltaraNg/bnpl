@@ -9,7 +9,7 @@ export const Login = ({ commit }, data) => {
       commit("LOGIN", response);
       handleSuccess('Success')
       router.push({
-        name: "home",
+          name: "Dashboard",
       });
       commit("LOADING", false);
     } else {

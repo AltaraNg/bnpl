@@ -132,7 +132,7 @@ export default{
   { name: "Dashboard",  icon: HomeIcon, current: true, slug:"Dashboard" },
   { name: "Profile",  icon: UsersIcon, current: false, slug:"Profile" },
   { name: "Settings",  icon: FolderIcon, current: false , slug:"Settings"},
-   { name: "Log Out",  icon: ArrowLeftOnRectangleIcon, current: false, slug:"Login" },
+   { name: "Log Out",  icon: ArrowLeftOnRectangleIcon, current: false, slug:"login" },
 ],
 sidebarOpen:false,
 userdata:userdata
@@ -148,8 +148,6 @@ userdata:userdata
             this.navigation.map((route)=>{
                 this.$route.name == route.name ? route.current = true : route.current= false
             })
-           
-            // console.log(this.$route);
       },
     },
 }

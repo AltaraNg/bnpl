@@ -146,7 +146,6 @@ const user = {
         "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=320&h=320&q=80",
 };
 
-console.log(userdata);
 const names = userdata.full_name.split(' ')
 const form = reactive({
     firstname: names[0],

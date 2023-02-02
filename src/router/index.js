@@ -14,7 +14,7 @@ const router = createRouter({
         },
         {
             path: "/login",
-            name: "Login",
+            name: "login",
             component: () => import("../views/Login.vue"),
             meta: {
                 noAuth: true,
