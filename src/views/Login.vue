@@ -1,13 +1,13 @@
 <template>
     <div class="!p-0 min-h-[100vh] flex">
         <img
-            class="hidden lg:block h-screen w-1/2 max-w-2xl"
+            class="hidden lg:block h-screen w-1/2 max-w-2xl opacity-50"
             src="../assets/images/market.jpg"
         />
         <div class="flex items-center justify-center w-full">
             <div class="mx-auto w-full max-w-sm lg:w-96 space-y-8">
                 <img src="../assets/images/logo.png" />
-                <form :actions="false" id="signinForm" name="signinForm" class="space-y-5">
+                <form method="post"  class="space-y-5">
                     <div>
                         <label for="email" class="block text-xs font-medium text-gray-700">Email address</label>
                         <div class="mt-0.5">

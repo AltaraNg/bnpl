@@ -57,7 +57,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const userdata = JSON.parse(localStorage.getItem("vuex"))?.userdata;
+  const userdata = JSON.parse(localStorage.getItem("vuex"));
   const portalAccess = userdata?.result?.user?.portal_access;
   if (!to.matched.some((route) => route.meta.noAuth)) {
     portalAccess !== 1 ? next("login") : next();

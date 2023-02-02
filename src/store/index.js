@@ -5,17 +5,11 @@ import state from "./state";
 // * means import everything from the directory
 import * as actions from "./action";
 import * as mutations from "./mutation";
-import createPersistedState from "vuex-persistedstate";
 import notification from "./notification";
 
 // vue.use(Vuex);
 
 export default new Vuex.Store({
-    plugins: [
-        createPersistedState({
-            storage: window.localStorage,
-        }),
-    ],
     modules: {
         notification,
     },

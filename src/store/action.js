@@ -13,7 +13,7 @@ export const Login = ({ commit }, data) => {
       });
       commit("LOADING", false);
     } else {
-      handleError("The provided credentials are incorrect");
+     
       commit("LOADING", false);
     }
   });

@@ -1,7 +1,8 @@
 import axios from "axios";
+import { handleError } from "../utilities/GlobalFunctions";
 export class Apiservice {
   constructor() {
-    this.baseUrl = process.env.VUE_APP_API_URL;
+    this.baseUrl = process.env.API_URL;
     this.requestConfig = {};
     this.api_connector = axios.create({
       baseURL: this.baseUrl,
@@ -52,13 +53,11 @@ export class Apiservice {
       this.resetRequestConfig();
       return result.data;
     } catch (error) {
-      this.handleErrors(error);
+       handleError(error.response.data.message);
+      this.resetRequestConfig();
     }
   }
 
-  handleErrors() {
-    this.resetRequestConfig();
-  }
 
   changeBaseURL(url) {
     this.requestConfig.baseURL = url;
