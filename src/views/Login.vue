@@ -3,7 +3,6 @@
         <img
             class="hidden lg:block h-screen w-1/2 max-w-2xl"
             src="../assets/images/market.jpg"
-            alt="Bolster, Helping startups scale their CEOs, CXOs, Boards"
         />
         <div class="flex items-center justify-center w-full">
             <div class="mx-auto w-full max-w-sm lg:w-96 space-y-8">
@@ -79,7 +78,6 @@ export default {
             this.attemptSubmit = true;
             if (this.username == "" || this.password == "") {
               handleError('Please enter your email address and password')
-                // Wy do we have an empty block her Blessing?
             } else {
                 this.validated = true;
                 this.$store.dispatch("Login", {
