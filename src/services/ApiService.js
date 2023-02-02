@@ -2,7 +2,7 @@ import axios from "axios";
 import { handleError } from "../utilities/GlobalFunctions";
 export class Apiservice {
   constructor() {
-    this.baseUrl = process.env.API_URL;
+    this.baseUrl = process.env.VUE_APP_API_URL;
     this.requestConfig = {};
     this.api_connector = axios.create({
       baseURL: this.baseUrl,
