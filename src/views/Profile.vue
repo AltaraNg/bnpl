@@ -1,6 +1,6 @@
 <template>
     
-        <div class="beafy pt-0">
+        <div class="beafy pt-0 bg-gray-100">
             <Disclosure as="div" class="relative overflow-hidden bg-sky-700 pb-32" v-slot="{ open }">
                 <div aria-hidden="true" :class="[
                     open ? 'bottom-0' : 'inset-y-0',

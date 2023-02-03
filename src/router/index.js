@@ -57,8 +57,8 @@ router.beforeEach((to, from, next) => {
     portalAccess !== 1 ? next("login") : next();
     return;
   }
-
     next();
+
 });
 
 export default router;

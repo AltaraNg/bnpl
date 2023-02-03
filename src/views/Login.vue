@@ -25,8 +25,8 @@
                     <div class="mt-4">
                         <label for="password" class="block text-xs font-medium text-gray-700">Password</label>
                         <div class="mt-0.5 relative">
-                            <eyeclose class="right-3 absolute cursor-pointer top-0 z-10" v-if="hide" @click="togglePassword" />
-                            <eyeopen class="right-3 absolute cursor-pointer top-0 z-10" @click="togglePassword" v-else />
+                            <eyeclose class="right-3 absolute cursor-pointer top-2 z-10" v-if="hide" @click="togglePassword" />
+                            <eyeopen class="right-3 absolute cursor-pointer top-2 z-10" @click="togglePassword" v-else />
                             <input
                                 id="password"
                                 name="password"

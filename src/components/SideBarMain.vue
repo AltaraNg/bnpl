@@ -71,8 +71,8 @@
           </div>
           <nav class="mt-12 flex-1  px-2">
              <router-link :to="{name: item.slug}" v-for="item in navigation" :key="item.name" >
-                 <a   :class="[
-              item.current ? 'bg-primary text-white mb-10' : 'text-gray-500 mb-10 hover:bg-gray-400 hover:text-white',
+                 <a @click="item.slug=='login' ? logOut():''"  :class="[
+              item.current ? 'bg-primary text-white mb-6' : 'text-gray-500 mb-6 hover:bg-gray-400 hover:text-white',
               'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
             ]">
            
@@ -86,6 +86,7 @@
           </nav>
         </div>
         <div class="flex flex-shrink-0 bg-gray-700 p-4">
+
           <a href="#" class="group block w-full flex-shrink-0">
             <div class="flex items-center">
               <div>
@@ -95,7 +96,7 @@
               </div>
               <div class="ml-3">
                 <RouterLink :to="{name: 'Profile'}">
-                <p class="text-sm font-medium text-white">{{ userdata.full_name }}</p>
+                <p class="text-sm font-medium text-white">{{ full_name }}</p>
                 <p class="text-xs font-medium text-gray-300 group-hover:text-gray-200">View profile</p>
                 </RouterLink>
                 
@@ -121,6 +122,7 @@
 import {  DialogPanel, TransitionChild, TransitionRoot } from "@headlessui/vue";
 import { Bars3Icon, FolderIcon, HomeIcon,  UsersIcon, XMarkIcon, ArrowLeftOnRectangleIcon } from "@heroicons/vue/24/outline";
 import {userdata} from '../utilities/GlobalFunctions'
+import router from "@/router";
 export default{
     components:{
         DialogPanel,TransitionChild,TransitionRoot,
@@ -129,13 +131,13 @@ export default{
     data(){
         return{
             navigation : [
-  { name: "Dashboard",  icon: HomeIcon, current: true, slug:"Dashboard" },
+  { name: "Dashboard",  icon: HomeIcon, current: false, slug:"Dashboard" },
   { name: "Profile",  icon: UsersIcon, current: false, slug:"Profile" },
   { name: "Settings",  icon: FolderIcon, current: false , slug:"Settings"},
    { name: "Log Out",  icon: ArrowLeftOnRectangleIcon, current: false, slug:"login" },
 ],
 sidebarOpen:false,
-userdata:userdata
+full_name:userdata?.full_name
         }
     },
       watch:{
@@ -149,6 +151,10 @@ userdata:userdata
                 this.$route.name == route.name ? route.current = true : route.current= false
             })
       },
+       logOut() {
+      localStorage.clear();
+      router.push({ name: "login" });
+    },
     },
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex items-center justify-between bg-white z-50 border p-5 relative w-full"
+    class="flex items-center justify-between bg-white  border p-5 relative w-full"
   >
     <div>
       <img src="../assets/images/logo2.png" />
@@ -9,7 +9,7 @@
       <hamburger />
     </div>
     <div class="lg:w-full lg:flex lg:justify-end lg:items-center hidden">
-        <defaultButton name="Create New Order">
+        <defaultButton name=" New Sale">
           <template v-slot:icon>
             <plus />
           </template>
@@ -28,13 +28,15 @@
       <div
         v-if="show"
         class="w-2/3 bg-white h-screen z-50 absolute top-0 right-0 lg:hidden flex flex-col items-center justify-center space-y-16"
+        ref="overlay"
       >
         <close class="absolute w-6 top-5 right-5" @click="toggle" />
         <div>
           <img src="../assets/images/logo2.png" />
         </div>
-        <p>Get Started</p>
-        <p>Profile</p>
+        <RouterLink :to="{name:'Dashboard'}"><p>Dashboard</p></RouterLink>
+       <RouterLink :to="{name:'Profile'}"><p>Profile</p></RouterLink> 
+       <RouterLink :to="{name:'Settings'}"><p>Settings</p></RouterLink> 
         <button
           class="bg-primary rounded text-white px-5 py-2 text-sm"
           @click="logOut"

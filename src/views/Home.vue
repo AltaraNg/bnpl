@@ -1,10 +1,10 @@
 <template>
-    <div class="pb-4">
+    <div class="pb-4 bg-gray-100">
       <!-- Page header -->
-
+      <DashboardHeaderVue/>
       <div class="mt-8 lg:mt-0">
         <div class="mx-auto max-w-6xl  px-4 sm:px-6 lg:px-8">
-          <h2 class="text-lg font-medium leading-6 text-gray-900">Overview</h2>
+          <h2 class="text-lg font-medium mt-8 leading-6 text-gray-900">Overview</h2>
           <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             <!-- Card -->
             <div v-for="card in cards" :key="card.name" class="overflow-hidden rounded-lg bg-white shadow">
@@ -147,11 +147,12 @@
 </template>
 
 <script setup>
-import { ScaleIcon, } from "@heroicons/vue/24/outline";
+import { CircleStackIcon, ScaleIcon, } from "@heroicons/vue/24/outline";
 import { BanknotesIcon, ChevronRightIcon } from "@heroicons/vue/20/solid";
+import DashboardHeaderVue from "@/components/DashboardHeader.vue";
 const cards = [
   { name: "No of Sales", href: "#", icon: ScaleIcon, amount: "50" },
-  { name: "Total Revenue", href: "#", icon: ScaleIcon, amount: "$30,659.45" },
+  { name: "Total Revenue", href: "#", icon: CircleStackIcon, amount: "₦30,659.45" },
 ];
 const transactions = [
   {
@@ -159,8 +160,8 @@ const transactions = [
     order: "AT76SHJSJSK98JK",
     name: '65" Hisense Television',
     href: "#",
-    amount: "$20,000",
-    currency: "USD",
+    amount: "₦20,000",
+    currency: "Naira",
     "customer name": "Claudio Asuquo",
     date: "July 11, 2022",
     datetime: "2020-07-11",
@@ -170,8 +171,8 @@ const transactions = [
     order: "AT76SHJ345SK98JK",
     name: "Apple Iphone 12 Pro 16GB/256GB Grey Color",
     href: "#",
-    amount: "$400,000",
-    currency: "USD",
+    amount: "₦400,000",
+    currency: "Naira",
     "customer name": "Claudio Asuquo",
     date: "August 11, 2020",
     datetime: "2020-08-11",
@@ -181,8 +182,8 @@ const transactions = [
     order: "AT76SHJSJSK9898",
     name: "220W Sony Soundbar",
     href: "#",
-    amount: "$2,000",
-    currency: "USD",
+    amount: "₦2,000",
+    currency: "Naira",
     "customer name": "Claudio Asuquo",
     date: "March 11, 2021",
     datetime: "2020-03-11",
@@ -192,8 +193,8 @@ const transactions = [
     order: "AT76SHJSJSK125",
     name: "Luxury Leather Sofa Set",
     href: "#",
-    amount: "$5,000",
-    currency: "USD",
+    amount: "₦5,000",
+    currency: "Naira",
     "customer name": "Claudio Asuquo",
     date: "March 11, 2023",
     datetime: "2023-03-11",
