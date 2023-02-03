@@ -1,5 +1,5 @@
 <template>
-  <div class="!pt-0">
+  <div class="!pt-0 ">
     <TransitionRoot as="template" :show="sidebarOpen">
       <Dialog as="div" class="relative z-40 md:hidden" @close="sidebarOpen = false">
         <TransitionChild as="template" enter="transition-opacity ease-linear duration-300" enter-from="opacity-0" enter-to="opacity-100"
@@ -24,10 +24,11 @@
               </TransitionChild>
               <div class="h-0 flex-1 overflow-y-auto pt-5 pb-4">
                 <div class="flex flex-shrink-0 items-center px-4">
-                  <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" />
+                   <img class="h-10 w-auto" src="../assets/images/logo.png" alt="Altara Credit" />
                 </div>
                 <nav class="mt-5 space-y-1 px-2">
-                  <a v-for="item in navigation" :key="item.name" :href="item.href" :class="[
+                  <router-link :to="{name: item.slug}" v-for="item in navigation" :key="item.name" >
+                     <a @click="item.slug=='login' ? logOut():''" :class="[
                     item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                     'group flex items-center px-2 py-2 text-base font-medium rounded-md',
                   ]">
@@ -37,6 +38,8 @@
                     ]" aria-hidden="true" />
                     {{ item.name }}
                   </a>
+                  </router-link>
+                 
                 </nav>
               </div>
               <div class="flex flex-shrink-0 bg-gray-700 p-4">
@@ -69,16 +72,16 @@
       <div class="flex min-h-0 flex-1 flex-col bg-gray-800">
         <div class="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
                     <div class="flex flex-shrink-0 items-center px-4">
-            <img class="h-8 w-auto" src="../assets/images/logo.png" alt="Altara Credit" />
+            <img class="h-10 w-auto" src="../assets/images/logo.png" alt="Altara Credit" />
           </div>
           <nav class="mt-12 flex-1  px-2">
              <router-link :to="{name: item.slug}" v-for="item in navigation" :key="item.name" >
                  <a @click="item.slug=='login' ? logOut():''"  :class="[
-              item.current ? 'bg-primary text-white mb-1' : 'text-gray-500 mb-1 hover:bg-gray-400 hover:text-white',
+              item.current ? 'bg-primary text-white mb-1' : 'text-white mb-1 hover:bg-gray-400 hover:text-white',
               'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
             ]">
            
-                <component :is="item.icon" :class="[item.current ? 'text-gray-300 bg-primary' : 'text-gray-400 group-hover:text-gray-300', 'mr-3 flex-shrink-0 h-6 w-6']"
+                <component :is="item.icon" :class="[item.current ? 'text-white bg-primary' : 'text-white group-hover:text-gray-300', 'mr-3 flex-shrink-0 h-6 w-6']"
                 aria-hidden="true" />
               {{ item.name }}
               
@@ -120,45 +123,32 @@
   </div>
 </template>
 
-<script >
-import {  DialogPanel, TransitionChild, TransitionRoot } from "@headlessui/vue";
-import { Bars3Icon, FolderIcon, HomeIcon,  UsersIcon, XMarkIcon, ArrowLeftOnRectangleIcon } from "@heroicons/vue/24/outline";
-import {userdata} from '../utilities/GlobalFunctions'
+<script setup>
+import { ref } from "vue";
 import router from "@/router";
-export default{
-    components:{
-        DialogPanel,TransitionChild,TransitionRoot,
-        Bars3Icon,FolderIcon,HomeIcon,UsersIcon,XMarkIcon
-    },
-    data(){
-        return{
-            navigation : [
+import {
+  Dialog,
+  DialogPanel,
+  TransitionChild,
+  TransitionRoot,
+} from "@headlessui/vue";
+import {
+  Bars3Icon,
+  FolderIcon,
+  HomeIcon,
+  UsersIcon,
+  XMarkIcon,
+  ArrowLeftOnRectangleIcon
+} from "@heroicons/vue/24/outline";
+const navigation = [
   { name: "Dashboard",  icon: HomeIcon, current: false, slug:"Dashboard" },
   { name: "Profile",  icon: UsersIcon, current: false, slug:"Profile" },
   { name: "Settings",  icon: FolderIcon, current: false , slug:"Settings"},
    { name: "Log Out",  icon: ArrowLeftOnRectangleIcon, current: false, slug:"login" },
-],
-sidebarOpen:false,
-full_name:userdata?.full_name,
-full_name2: this.$store?.state?.userdata?.result?.user?.full_name
-        }
-    },
-      watch:{
-      $route(newRoute){  
-          this.checkRoute(newRoute)  
-    },
-},
-    methods:{
-         checkRoute(){
-            this.navigation.map((route)=>{
-                this.$route.name == route.name ? route.current = true : route.current= false
-                console.log('hello', this.$route);
-            })
-      },
-       logOut() {
+];
+const sidebarOpen = ref(false);
+ function logOut() {
       localStorage.clear();
       router.push({ name: "login" });
-    },
-    },
-}
+    }
 </script>

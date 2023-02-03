@@ -2,9 +2,9 @@
     <div class="bg-white shadow">
         <div class="px-4 sm:px-6 lg:mx-auto lg:max-w-6xl lg:px-8">
             <div class="py-6 md:flex md:items-center md:justify-between lg:border-t lg:border-gray-200">
-                <div class="min-w-0 flex-1">
+                <div class="min-w-0 flex-1 lg:flex lg:items-center lg:w-full lg:justify-between">
                     <!-- Profile -->
-                    <div class="flex items-center">
+                    <div class="flex items-center mb-5 lg:mb-0">
                         <img class="hidden h-16 w-16 rounded-full sm:block"
                             src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80"
                             alt="" />
@@ -31,6 +31,11 @@
                             </dl>
                         </div>
                     </div>
+                     <defaultButton name=" New Sale">
+          <template v-slot:icon>
+            <plus />
+          </template>
+        </defaultButton>
                 </div>
                 <div class="mt-6 flex space-x-3 md:mt-0 md:ml-4">
                    
@@ -42,9 +47,11 @@
 <script >
 import { BuildingOfficeIcon, CheckCircleIcon } from "@heroicons/vue/20/solid";
 import {userdata} from '../utilities/GlobalFunctions'
+import defaultButton from "../components/button.vue"
+import plus from "@/assets/svgs/plus.vue";
 export default{
     components:{
-        BuildingOfficeIcon,CheckCircleIcon
+        BuildingOfficeIcon,CheckCircleIcon,defaultButton,plus
     },
     data(){
         return{

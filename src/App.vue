@@ -25,7 +25,7 @@ import Notification from "@/components/Notification.vue"
   </div> -->
  <div class="flex items-center w-full   justify-center">
         <RouterView
-        :class="!$route.meta.noAuth ? 'lg:w-full overflow-hiden' : 'w-full'"
+        :class="!$route.meta.noAuth ? 'w-full overflow-hiden' : 'w-full'"
       />
       </div>
   <Notification />
