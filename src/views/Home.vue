@@ -121,11 +121,10 @@
                           </p>
                         </div>
                       </td>
-                      <td class="whitespace-nowrap px-6 py-4 text-right text-sm text-gray-500">
+                      <td class="whitespace-nowrap px-6 py-4 text-left text-sm text-gray-500">
                         <span class="font-medium text-gray-900">{{
                           transaction.amount
                         }}</span>
-                        {{ transaction.currency }}
                       </td>
                       <td class="hidden whitespace-nowrap px-6 py-4 text-sm text-gray-500 md:block">
                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize">{{ transaction["customer name"] }}</span>

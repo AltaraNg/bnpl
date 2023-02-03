@@ -74,7 +74,7 @@
           <nav class="mt-12 flex-1  px-2">
              <router-link :to="{name: item.slug}" v-for="item in navigation" :key="item.name" >
                  <a @click="item.slug=='login' ? logOut():''"  :class="[
-              item.current ? 'bg-primary text-white mb-6' : 'text-gray-500 mb-6 hover:bg-gray-400 hover:text-white',
+              item.current ? 'bg-primary text-white mb-1' : 'text-gray-500 mb-1 hover:bg-gray-400 hover:text-white',
               'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
             ]">
            
