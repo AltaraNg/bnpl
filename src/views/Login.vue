@@ -6,7 +6,7 @@
         />
         <div class="flex items-center justify-center w-full">
             <div class="mx-auto w-full max-w-sm lg:w-96 space-y-8">
-                <img src="../assets/images/logo.png" />
+                <img src="../assets/images/logo2.png" />
                 <form method="post"  class="space-y-5">
                     <div>
                         <label for="email" class="block text-xs font-medium text-gray-700">Email address</label>
@@ -25,8 +25,8 @@
                     <div class="mt-4">
                         <label for="password" class="block text-xs font-medium text-gray-700">Password</label>
                         <div class="mt-0.5 relative">
-                            <eyeclose class="right-3 absolute cursor-pointer top-0 z-10" v-if="hide" @click="togglePassword" />
-                            <eyeopen class="right-3 absolute cursor-pointer top-0 z-10" @click="togglePassword" v-else />
+                            <eyeclose class="right-3 absolute cursor-pointer top-2 z-10" v-if="hide" @click="togglePassword" />
+                            <eyeopen class="right-3 absolute cursor-pointer top-2 z-10" @click="togglePassword" v-else />
                             <input
                                 id="password"
                                 name="password"

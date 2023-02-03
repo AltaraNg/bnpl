@@ -1,9 +1,11 @@
 <template>
+  <App>
     <div class="pb-4">
       <!-- Page header -->
+      <DashboardHeader />
 
-      <div class="mt-8 lg:mt-0">
-        <div class="mx-auto max-w-6xl  px-4 sm:px-6 lg:px-8">
+      <div class="mt-8">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <h2 class="text-lg font-medium leading-6 text-gray-900">Overview</h2>
           <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             <!-- Card -->
@@ -100,7 +102,7 @@
                       </th>
                     </tr>
                   </thead>
-                  <tbody class="divide-y divide-gray-200 bg-white">
+                   <tbody class="divide-y divide-gray-200 bg-white">
                     <tr v-for="transaction in transactions" :key="transaction.id" class="bg-white">
                       <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                         <div class="flex">
@@ -119,11 +121,10 @@
                           </p>
                         </div>
                       </td>
-                      <td class="whitespace-nowrap px-6 py-4 text-right text-sm text-gray-500">
+                      <td class="whitespace-nowrap px-6 py-4 text-left text-sm text-gray-500">
                         <span class="font-medium text-gray-900">{{
                           transaction.amount
                         }}</span>
-                        {{ transaction.currency }}
                       </td>
                       <td class="hidden whitespace-nowrap px-6 py-4 text-sm text-gray-500 md:block">
                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize">{{ transaction["customer name"] }}</span>
@@ -140,18 +141,21 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
-
+  </App>
 </template>
 
 <script setup>
-import { ScaleIcon, } from "@heroicons/vue/24/outline";
+import App from "@/layouts/App.vue";
+import DashboardHeader from "@/components/DashboardHeader.vue";
+import { ScaleIcon,  CircleStackIcon } from "@heroicons/vue/24/outline";
 import { BanknotesIcon, ChevronRightIcon } from "@heroicons/vue/20/solid";
+
+
 const cards = [
   { name: "No of Sales", href: "#", icon: ScaleIcon, amount: "50" },
-  { name: "Total Revenue", href: "#", icon: ScaleIcon, amount: "$30,659.45" },
+  { name: "Total Revenue", href: "#", icon: CircleStackIcon, amount: "₦30,659.45" },
 ];
 const transactions = [
   {
@@ -159,8 +163,8 @@ const transactions = [
     order: "AT76SHJSJSK98JK",
     name: '65" Hisense Television',
     href: "#",
-    amount: "$20,000",
-    currency: "USD",
+    amount: "₦20,000",
+    currency: "Naira",
     "customer name": "Claudio Asuquo",
     date: "July 11, 2022",
     datetime: "2020-07-11",
@@ -170,8 +174,8 @@ const transactions = [
     order: "AT76SHJ345SK98JK",
     name: "Apple Iphone 12 Pro 16GB/256GB Grey Color",
     href: "#",
-    amount: "$400,000",
-    currency: "USD",
+    amount: "₦400,000",
+    currency: "Naira",
     "customer name": "Claudio Asuquo",
     date: "August 11, 2020",
     datetime: "2020-08-11",
@@ -181,8 +185,8 @@ const transactions = [
     order: "AT76SHJSJSK9898",
     name: "220W Sony Soundbar",
     href: "#",
-    amount: "$2,000",
-    currency: "USD",
+    amount: "₦2,000",
+    currency: "Naira",
     "customer name": "Claudio Asuquo",
     date: "March 11, 2021",
     datetime: "2020-03-11",
@@ -192,8 +196,8 @@ const transactions = [
     order: "AT76SHJSJSK125",
     name: "Luxury Leather Sofa Set",
     href: "#",
-    amount: "$5,000",
-    currency: "USD",
+    amount: "₦5,000",
+    currency: "Naira",
     "customer name": "Claudio Asuquo",
     date: "March 11, 2023",
     datetime: "2023-03-11",
