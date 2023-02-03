@@ -1,89 +1,101 @@
 <template>
-  <main
-    class="lg:flex lg:items-center h-screen lg:bg-[url('../assets/images/background.png')] lg:justify-end lg:p-8 px-10"
-  >
-    <div
-      class="bg-white h-screen lg:h-fit lg:py-16 py-none lg:border lg:rounded-lg lg:shadow w-full lg:w-1/2 flex items-center justify-center"
-    >
-      <div class="flex flex-col items-center justify-center w-full">
-        <img src="../assets/images/logo.png" />
-        <div class="mt-[40px] lg:mt-[36px] space-y-12 w-full lg:px-16 px-0">
-          <div class="relative flex flex-col w-full">
-            <Business class="left-3 absolute top-3 z-10" />
-            <input
-              type="text"
-              v-model="username"
-              class="focus:outline-none w-[312px] lg:w-full rounded-md h-[50px] rounded-xs p-3 px-12 background placeholder:text-gray-400"
-              placeholder="Email Address"
-            />
-            <p
-              v-if="!username && attemptSubmit"
-              class="text-red-500 text-xs absolute -bottom-4"
-            >
-              Please enter your Email
-            </p>
-          </div>
-          <div class="relative flex flex-col w-full">
-            <Password class="left-3 absolute top-3 z-10" />
-            <input
-              type="password"
-              v-model="password"
-              class="focus:outline-none w-[312px] lg:w-full rounded-md h-[50px] rounded-xs p-3 px-12 background placeholder:text-gray-400"
-              placeholder="Password"
-            />
-            <p
-              v-if="!password && attemptSubmit"
-              class="text-red-500 text-xs absolute -bottom-4"
-            >
-              Please enter your password
-            </p>
-          </div>
+    <div class="!p-0 min-h-[100vh] flex">
+        <img
+            class="hidden lg:block h-screen w-1/2 max-w-2xl opacity-50"
+            src="../assets/images/market.jpg"
+        />
+        <div class="flex items-center justify-center w-full">
+            <div class="mx-auto w-full max-w-sm lg:w-96 space-y-8">
+                <img src="../assets/images/logo.png" />
+                <form method="post"  class="space-y-5">
+                    <div>
+                        <label for="email" class="block text-xs font-medium text-gray-700">Email address</label>
+                        <div class="mt-0.5">
+                            <input
+                                id="email"
+                                name="email"
+                                v-model="username"
+                                type="email"
+                                autocomplete="email"
+                                required=""
+                                class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                            />
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <label for="password" class="block text-xs font-medium text-gray-700">Password</label>
+                        <div class="mt-0.5 relative">
+                            <eyeclose class="right-3 absolute cursor-pointer top-0 z-10" v-if="hide" @click="togglePassword" />
+                            <eyeopen class="right-3 absolute cursor-pointer top-0 z-10" @click="togglePassword" v-else />
+                            <input
+                                id="password"
+                                name="password"
+                                :type="hide ? 'password' : 'text'"
+                                v-model="password"
+                                autocomplete="current-password"
+                                required=""
+                                class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                            />
+                        </div>
+                    </div>
+                    <div class="relative mt-1">
+                        <a href="#" class="text-blue-400 text-sm font-normal">Forgot Password?</a>
+                        <DefButton name="Login" :action="login" :loading="loader" />
+                        <p class="mt-4 text-xs font-normal">
+                            &copy; {{ copyright }} <a href="#" class="text-primary text-xs" target="_blank"> Privacy Policy</a> |
+                            <a href="#" class="text-primary text-xs" target="_blank">Terms of Service</a>
+                        </p>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="mt-[200px] lg:mt-[64px] w-[312px] lg:w-full lg:px-16 px-0">
-          <DefButton name="Login" :action="Login" :loading="loader" />
-          <!-- <button @click.prevent="Login">Login </button> -->
-        </div>
-      </div>
     </div>
-  </main>
 </template>
 <script>
-import Business from "../assets/svgs/business.vue";
-import Password from "../assets/svgs/password.vue";
 import DefButton from "../components/button.vue";
+import eyeclose from "@/assets/svgs/eyeclose.vue";
+import eyeopen from "@/assets/svgs/eyeopen.vue";
+import { handleError } from "../utilities/GlobalFunctions"
 export default {
-  components: {
-    Business,
-    Password,
-    DefButton,
-  },
-  data() {
-    return {
-      attemptSubmit: false,
-      username: "",
-      password: "",
-      loader: false,
-    };
-  },
-  methods: {
-    Login(event) {
-      this.attemptSubmit = true;
-      if (this.username == "" || this.password == "") {
-        // Wy do we have an empty block her Blessing?
-      } else {
-        this.$store.dispatch("Login", {
-          username: this.username,
-          password: this.password,
-        });
-      }
-      //
-      event.preventDefault();
+    components: {
+        DefButton,
+        eyeclose,
+        eyeopen,
     },
-  },
+    data() {
+        return {
+            hide: true,
+            attemptSubmit: false,
+            username: "",
+            password: "",
+            loader: false,
+            validated: false,
+        };
+    },
+    methods: {
+
+        login(event) {
+            this.attemptSubmit = true;
+            if (this.username == "" || this.password == "") {
+              handleError('Please enter your email address and password')
+            } else {
+                this.validated = true;
+                this.$store.dispatch("Login", {
+                    username: this.username,
+                    password: this.password,
+                });
+            }
+            //
+            event.preventDefault();
+        },
+        togglePassword() {
+            this.hide = !this.hide;
+        },
+    },
+    computed: {
+        copyright() {
+            return `${new Date().getFullYear()} Altara Credit Limited.`;
+        },
+    },
 };
 </script>
-<style scoped>
-.background {
-  background-color: #f5f7ff;
-}
-</style>

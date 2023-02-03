@@ -1,107 +1,95 @@
 <template>
-  <main
-    class="lg:flex lg:items-center h-screen lg:bg-[url('../assets/images/background.png')] lg:justify-end lg:p-8 px-10"
-  >
-    <div
-      class="bg-white h-screen lg:h-fit lg:py-16 py-none lg:border lg:rounded-lg lg:shadow w-full lg:w-1/2 flex items-center justify-center"
-    >
-      <div class="flex flex-col items-center justify-center w-full">
-        <img src="../assets/images/logo.png" />
-        <div class="mt-[40px] lg:mt-[36px] space-y-12 w-full lg:px-16 px-0">
-          <div class="relative flex flex-col w-full">
-            <Business class="left-3 absolute top-3 z-10" />
-            <input
-              type="text"
-              v-model="data.password"
-              class="focus:outline-none w-[312px] lg:w-full rounded-md h-[50px] rounded-xs p-3 px-12 background placeholder:text-gray-400"
-              placeholder="New Password"
-            />
-            <p
-              v-if="!data.password && attemptSubmit"
-              class="text-red-500 text-xs absolute -bottom-4"
-            >
-              Please enter New Password
-            </p>
-          </div>
-          <div class="relative flex flex-col w-full">
-            <Password class="left-3 absolute top-3 z-10" />
-            <input
-              type="text"
-              v-model="data.confirm_password"
-              class="focus:outline-none w-[312px] lg:w-full rounded-md h-[50px] rounded-xs p-3 px-12 background placeholder:text-gray-400"
-              placeholder="Confirm Password"
-            />
-            <p
-              v-if="
-                data.password !== data.confirm_password &&
-                attemptSubmit &&
-                data.confirm_password
-              "
-              class="text-red-500 text-xs absolute -bottom-4"
-            >
-              New pasword and confirm password does not match
-            </p>
-            <p
-              v-if="!data.confirm_password && attemptSubmit"
-              class="text-red-500 text-xs absolute -bottom-4"
-            >
-              Please enter confirm password
-            </p>
-          </div>
+    <div class="!p-0 min-h-[100vh] flex">
+        <img class="hidden lg:block h-screen w-1/2 max-w-2xl opacity-50" src="../assets/images/market.jpg" />
+        <div class="flex items-center justify-center w-full">
+            <div class="mx-auto w-full max-w-sm lg:w-96 space-y-8">
+                <img src="../assets/images/logo.png" />
+                <form :actions="false" id="changePasswordForm" name="changePasswordForm" class="space-y-5">
+                    <div>
+                        <label for="new_password" class="block text-xs font-medium text-gray-700">New Password</label>
+                        <div class="mt-0.5">
+                            <input
+                                id="new_password"
+                                name="new_password"
+                                type="text"
+                                v-model="data.password"
+                                autocomplete="new_password"
+                                required=""
+                                class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                            />
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <label for="confirm_password" class="block text-xs font-medium text-gray-700">Confirm Password</label>
+                        <div class="mt-0.5 relative">
+                            <input
+                                id="confirm_password"
+                                name="confirm_password"
+                                type="text"
+                                v-model="data.confirm_password"
+                                autocomplete="current-password"
+                                required=""
+                                class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                            />
+                        </div>
+                    </div>
+                    <div class="relative mt-1">
+                        <DefButton name="Change Password" :action="login" :loading="loader" />
+                        <p class="mt-4 text-xs font-normal">
+                            &copy; {{ copyright }} <a href="#" class="text-primary text-xs" target="_blank"> Privacy Policy</a> |
+                            <a href="#" class="text-primary text-xs" target="_blank">Terms of Service</a>
+                        </p>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="mt-[200px] lg:mt-[64px] w-[312px] lg:w-full lg:px-16 px-0">
-          <DefButton name="Change Password" :action="Login" />
-        </div>
-      </div>
     </div>
-  </main>
 </template>
 <script>
-import Business from "../assets/svgs/business.vue";
-import Password from "../assets/svgs/password.vue";
 import DefButton from "../components/button.vue";
+import { handleError } from "../utilities/GlobalFunctions";
 export default {
-  components: {
-    Business,
-    Password,
-    DefButton,
-  },
-  data() {
-    return {
-      attemptSubmit: false,
-      data: {
-        password: "",
-        confirm_password: "",
-      },
-    };
-  },
-  methods: {
-    Login(event) {
-      this.attemptSubmit = true;
-      if (
-        this.data.password == "" ||
-        this.data.confirm_password == "" ||
-        this.data.password !== this.data.confirm_password
-      ) {
-        // Wy do we have an empty block her Blessing?
-      } else {
-        this.$store.dispatch("ResetPassword", {
-          ...this.data,
-          ...this.$route.params,
-        });
-      }
-      //
-      event.preventDefault();
-      //   this.attemptSubmit = false;
+    components: {
+        DefButton,
     },
-  },
-  mounted() {
-    // Mounted
-  },
+    data() {
+        return {
+          validated:null,
+            data: {
+                password: "",
+                confirm_password: "",
+            },
+        };
+    },
+    methods: {
+        login(event) {
+          this.validatePassword()
+            if (this.validated  ) {
+               this.$store.dispatch("ResetPassword", {
+                    ...this.data,
+                    ...this.$route.params,
+                });
+            } 
+            event.preventDefault();
+        },
+        validatePassword() {
+            if (this.data.password.length < 4 && this.data.password.length > 1 && this.data.password == this.data.confirm_password) {
+                handleError(" Password should have at least four character");
+            } else if (!this.data.password) {
+                handleError("  Please enter New Password");
+            } else if (this.data.password !== this.data.confirm_password && this.data.confirm_password) {
+                handleError("  New pasword and confirm password does not match");
+            } else if (!this.data.confirm_password) {
+                handleError(" Please enter confirm password");
+            }  else {
+              this.validated = true;
+            } 
+        },
+    },
+    computed: {
+        copyright() {
+            return `${new Date().getFullYear()} Altara Credit Limited.`;
+        },
+    },
 };
 </script>
-<style scoped>
-.background {
-  background-color: #f5f7ff;
-}
-</style>

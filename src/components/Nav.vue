@@ -8,6 +8,13 @@
     <div class="lg:hidden" @click="toggle">
       <hamburger />
     </div>
+    <div class="lg:w-full lg:flex lg:justify-end lg:items-center hidden">
+        <defaultButton name="Create New Order">
+          <template v-slot:icon>
+            <plus />
+          </template>
+        </defaultButton>
+      </div>
 
     <Transition name="slide-fade">
       <div
@@ -42,9 +49,13 @@
 import hamburger from "../assets/svgs/hamburger.vue";
 import close from "../assets/svgs/close.vue";
 import router from "../router";
+import defaultButton from '../components/button.vue'
+import plus from "@/assets/svgs/plus.vue";
 export default {
   components: {
     hamburger,
+    defaultButton,
+    plus,
     close,
   },
   data() {
