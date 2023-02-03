@@ -1,6 +1,6 @@
 <template>
-    
-        <div class="beafy pt-0 bg-gray-100">
+    <App>
+        <div class="beafy pt-0">
             <Disclosure as="div" class="relative overflow-hidden bg-sky-700 pb-32" v-slot="{ open }">
                 <div aria-hidden="true" :class="[
                     open ? 'bottom-0' : 'inset-y-0',
@@ -125,31 +125,32 @@
                                     </div>
                                 </div>
 
+                
                             </form>
                         </div>
                     </div>
                 </div>
             </main>
         </div>
+    </App>
+        
   
 </template>
 
 <script setup>
-import {   reactive } from "vue";
-import { Disclosure, } from "@headlessui/vue";
-import {userdata} from '../utilities/GlobalFunctions'
+import {  reactive } from "vue";
+import { Disclosure } from "@headlessui/vue";
+import App from "@/layouts/App.vue";
 const user = {
     name: "Debbie Lewis",
-    id: userdata.id,
+    id: "DEC4B",
     email: "debbielewis@example.com",
     imageUrl:
         "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=320&h=320&q=80",
 };
-
-const names = userdata.full_name.split(' ')
 const form = reactive({
-    firstname: names[0],
-    lastname: names[1],
+    firstname: "Elon",
+    lastname: "Flinstone",
     company: "Starlink Inc",
 });
 </script>

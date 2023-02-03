@@ -96,7 +96,7 @@
               </div>
               <div class="ml-3">
                 <RouterLink :to="{name: 'Profile'}">
-                <p class="text-sm font-medium text-white">{{ full_name }}</p>
+                <p class="text-sm font-medium text-white">{{ full_name2 }}</p>
                 <p class="text-xs font-medium text-gray-300 group-hover:text-gray-200">View profile</p>
                 </RouterLink>
                 
@@ -137,7 +137,8 @@ export default{
    { name: "Log Out",  icon: ArrowLeftOnRectangleIcon, current: false, slug:"login" },
 ],
 sidebarOpen:false,
-full_name:userdata?.full_name
+full_name:userdata?.full_name,
+full_name2: this.$store?.state?.userdata?.result?.user?.full_name
         }
     },
       watch:{

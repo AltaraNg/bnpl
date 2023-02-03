@@ -68,18 +68,23 @@
       <!-- Sidebar component, swap this element with another sidebar if you like -->
       <div class="flex min-h-0 flex-1 flex-col bg-gray-800">
         <div class="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
-          <div class="flex flex-shrink-0 items-center px-4">
-            <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" />
+                    <div class="flex flex-shrink-0 items-center px-4">
+            <img class="h-8 w-auto" src="../assets/images/logo.png" alt="Altara Credit" />
           </div>
-          <nav class="mt-5 flex-1 space-y-1 px-2">
-            <a v-for="item in navigation" :key="item.name" :href="item.href" :class="[
-              item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+          <nav class="mt-12 flex-1  px-2">
+             <router-link :to="{name: item.slug}" v-for="item in navigation" :key="item.name" >
+                 <a @click="item.slug=='login' ? logOut():''"  :class="[
+              item.current ? 'bg-primary text-white mb-6' : 'text-gray-500 mb-6 hover:bg-gray-400 hover:text-white',
               'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
             ]">
-              <component :is="item.icon" :class="[item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300', 'mr-3 flex-shrink-0 h-6 w-6']"
+           
+                <component :is="item.icon" :class="[item.current ? 'text-gray-300 bg-primary' : 'text-gray-400 group-hover:text-gray-300', 'mr-3 flex-shrink-0 h-6 w-6']"
                 aria-hidden="true" />
               {{ item.name }}
+              
             </a>
+            </router-link>
+           
           </nav>
         </div>
         <div class="flex flex-shrink-0 bg-gray-700 p-4">
@@ -87,12 +92,13 @@
             <div class="flex items-center">
               <div>
                 <img class="inline-block h-9 w-9 rounded-full"
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80"
                   alt="" />
               </div>
               <div class="ml-3">
-                <p class="text-sm font-medium text-white">Tom Cook</p>
-                <p class="text-xs font-medium text-gray-300 group-hover:text-gray-200">View profile</p>
+                <!-- <p class="text-sm font-medium text-white">Tom Cook</p> -->
+                <RouterLink :to="{name:'Profile'}"><p class="text-xs font-medium text-gray-300 group-hover:text-gray-200">View profile</p></RouterLink>
+                
               </div>
             </div>
           </a>
@@ -114,19 +120,45 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
-import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from "@headlessui/vue";
-import { Bars3Icon, CalendarIcon, ChartBarIcon, FolderIcon, HomeIcon, InboxIcon, UsersIcon, XMarkIcon } from "@heroicons/vue/24/outline";
-
-const navigation = [
-  { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
-  { name: "Team", href: "#", icon: UsersIcon, current: false },
-  { name: "Projects", href: "#", icon: FolderIcon, current: false },
-  { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
-  { name: "Documents", href: "#", icon: InboxIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-];
-
-const sidebarOpen = ref(false);
+<script >
+import {  DialogPanel, TransitionChild, TransitionRoot } from "@headlessui/vue";
+import { Bars3Icon, FolderIcon, HomeIcon,  UsersIcon, XMarkIcon, ArrowLeftOnRectangleIcon } from "@heroicons/vue/24/outline";
+import {userdata} from '../utilities/GlobalFunctions'
+import router from "@/router";
+export default{
+    components:{
+        DialogPanel,TransitionChild,TransitionRoot,
+        Bars3Icon,FolderIcon,HomeIcon,UsersIcon,XMarkIcon
+    },
+    data(){
+        return{
+            navigation : [
+  { name: "Dashboard",  icon: HomeIcon, current: false, slug:"Dashboard" },
+  { name: "Profile",  icon: UsersIcon, current: false, slug:"Profile" },
+  { name: "Settings",  icon: FolderIcon, current: false , slug:"Settings"},
+   { name: "Log Out",  icon: ArrowLeftOnRectangleIcon, current: false, slug:"login" },
+],
+sidebarOpen:false,
+full_name:userdata?.full_name,
+full_name2: this.$store?.state?.userdata?.result?.user?.full_name
+        }
+    },
+      watch:{
+      $route(newRoute){  
+          this.checkRoute(newRoute)  
+    },
+},
+    methods:{
+         checkRoute(){
+            this.navigation.map((route)=>{
+                this.$route.name == route.name ? route.current = true : route.current= false
+                console.log('hello', this.$route);
+            })
+      },
+       logOut() {
+      localStorage.clear();
+      router.push({ name: "login" });
+    },
+    },
+}
 </script>

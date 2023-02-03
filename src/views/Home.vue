@@ -1,10 +1,12 @@
 <template>
-    <div class="pb-4 bg-gray-100">
+  <App>
+    <div class="pb-4">
       <!-- Page header -->
-      <DashboardHeaderVue/>
-      <div class="mt-8 lg:mt-0">
-        <div class="mx-auto max-w-6xl  px-4 sm:px-6 lg:px-8">
-          <h2 class="text-lg font-medium mt-8 leading-6 text-gray-900">Overview</h2>
+      <DashboardHeader />
+
+      <div class="mt-8">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <h2 class="text-lg font-medium leading-6 text-gray-900">Overview</h2>
           <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             <!-- Card -->
             <div v-for="card in cards" :key="card.name" class="overflow-hidden rounded-lg bg-white shadow">
@@ -100,7 +102,7 @@
                       </th>
                     </tr>
                   </thead>
-                  <tbody class="divide-y divide-gray-200 bg-white">
+                   <tbody class="divide-y divide-gray-200 bg-white">
                     <tr v-for="transaction in transactions" :key="transaction.id" class="bg-white">
                       <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                         <div class="flex">
@@ -140,16 +142,18 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
-
+  </App>
 </template>
 
 <script setup>
-import { CircleStackIcon, ScaleIcon, } from "@heroicons/vue/24/outline";
+import App from "@/layouts/App.vue";
+import DashboardHeader from "@/components/DashboardHeader.vue";
+import { ScaleIcon,  CircleStackIcon } from "@heroicons/vue/24/outline";
 import { BanknotesIcon, ChevronRightIcon } from "@heroicons/vue/20/solid";
-import DashboardHeaderVue from "@/components/DashboardHeader.vue";
+
+
 const cards = [
   { name: "No of Sales", href: "#", icon: ScaleIcon, amount: "50" },
   { name: "Total Revenue", href: "#", icon: CircleStackIcon, amount: "₦30,659.45" },

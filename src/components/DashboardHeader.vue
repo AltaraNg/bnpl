@@ -14,7 +14,7 @@
                                     src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80"
                                     alt="" />
                                 <h1 class="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:leading-9">
-                                    Good morning, {{full_name }}
+                                    Good morning, {{full_name2 }}
                                 </h1>
                             </div>
                             <dl class="mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">
@@ -48,7 +48,8 @@ export default{
     },
     data(){
         return{
-            full_name:userdata?.full_name
+            full_name:userdata?.full_name,
+            full_name2: this.$store?.state?.userdata?.result?.user?.full_name
         }
     }
 }
