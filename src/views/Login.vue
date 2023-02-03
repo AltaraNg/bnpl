@@ -39,7 +39,7 @@
                         </div>
                     </div>
                     <div class="relative mt-1">
-                        <a href="#" class="text-blue-400 text-sm font-normal">Forgot Password?</a>
+                        <p class="text-sm">Don't have an account? <RouterLink :to="{name:'SignUp'}"><span href="#" class="text-blue-400 text-sm font-normal">Sign Up</span></RouterLink> </p>
                         <DefButton name="Login" :action="login" :loading="loader" />
                         <p class="mt-4 text-xs font-normal">
                             &copy; {{ copyright }} <a href="#" class="text-primary text-xs" target="_blank"> Privacy Policy</a> |

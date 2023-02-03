@@ -1,9 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
-import DashBoard from "@/views/DashBoard.vue";
 import Settings from "@/views/Settings.vue";
 import Profile from "@/views/Profile.vue";
-
+import SignUp from "../views/SignUp.vue"
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes: [
@@ -30,14 +29,6 @@ const router = createRouter({
             },
         },
         {
-            path: "/dashboard",
-            name: "DashBoard",
-            component: DashBoard,
-            meta: {
-                noAuth: true,
-            },
-        },
-        {
             path: "/settings",
             name: "Settings",
             component: Settings,
@@ -46,6 +37,14 @@ const router = createRouter({
             path: "/profile",
             name: "Profile",
             component: Profile,
+        },
+        {
+            path: "/signup",
+            name: "SignUp",
+            component: SignUp,
+            meta: {
+                noAuth: true,
+            },
         },
     ],
 });
