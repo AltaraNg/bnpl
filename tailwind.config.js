@@ -13,7 +13,7 @@ module.exports = {
                 0.3: "30%",
             },
             boxShadow: {
-                talent: `0 25px 50px -12px rgba(72, 191, 253, 0.37)`,
+                lblue: `0 25px 50px -12px rgba(72, 191, 253, 0.37)`,
             },
         },
     },

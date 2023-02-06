@@ -1,11 +1,11 @@
 <template>
     <div class="top-0 md:w-full max-w-[500px] relative">
         <div class="w-full flex flex-col items-center justify-center mt-10 text-white">
-            <h2 class="font-semibold text-lg">Get Started</h2>
-            <div class="text-sm">Enter the customer's number to get started.</div>
+            <h2 class="font-semibold text-xl">Get Started</h2>
+            <div class="text-base">Enter the customer's number to get started.</div>
         </div>
         <div class="md:w-full px-2 relative top-12">
-            <div class="max-w-5xl bg-white rounded-xl shadow-talent">
+            <div class="max-w-5xl bg-white rounded-xl shadow-lblue">
                 <div class="flex w-full items-center">
                     <div class="w-full flex-1 border-r border-gray-200 py-2 md:py-4">
                         <label class="text-gray-400 font-semibold text-xs px-4">SEARCHING FOR</label>
