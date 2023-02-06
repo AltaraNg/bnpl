@@ -12,6 +12,9 @@ module.exports = {
             width: {
                 0.3: "30%",
             },
+            boxShadow: {
+                lblue: `0 25px 50px -12px rgba(72, 191, 253, 0.37)`,
+            },
         },
     },
     plugins: [require("@tailwindcss/forms")],
