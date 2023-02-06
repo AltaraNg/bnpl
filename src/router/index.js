@@ -2,7 +2,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import Settings from "@/views/Settings.vue";
 import Profile from "@/views/Profile.vue";
-import SignUp from "../views/SignUp.vue"
+import GetStarted from "@/views/GetStarted.vue";
+import SignUp from "../views/SignUp.vue";
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes: [
@@ -46,18 +47,22 @@ const router = createRouter({
                 noAuth: true,
             },
         },
+        {
+            path: "/get-started",
+            name: "GetStarted",
+            component: GetStarted,
+        },
     ],
 });
 
 router.beforeEach((to, from, next) => {
-  const userdata = JSON.parse(localStorage.getItem("vuex"));
-  const portalAccess = userdata?.result?.user?.portal_access;
-  if (!to.matched.some((route) => route.meta.noAuth)) {
-    portalAccess !== 1 ? next("login") : next();
-    return;
-  }
+    const userdata = JSON.parse(localStorage.getItem("vuex"));
+    const portalAccess = userdata?.result?.user?.portal_access;
+    if (!to.matched.some((route) => route.meta.noAuth)) {
+        portalAccess !== 1 ? next("login") : next();
+        return;
+    }
     next();
-
 });
 
 export default router;
