@@ -4,6 +4,7 @@ import Settings from "@/views/Settings.vue";
 import Profile from "@/views/Profile.vue";
 import GetStarted from "@/views/GetStarted.vue";
 import Offer from "@/views/Offer.vue";
+import CustomerRegistration from "@/views/CustomerRegistration.vue";
 import SignUp from "../views/SignUp.vue";
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
@@ -57,6 +58,11 @@ const router = createRouter({
             path: "/offer",
             name: "Offer",
             component: Offer,
+        },
+        {
+            path: "/register-customer",
+            name: "CustomerRegistration",
+            component: CustomerRegistration,
         },
     ],
 });
