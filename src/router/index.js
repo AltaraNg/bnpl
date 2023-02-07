@@ -3,6 +3,7 @@ import Home from "../views/Home.vue";
 import Settings from "@/views/Settings.vue";
 import Profile from "@/views/Profile.vue";
 import GetStarted from "@/views/GetStarted.vue";
+import Offer from "@/views/Offer.vue";
 import SignUp from "../views/SignUp.vue";
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
@@ -51,6 +52,11 @@ const router = createRouter({
             path: "/get-started",
             name: "GetStarted",
             component: GetStarted,
+        },
+        {
+            path: "/offer",
+            name: "Offer",
+            component: Offer,
         },
     ],
 });
