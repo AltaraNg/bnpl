@@ -7,7 +7,7 @@
       <div class="mt-8">
         <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <h2 class="text-lg font-medium leading-6 text-gray-900">Overview</h2>
-          <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-3 lg:grid-cols-4">
             <!-- Card -->
             <div v-for="card in cards" :key="card.name" class="overflow-hidden rounded-lg bg-white shadow">
               <div class="p-5">
@@ -38,9 +38,7 @@
           </div>
         </div>
 
-        <h2 class="mx-auto mt-8 max-w-6xl px-4 text-lg font-medium leading-6 text-gray-900 sm:px-6 lg:px-8">
-          Recent activity
-        </h2>
+        <h2 class="mx-auto mt-8 max-w-6xl px-4 text-lg font-medium leading-6 text-gray-900 sm:px-6 lg:px-8">Recent activity</h2>
 
         <!-- Activity list (smallest breakpoint only) -->
         <div class="shadow sm:hidden">
@@ -52,13 +50,9 @@
                     <BanknotesIcon class="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
                     <span class="flex flex-col truncate text-sm text-gray-500">
                       <span class="truncate">{{ transaction.name }}</span>
-                      <span><span class="font-medium text-gray-900">{{
-                        transaction.amount
-                      }}</span>
+                      <span><span class="font-medium text-gray-900">{{ transaction.amount }}</span>
                         {{ transaction.currency }}</span>
-                      <time :datetime="transaction.datetime">{{
-                        transaction.date
-                      }}</time>
+                      <time :datetime="transaction.datetime">{{ transaction.date }}</time>
                     </span>
                   </span>
                   <ChevronRightIcon class="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
@@ -85,24 +79,20 @@
                 <table class="min-w-full divide-y divide-gray-200">
                   <thead>
                     <tr>
-                      <th class="bg-gray-50 px-4  py-3 text-left text-sm font-semibold text-gray-900" scope="col">
+                      <th class="bg-gray-50 px-4 py-3 text-left text-sm font-semibold text-gray-900" scope="col">
                         Transaction Id
                       </th>
-                      <th class="bg-gray-50 px-4  py-3 text-left text-sm font-semibold text-gray-900" scope="col">
+                      <th class="bg-gray-50 px-4 py-3 text-left text-sm font-semibold text-gray-900" scope="col">
                         Product Name
                       </th>
-                      <th class="bg-gray-50 px-4  py-3 text-left text-sm font-semibold text-gray-900" scope="col">
-                        Amount
-                      </th>
-                      <th class="hidden bg-gray-50 px-4  py-3 text-left text-sm font-semibold text-gray-900 md:block" scope="col">
+                      <th class="bg-gray-50 px-4 py-3 text-left text-sm font-semibold text-gray-900" scope="col">Amount</th>
+                      <th class="hidden bg-gray-50 px-4 py-3 text-left text-sm font-semibold text-gray-900 md:block" scope="col">
                         Customer Name
                       </th>
-                      <th class="bg-gray-50 px-4  py-3 text-center text-sm font-semibold text-gray-900" scope="col">
-                        Date
-                      </th>
+                      <th class="bg-gray-50 px-4 py-3 text-center text-sm font-semibold text-gray-900" scope="col">Date</th>
                     </tr>
                   </thead>
-                   <tbody class="divide-y divide-gray-200 bg-white">
+                  <tbody class="divide-y divide-gray-200 bg-white">
                     <tr v-for="transaction in transactions" :key="transaction.id" class="bg-white">
                       <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                         <div class="flex">
@@ -122,17 +112,15 @@
                         </div>
                       </td>
                       <td class="whitespace-nowrap px-6 py-4 text-left text-sm text-gray-500">
-                        <span class="font-medium text-gray-900">{{
-                          transaction.amount
-                        }}</span>
+                        <span class="font-medium text-gray-900">{{ transaction.amount }}</span>
                       </td>
                       <td class="hidden whitespace-nowrap px-6 py-4 text-sm text-gray-500 md:block">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize">{{ transaction["customer name"] }}</span>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize">{{
+                          transaction["customer name"]
+                        }}</span>
                       </td>
                       <td class="whitespace-nowrap px-6 py-4 text-right text-sm text-gray-500">
-                        <time :datetime="transaction.datetime">{{
-                          transaction.date
-                        }}</time>
+                        <time :datetime="transaction.datetime">{{ transaction.date }}</time>
                       </td>
                     </tr>
                   </tbody>
@@ -149,13 +137,13 @@
 <script setup>
 import App from "@/layouts/App.vue";
 import DashboardHeader from "@/components/DashboardHeader.vue";
-import { ScaleIcon,  CircleStackIcon } from "@heroicons/vue/24/outline";
+import { ScaleIcon } from "@heroicons/vue/24/outline";
 import { BanknotesIcon, ChevronRightIcon } from "@heroicons/vue/20/solid";
-
 
 const cards = [
   { name: "No of Sales", href: "#", icon: ScaleIcon, amount: "50" },
-  { name: "Total Revenue", href: "#", icon: CircleStackIcon, amount: "₦30,659.45" },
+  { name: "Total Revenue", href: "#", icon: ScaleIcon, amount: "₦130,500.00" },
+  { name: "Commission", href: "#", icon: ScaleIcon, amount: "₦25,659.45" },
 ];
 const transactions = [
   {
@@ -203,5 +191,4 @@ const transactions = [
     datetime: "2023-03-11",
   },
 ];
-
 </script>
