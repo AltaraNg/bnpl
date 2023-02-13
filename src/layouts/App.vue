@@ -24,22 +24,22 @@
               </TransitionChild>
               <div class="h-0 flex-1 overflow-y-auto pt-5 pb-4">
                 <div class="flex flex-shrink-0 items-center px-4">
-                   <img class="h-10 w-auto" src="../assets/images/logo.png" alt="Altara Credit" />
+                  <img class="h-10 w-auto" src="../assets/images/logo.png" alt="Altara Credit" />
                 </div>
                 <nav class="mt-5 space-y-1 px-2">
-                  <router-link :to="{name: item.slug}" v-for="item in navigation" :key="item.name" >
-                     <a @click="item.slug=='login' ? logOut():''" :class="[
-                    item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                    'group flex items-center px-2 py-2 text-base font-medium rounded-md',
-                  ]">
-                    <component :is="item.icon" :class="[
-                      item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
-                      'mr-4 flex-shrink-0 h-6 w-6',
-                    ]" aria-hidden="true" />
-                    {{ item.name }}
-                  </a>
+                  <router-link :to="{ name: item.slug }" v-for="item in navigation" :key="item.name">
+                    <a @click="item.slug == 'login' ? logOut() : ''" :class="[
+                      item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                      'group flex items-center px-2 py-2 text-base font-medium rounded-md',
+                    ]">
+                      <component :is="item.icon" :class="[
+                        item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
+                        'mr-4 flex-shrink-0 h-6 w-6',
+                      ]" aria-hidden="true" />
+                      {{ item.name }}
+                    </a>
                   </router-link>
-                 
+
                 </nav>
               </div>
               <div class="flex flex-shrink-0 bg-gray-700 p-4">
@@ -71,23 +71,23 @@
       <!-- Sidebar component, swap this element with another sidebar if you like -->
       <div class="flex min-h-0 flex-1 flex-col bg-gray-800">
         <div class="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
-                    <div class="flex flex-shrink-0 items-center px-4">
+          <div class="flex flex-shrink-0 items-center px-4">
             <img class="h-10 w-auto" src="../assets/images/logo.png" alt="Altara Credit" />
           </div>
           <nav class="mt-12 flex-1  px-2">
-             <router-link :to="{name: item.slug}" v-for="item in navigation" :key="item.name" >
-                 <a @click="item.slug=='login' ? logOut():''"  :class="[
-              item.current ? 'bg-primary text-white mb-1' : 'text-white mb-1 hover:bg-gray-400 hover:text-white',
-              'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
-            ]">
-           
-                <component :is="item.icon" :class="[item.current ? 'text-white bg-primary' : 'text-white group-hover:text-gray-300', 'mr-3 flex-shrink-0 h-6 w-6']"
-                aria-hidden="true" />
-              {{ item.name }}
-              
-            </a>
+            <router-link :to="{ name: item.slug }" v-for="item in navigation" :key="item.name">
+              <a @click="item.slug == 'login' ? logOut() : ''" :class="[
+                item.current ? 'bg-primary text-white mb-1' : 'text-white mb-1 hover:bg-gray-400 hover:text-white',
+                'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
+              ]">
+
+                <component :is="item.icon"
+                  :class="[item.current ? 'text-white bg-primary' : 'text-white group-hover:text-gray-300', 'mr-3 flex-shrink-0 h-6 w-6']" aria-hidden="true" />
+                {{ item.name }}
+
+              </a>
             </router-link>
-           
+
           </nav>
         </div>
         <div class="flex flex-shrink-0 bg-gray-700 p-4">
@@ -100,8 +100,10 @@
               </div>
               <div class="ml-3">
                 <!-- <p class="text-sm font-medium text-white">Tom Cook</p> -->
-                <RouterLink :to="{name:'Profile'}"><p class="text-xs font-medium text-gray-300 group-hover:text-gray-200">View profile</p></RouterLink>
-                
+                <RouterLink :to="{ name: 'Profile' }">
+                  <p class="text-xs font-medium text-gray-300 group-hover:text-gray-200">View profile</p>
+                </RouterLink>
+
               </div>
             </div>
           </a>
@@ -111,7 +113,7 @@
     <div class="flex flex-1 flex-col md:pl-64 min-h-[100vh]">
       <div class="sticky top-0 z-10 bg-gray-100 pl-1 pt-1 sm:pl-3 sm:pt-3 md:hidden">
         <button type="button"
-          class="-ml-0.5 -mt-0.5 inline-flex h-12 w-12 items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+          class="-ml-0.5 -mt-0.5 inline-flex h-12 w-12 items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-0"
           @click="sidebarOpen = true">
           <Bars3Icon class="h-6 w-6" aria-hidden="true" />
         </button>
@@ -120,12 +122,14 @@
         <slot></slot>
       </main>
     </div>
+    <Footer />
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import router from "@/router";
+import Footer from "@/components/Footer"
 import {
   Dialog,
   DialogPanel,
@@ -141,14 +145,14 @@ import {
   ArrowLeftOnRectangleIcon
 } from "@heroicons/vue/24/outline";
 const navigation = [
-  { name: "Dashboard",  icon: HomeIcon, current: false, slug:"Dashboard" },
-  { name: "Profile",  icon: UsersIcon, current: false, slug:"Profile" },
-  { name: "Settings",  icon: FolderIcon, current: false , slug:"Settings"},
-   { name: "Log Out",  icon: ArrowLeftOnRectangleIcon, current: false, slug:"login" },
+  { name: "Dashboard", icon: HomeIcon, current: false, slug: "Dashboard" },
+  { name: "Profile", icon: UsersIcon, current: false, slug: "Profile" },
+  { name: "Settings", icon: FolderIcon, current: false, slug: "Settings" },
+  { name: "Log Out", icon: ArrowLeftOnRectangleIcon, current: false, slug: "login" },
 ];
 const sidebarOpen = ref(false);
- function logOut() {
-      localStorage.clear();
-      router.push({ name: "login" });
-    }
+function logOut() {
+  localStorage.clear();
+  router.push({ name: "login" });
+}
 </script>
