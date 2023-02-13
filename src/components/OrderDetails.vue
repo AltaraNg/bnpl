@@ -9,7 +9,7 @@
                 </div>
                 <div>
                     <p class="text-gray-500 text-sm font-medium">Date:</p>
-                    <p class="text-lg font-semibold text-gray-600">{{ props.orderDetails.date }}</p>
+                    <p class=" font-semibold text-gray-600">{{ props.orderDetails.date }}</p>
                 </div>
             </div>
             <p class="text-gray-500 text-sm font-medium mt-4">Product Name:</p>

@@ -1,5 +1,5 @@
 <template>
-    <div class="top-0 md:w-full max-w-[500px] relative">
+    <div class="top-0 w-full max-w-[500px] relative">
         <div class="w-full flex flex-col items-center justify-center mt-10 text-white">
             <h2 class="font-semibold text-xl">Get Started</h2>
             <div class="text-base">Enter the customer's number to get started.</div>

@@ -9,7 +9,7 @@
         <div class="fixed inset-0 z-40 flex">
           <TransitionChild as="template" enter="transition ease-in-out duration-300 transform" enter-from="-translate-x-full" enter-to="translate-x-0"
             leave="transition ease-in-out duration-300 transform" leave-from="translate-x-0" leave-to="-translate-x-full">
-            <DialogPanel class="relative flex w-full lg:max-w-2xl lg:flex-1 flex-col bg-white">
+            <DialogPanel class="relative flex w-full lg:max-w-5xl lg:flex-1 flex-col bg-white">
               <TransitionChild as="template" enter="ease-in-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in-out duration-300"
                 leave-from="opacity-100" leave-to="opacity-0">
                 <div class="absolute  top-0 right-5 lg:right-0 lg:-mr-12 pt-2">
