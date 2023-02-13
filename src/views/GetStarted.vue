@@ -22,7 +22,7 @@
                                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Phone Number</th>
                                     </template>
                                     <template #default>
-                                        <tr v-for="item in FindCustomer()" :key="item.email" @click="SeeMore(item)" class="cursor-pointer">
+                                        <tr v-for="item in DisplayCustomer" :key="item.email" @click="SeeMore(item)" class="cursor-pointer">
                                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                                                 <div class="flex items-center">
                                                     <div class="h-10 w-10 flex-shrink-0">
@@ -50,7 +50,7 @@
                             </div>
                             <div class="block md:hidden space-y-2">
                                 <div
-                                    v-for="item in FindCustomer()"
+                                    v-for="item in DisplayCustomer"
                                     :key="item.email"
                                     class="rounded-lg bg-white p-4 flex items-center gap-2 shadow-lg"
                                     @click="SeeMore(item)"
@@ -62,7 +62,7 @@
                                     />
                                     <div class="flex-1">
                                         <p class="text-2xl font-semibold">{{ item.name }}</p>
-                                        <p>08078697778</p>
+                                        <p>{{ item.phone_number }}</p>
                                     </div>
                                     <!-- <SideModal v-if="sidebarOpen" @close="sidebarOpen = false" class=" lg:hidden"> hello </SideModal> -->
                                 </div>
@@ -376,6 +376,7 @@ export default {
         },
         Search(phone_number) {
             this.phone_number = phone_number;
+            this.FindCustomer();
         },
         FindCustomer() {
             this.FilteredCustomer = this.Customers.filter((customer) => {
@@ -385,16 +386,19 @@ export default {
             // console.log( this.FilteredCustomer, this.phone_number)
         },
     },
-    watch: {
-        phone_number: {
-            handler(newData) {
-                this.FindCustomer(newData);
-                // this.further_details = "";
-            },
+    // watch: {
+    //     phone_number: {
+    //         handler(newData) {
+    //             this.FindCustomer(newData);
+    //             // this.further_details = "";
+    //         },
+    //     },
+    // },
+    computed: {
+        DisplayCustomer() {
+            return this.phone_number ? this.FilteredCustomer : this.Customers.slice(0, 3);
+            // console.log( this.FilteredCustomer, this.phone_number)
         },
-    },
-    mounted() {
-        this.FindCustomer(this.FilteredCustomer, this.Customers);
     },
 };
 </script>
