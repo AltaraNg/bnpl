@@ -35,13 +35,13 @@
                             </dl>
                         </div>
                     </div>
-                    <div @click="showModal = true">
+                    <RouterLink :to="{name:'GetStarted'}" >
                         <defaultButton name=" New Sale">
                             <template v-slot:icon>
                                 <plus />
                             </template>
                         </defaultButton>
-                    </div>
+                    </RouterLink>
                 </div>
                 <div class="mt-6 flex space-x-3 md:mt-0 md:ml-4"></div>
             </div>
