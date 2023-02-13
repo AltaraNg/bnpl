@@ -5,7 +5,7 @@ import Table from "@/components/Table";
 
 const state = reactive({
     loadedSearch: true,
-    searchDetails: [
+    orders: [
         {
             name: 'Lindsay Walton',
             title: 'Front-end Developer',
@@ -39,7 +39,7 @@ const state = reactive({
             <div class="px-6 md:px-0 flex flex-col">
                 <div v-if="state.loadedSearch">
                     <div class="rounded-xl">
-                        <div v-if="state.searchDetails?.length === 0" class="bg-white md:w-[1008px]">
+                        <div v-if="state.orders?.length === 0" class="bg-white md:w-[1008px]">
                             <p>Put in a Zero state here</p>
                         </div>
                         <template v-else>
@@ -54,7 +54,7 @@ const state = reactive({
                                         <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6"></th>
                                     </template>
                                     <template #default>
-                                        <tr v-for="item in state.searchDetails" :key="item.email">
+                                        <tr v-for="item in state.orders" :key="item.email">
                                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                                                 <div class="flex items-center">
                                                     <div class="h-10 w-10 flex-shrink-0">
@@ -83,13 +83,14 @@ const state = reactive({
                                 </Table>
                             </div>
                             <div class="block md:hidden space-y-2">
-                                <div v-for="item in state.searchDetails" :key="item.email" class="rounded-lg bg-white p-4 flex items-center gap-2 shadow-lg">
+                                <div v-for="item in state.orders" :key="item.email" class="rounded-lg bg-white p-4 flex gap-2 shadow-lg">
                                     <img class="inline-block h-12 w-12 rounded-full"
                                         src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                                         alt="" />
                                     <div class="flex-1">
-                                        <p class="text-2xl font-semibold">John Cook</p>
-                                        <p>08078697778</p>
+                                        <p class="text-2xl font-semibold text-gray-800">John Cook</p>
+                                        <p class="font-medium text-gray-500">08078697778</p>
+                                        <p class="font-medium text-gray-500">john.cook@yahoo.com</p>
                                     </div>
                                 </div>
                             </div>

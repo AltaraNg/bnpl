@@ -5,6 +5,9 @@ import Profile from "@/views/Profile.vue";
 import GetStarted from "@/views/GetStarted.vue";
 import Offer from "@/views/Offer.vue";
 import CustomerRegistration from "@/views/CustomerRegistration.vue";
+import CustomerDetails from "@/views/CustomerDetails.vue";
+import Verification from "@/views/Verification.vue";
+import AllOrders from "@/views/AllOrders.vue";
 import SignUp from "../views/SignUp.vue";
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
@@ -63,6 +66,21 @@ const router = createRouter({
             path: "/register-customer",
             name: "CustomerRegistration",
             component: CustomerRegistration,
+        },
+        {
+            path: "/verification",
+            name: "Verification",
+            component: Verification,
+        },
+        {
+            path: "/customer-details",
+            name: "CustomerDetails",
+            component: CustomerDetails,
+        },
+        {
+            path: "/all-orders",
+            name: "AllOrders",
+            component: AllOrders,
         },
     ],
 });
