@@ -11,11 +11,11 @@
                         <div v-if="Customers?.length === 0" class="bg-white md:w-[1008px]">
                             <p>Put in a Zero state here</p>
                         </div>
-                        <template v-else>
+                        <template v-if="!(phone_number && !FilteredCustomer.length)">
                             <p class="text-3xl font-bold mb-2">Customers</p>
-                            <div class="hidden md:block">
-                                <TableVue>
-                                    <template #columns>
+                            <div class="hidden md:block" >
+                                <TableVue  >
+                                    <template #columns >
                                         <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
                                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Address</th>
                                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
@@ -48,7 +48,7 @@
                                     </template>
                                 </TableVue>
                             </div>
-                            <div class="block md:hidden space-y-2">
+                            <div class="block md:hidden space-y-2" >
                                 <div
                                     v-for="item in DisplayCustomer"
                                     :key="item.email"
@@ -61,13 +61,26 @@
                                         alt=""
                                     />
                                     <div class="flex-1">
-                                        <p class="text-2xl font-semibold">{{ item.name }}</p>
-                                        <p>{{ item.phone_number }}</p>
+                                        <p class="text-lg font-semibold">{{ item.name }}</p>
+                                        <p class="text-sm">{{ item.phone_number }}</p>
                                     </div>
                                     <!-- <SideModal v-if="sidebarOpen" @close="sidebarOpen = false" class=" lg:hidden"> hello </SideModal> -->
                                 </div>
                             </div>
                         </template>
+                        <div v-if="phone_number && !FilteredCustomer.length" class="flex  text-center items-center flex-col justify-center px-5">
+                            <zerostate/>
+                            <p class="text-gray-800  lg:text-2xl mb-0.5">This customer's phone number does not exist</p>
+                            <p class="text-gray-500 text-xs lg:text-normal mb-6">You can create an acount by clicking below</p>
+                            <RouterLink :to="{name:'SignUp'}" >
+                        <defaultButton name=" Create Account">
+                            <template v-slot:icon>
+                                <plus />
+                            </template>
+                        </defaultButton>
+                    </RouterLink>
+                        </div>
+                        
                         <SideModal v-if="sidebarOpen" @close="sidebarOpen = false" class="">
                             <div class="lg:p-5 p-6 text-gray-800">
                                 <div class="lg:border lg:w-1/2 lg:rounded lg:px-8 py-4 lg:shadow-lg lg:mb-5">
@@ -190,12 +203,17 @@ import Search from "@/components/Search";
 import TableVue from "@/components/Table";
 import SideModal from "../components/SideModal.vue";
 import OrderDetails from "@/components/OrderDetails.vue";
+import defaultButton from '@/components/button.vue'
+import zerostate from '@/assets/svgs/zerostate.vue'
+import plus from '@/assets/svgs/plus.vue'
 export default {
     components: {
         TableVue,
         SideModal,
         Search,
         OrderDetails,
+        defaultButton,
+        zerostate,plus
     },
     data() {
         return {
