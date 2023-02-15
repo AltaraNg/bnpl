@@ -142,12 +142,14 @@ import {
   HomeIcon,
   UsersIcon,
   XMarkIcon,
-  ArrowLeftOnRectangleIcon
+  ArrowLeftOnRectangleIcon,
+  ArrowsRightLeftIcon
 } from "@heroicons/vue/24/outline";
 const navigation = [
   { name: "Dashboard", icon: HomeIcon, current: false, slug: "Dashboard" },
   { name: "Profile", icon: UsersIcon, current: false, slug: "Profile" },
   { name: "Settings", icon: FolderIcon, current: false, slug: "Settings" },
+  { name: "Transactions", icon: ArrowsRightLeftIcon, current: false, slug: "AllTransactions" },
   { name: "Log Out", icon: ArrowLeftOnRectangleIcon, current: false, slug: "login" },
 ];
 const sidebarOpen = ref(false);

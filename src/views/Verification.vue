@@ -21,10 +21,10 @@
                 </svg>
                 <div>
                     <div class="mb-4 w-full block md:hidden">
-                        <ArrowLeftIcon class="h-10 w-10 text-indigo-600" aria-hidden="true" />
+                        <ArrowLeftIcon class="h-10 w-10 text-indigo-600" aria-hidden="true" @click="goBack" />
                     </div>
-                    <AwaitingVerification v-if="random < 0.4" />
-                    <FailedVerification v-else-if="random < 0.7" />
+                    <AwaitingVerification v-if="verification_id == 'awaiting'" :goBack="goBack" />
+                    <FailedVerification v-else-if="verification_id == 'failed'"  :goBack="goBack"/>
                     <SuccessfulVerification v-else />
                 </div>
             </div>
@@ -41,9 +41,14 @@ import AwaitingVerification from "@/components/AwaitingVerification.vue";
 import FailedVerification from "@/components/FailedVerification.vue";
 import SuccessfulVerification from "@/components/SuccessfulVerification.vue";
 import { ArrowLeftIcon } from "@heroicons/vue/24/solid";
-
+import { useRoute, useRouter } from 'vue-router'
 const open = ref(false);
+const route = useRoute()
+ const router = useRouter()
+ const verification_id = route.params.verification_id
+ function goBack(){
+    router.go(-1)
+ }
 
-const random = Math.random()
 
 </script>

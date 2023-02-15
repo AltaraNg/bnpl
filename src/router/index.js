@@ -8,7 +8,9 @@ import CustomerRegistration from "@/views/CustomerRegistration.vue";
 import CustomerDetails from "@/views/CustomerDetails.vue";
 import Verification from "@/views/Verification.vue";
 import AllOrders from "@/views/AllOrders.vue";
+import AllTransactions from "../views/AllTransactions.vue"
 import SignUp from "../views/SignUp.vue";
+import CreateOrder from '../views/CreateOrder.vue'
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes: [
@@ -68,12 +70,12 @@ const router = createRouter({
             component: CustomerRegistration,
         },
         {
-            path: "/verification",
+            path: "/verification/:verification_id",
             name: "Verification",
             component: Verification,
         },
         {
-            path: "/customer-details",
+            path: "/customer-details/:phone_number",
             name: "CustomerDetails",
             component: CustomerDetails,
         },
@@ -81,6 +83,16 @@ const router = createRouter({
             path: "/all-orders",
             name: "AllOrders",
             component: AllOrders,
+        },
+        {
+            path: "/all-transactions",
+            name: "AllTransactions",
+            component: AllTransactions,
+        },
+        {
+            path: "/create-order",
+            name: "CreateOrder",
+            component: CreateOrder,
         },
     ],
 });

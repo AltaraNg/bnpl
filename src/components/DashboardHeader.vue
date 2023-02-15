@@ -73,6 +73,7 @@
 <script>
 import { BuildingOfficeIcon, CheckCircleIcon } from "@heroicons/vue/20/solid";
 import { userdata } from "../utilities/GlobalFunctions";
+import { CheckIcon } from "@heroicons/vue/24/outline";
 import BaseModal from "@/components/BaseModal.vue";
 import defaultButton from "../components/button.vue";
 import plus from "@/assets/svgs/plus.vue";
@@ -82,7 +83,7 @@ export default {
         CheckCircleIcon,
         defaultButton,
         plus,
-        BaseModal,
+        BaseModal,CheckIcon
     },
     data() {
         return {

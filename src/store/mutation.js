@@ -13,3 +13,6 @@ export const LOADING = (state, loadingState) => {
 export const ERROR = (state, error) => {
   state.status.error = error;
 };
+export const CUSTOMER_DETAILS = (state, response) => {
+    state.Customer = response;
+};
