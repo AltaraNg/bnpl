@@ -10,29 +10,29 @@
         <div class="mx-auto max-w-md sm:max-w-lg lg:mx-0">
           <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Let's work together</h2>
           <p class="mt-4 text-lg text-gray-500 sm:mt-3">Just one more step to create your first order</p>
-          <form action="#" method="POST" class="mt-9 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
+          <form  class="mt-9 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
             <div>
               <label for="first-name" class="block text-sm font-medium text-gray-700">First name</label>
               <div class="mt-1">
-                <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                <input type="text" name="first-name" v-model="customerData.firstname" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
               </div>
             </div>
             <div>
               <label for="last-name" class="block text-sm font-medium text-gray-700">Last name</label>
               <div class="mt-1">
-                <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                <input type="text" name="last-name" id="last-name" v-model="customerData.lastname" autocomplete="family-name" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
               </div>
             </div>
             <div class="sm:col-span-2">
               <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
               <div class="mt-1">
-                <input id="email" name="email" type="email" autocomplete="email" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                <input id="email" name="email" type="email" v-model="customerData.email" autocomplete="email" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
               </div>
             </div>
             <div class="sm:col-span-2">
               <label for="home_address" class="block text-sm font-medium text-gray-700">Home Address</label>
               <div class="mt-1">
-                <input type="text" name="home_address" id="home_address" autocomplete="organization" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                <input type="text" name="home_address" id="home_address" v-model="customerData.home_address" autocomplete="organization" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
               </div>
             </div>
             <div class="sm:col-span-2">
@@ -41,19 +41,19 @@
                 <span id="phone-description" class="text-sm text-gray-500">Optional</span>
               </div>
               <div class="mt-1">
-                <input type="text" name="phone" id="phone" autocomplete="tel" aria-describedby="phone-description" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                <input type="text" name="phone" v-model="customerData.phone" id="phone" autocomplete="tel" aria-describedby="phone-description" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
               </div>
             </div>
             <div class="sm:col-span-2">
               <label for="date_of_birth" class="block text-sm font-medium text-gray-700">Date of Birth</label>
               <div class="mt-1">
-                <input type="date" name="date_of_birth" id="date_of_birth" autocomplete="organization" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-              </div>
+                <input type="date" name="date_of_birth" v-model="customerData.date_of_birth" id="date_of_birth" autocomplete="organization" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+              </div> 
             </div>
             <div class="sm:col-span-2">
               <label for="city" class="block text-sm font-medium text-gray-700">City</label>
               <div class="mt-1">
-                <select  name="city" id="city" autocomplete="organization" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" >
+                <select  name="city" id="city" autocomplete="city" v-model="customerData.city" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" >
                    <option value="default" class disabled>Area</option>
             <option class="text-sm" v-for="branch in areas"
               :key="branch.value" :value=branch.value>{{ branch.name }}</option>
@@ -61,7 +61,7 @@
               </div>
             </div>
             <div class="text-right sm:col-span-2">
-              <defaultButton name=" Create Account">
+              <defaultButton name=" Create Account" :action="validateData">
                             <template v-slot:icon>
                                 <plus />
                             </template>
@@ -73,15 +73,13 @@
     </div>
   </div>
 </template> 
-<script>
-import defaultButton from '@/components/button.vue' 
-export default{
-  components:{
-    defaultButton
-  },
-  data(){
-    return{
-       areas:[
+<script setup>
+import { ref, reactive } from "vue";
+import plus from "@/assets/svgs/plus.vue"
+import defaultButton from '@/components/button.vue';
+import { useRouter } from "vue-router";
+ const router = useRouter()
+     const areas = ref([
         {
           value:'Apata',
           name:'Apata, Ibadan'
@@ -147,8 +145,19 @@ export default{
           name:'Isale Igbeyin Showroom'
         },
         
-      ],
-    }
-  }
-}
+      ])
+      const customerData = reactive({
+        firstname:null,
+        lastname:null,
+        email:null,
+        home_address:null,
+        phone:null,
+        date_of_birth:null,
+        city:null
+      })
+      function validateData(event){
+       router.push({name: 'CreateOrder',  params:{phone_number: '08034441800'}})
+    
+         event.preventDefault();
+      }
 </script>

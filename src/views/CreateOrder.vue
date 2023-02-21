@@ -1,14 +1,15 @@
 <template>
   <div class="relative bg-white">
     <div class="lg:absolute lg:inset-0">
-      <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+      <div class="lg:absolute lg:inset-y-0 lg:block hidden lg:right-0 lg:w-1/2">
         <img class="h-56 w-full object-cover lg:absolute lg:h-full opacity-50" src="../assets/images/market.jpg" alt="" />
       </div>
+      <ArrowLeftIcon class="h-10 w-10 m-4 text-primary" aria-hidden="true" @click="goBack" />
     </div>
-    <div class="relative py-16 px-6 sm:py-24 lg:mx-auto lg:grid lg:max-w-7xl lg:grid-cols-2 lg:px-8 lg:py-16">
+    <div class="relative lg:py-16 px-6 sm:py-10 lg:mx-auto lg:grid lg:max-w-7xl lg:grid-cols-2 lg:px-8 lg:py-16">
       <div class="lg:pr-8">
         <div class="mx-auto max-w-md sm:max-w-lg lg:mx-0">
-          <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Let's work together</h2>
+          <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Create Order</h2>
           <p class="mt-4 text-lg text-gray-500 sm:mt-3">Just one more step to create your first order</p>
           <form action="#" method="POST" class="mt-9 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
             <div>
@@ -73,15 +74,13 @@
     </div>
   </div>
 </template> 
-<script>
-import defaultButton from '@/components/button.vue' 
-export default{
-  components:{
-    defaultButton
-  },
-  data(){
-    return{
-       areas:[
+<script setup>
+import defaultButton from '@/components/button.vue'
+import { ArrowLeftIcon } from "@heroicons/vue/24/solid"; 
+import { ref } from "vue";
+import {goBack} from "@/utilities/GlobalFunctions"
+
+       const areas = ref([
         {
           value:'Apata',
           name:'Apata, Ibadan'
@@ -147,8 +146,5 @@ export default{
           name:'Isale Igbeyin Showroom'
         },
         
-      ],
-    }
-  }
-}
+      ])
 </script>

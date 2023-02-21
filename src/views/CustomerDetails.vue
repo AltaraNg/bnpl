@@ -1,6 +1,6 @@
 <template>
     <div class="lg:p-5 p-6 text-gray-800">
-          <div class="mb-4 w-full block md:hidden">
+          <div class="mb-4 w-full block cursor-pointer">
                         <ArrowLeftIcon class="h-10 w-10 text-indigo-600" aria-hidden="true" @click="goBack" />
                     </div>
             <div class="lg:px-8 py-4 lg:mb-5">
@@ -20,12 +20,12 @@
                         <p class="font-medium text-gray-500 mt-2">Joined December 6, 2018</p>
                     </div>
                     <button
-                        @click="$router.push({ name: 'CreateOrder' })"
+                        @click="$router.push({ name: 'CreateOrder', params:{phone_number: Customer.phone_number} })"
                         type="button"
                         class="inline-flex items-center rounded-md border border-transparent bg-primary p-3 text-base font-medium leading-4 text-white shadow-sm focus:outline-none focus:ring-0 justify-center mt-4 w-full lg:w-fit"
                     >
-                        <plus class="mr-2" />
-                        New Order
+                        <plus  />
+                        New Sale
                     </button>
                 </div>
             </div>
@@ -125,16 +125,16 @@ import { computed } from "vue";
 import plus from "@/assets/svgs/plus.vue";
 import { ArrowLeftIcon } from "@heroicons/vue/24/solid";
 import TableVue from "@/components/Table.vue";
+import {goBack} from "@/utilities/GlobalFunctions"
 const store = useStore();
 const route = useRoute();
  const router = useRouter()
-console.log(route.params.phone_number);
 store.dispatch("CustomerDetails", route.params.phone_number);
 const Customer = computed(() => store.state.Customer);
 const CustomerHistory = ref(Customer.value.history);
 
 function VerificationStatus(history) {
-    router.push({ name: "Verification", params: { verification_id: history.verification.status } });
+    router.push({ name: "Verification", params: { verification_id: history.verification.id,verification_status: history.verification.status } });
 }
 function ColorStatus(history) {
     let color = "";
@@ -153,7 +153,5 @@ function ColorStatus(history) {
     }
     return color;
 }
-function goBack(){
-    router.go(-1)
- }
+
 </script>

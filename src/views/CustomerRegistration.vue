@@ -92,6 +92,6 @@ import {ref} from "vue";
 import App from "@/layouts/App.vue";
 import Loader from "@/components/Loader.vue";
 
-const open = ref(false);
+const open = ref(true);
 
 </script>
