@@ -2,13 +2,17 @@ import axios from "axios";
 import { handleError } from "../utilities/GlobalFunctions";
 export class Apiservice {
   constructor() {
+    const userdata = JSON.parse(localStorage.getItem("vuex"));
+  
+    this.token = userdata?.result?.token
     this.baseUrl = process.env.VUE_APP_API_URL;
     this.requestConfig = {};
     this.api_connector = axios.create({
-      baseURL: this.baseUrl,
-      headers: {
-        "Content-Type": "application/json",
-      },
+        baseURL: this.baseUrl,
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${this.token}`,
+        },
     });
   }
 

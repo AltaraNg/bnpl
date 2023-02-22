@@ -50,7 +50,7 @@
                                                     @click="$router.push({ name: 'CreateOrder', params:{phone_number: item.phone_number} })"
                                                     class="border rounded bg-primary px-3 py-2 text-white"
                                                 >
-                                                    Create Order
+                                                    New Sale
                                                 </button>
                                             </td>
                                         </tr>
@@ -78,7 +78,7 @@
                                                     @click="$router.push({ name: 'CreateOrder', params:{phone_number: item.phone_number} })"
                                                     class="border text-xs rounded bg-primary px-3 py-2 text-white"
                                                 >
-                                                    Create Order
+                                                    New Sale
                                     </button>
                                     </div>
                                    

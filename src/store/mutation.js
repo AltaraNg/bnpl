@@ -16,3 +16,6 @@ export const ERROR = (state, error) => {
 export const CUSTOMER_DETAILS = (state, response) => {
     state.Customer = response;
 };
+export const CREATE_CUSTOMER = (state, response) => {
+    state.Customer = response;
+};

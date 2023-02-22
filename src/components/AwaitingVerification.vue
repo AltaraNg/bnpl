@@ -6,7 +6,7 @@
             verifies all
             the information you have provided.</p>
         <button type="button" @click="props.goBack"
-            class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-0 min-w-[250px] justify-center mt-8">Go Back</button>
+            class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm  focus:outline-none focus:ring-0 min-w-[250px] justify-center mt-8">Go Back</button>
     </div>
 </template>
 

@@ -41,7 +41,7 @@
                                         </ul>
                                         <div class="mt-8">
                                             <a :href="tier.href"
-                                                class="inline-block w-full rounded-lg bg-indigo-600 px-4 py-2.5 text-center text-sm font-semibold leading-5 text-white shadow-md hover:bg-indigo-700"
+                                                class="inline-block w-full rounded-lg bg-indigo-600 px-4 py-2.5 text-center text-sm font-semibold leading-5 text-white shadow-md "
                                                 :aria-describedby="tier.id">Continue</a>
                                         </div>
                                     </div>

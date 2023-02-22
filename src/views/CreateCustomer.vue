@@ -1,56 +1,58 @@
 <template>
-  <div class="relative bg-white">
-    <div class="lg:absolute lg:inset-0">
-      <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-        <img class="h-56 w-full object-cover lg:absolute lg:h-full opacity-50" src="../assets/images/market.jpg" alt="" />
-      </div>
-    </div>
-    <div class="relative py-16 px-6 sm:py-24 lg:mx-auto lg:grid lg:max-w-7xl lg:grid-cols-2 lg:px-8 lg:py-16">
-      <div class="lg:pr-8">
-        <div class="mx-auto max-w-md sm:max-w-lg lg:mx-0">
-          <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Let's work together</h2>
+  <div>
+    <App>
+      <div class=" lg:pr-8 py-8 px-6  lg:mx-auto lg:flex flex-col lg:max-w-7xl  ">
+          <div>
+            <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Let's work together</h2>
           <p class="mt-4 text-lg text-gray-500 sm:mt-3">Just one more step to create your first order</p>
+          </div>
+          
           <form  class="mt-9 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
             <div>
               <label for="first-name" class="block text-sm font-medium text-gray-700">First name</label>
               <div class="mt-1">
-                <input type="text" name="first-name" v-model="customerData.firstname" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                <input type="text" name="first-name" v-model="customerData.first_name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
               </div>
             </div>
             <div>
               <label for="last-name" class="block text-sm font-medium text-gray-700">Last name</label>
               <div class="mt-1">
-                <input type="text" name="last-name" id="last-name" v-model="customerData.lastname" autocomplete="family-name" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                <input type="text" name="last-name" id="last-name" v-model="customerData.last_name" autocomplete="family-name" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
               </div>
             </div>
-            <div class="sm:col-span-2">
+            <div >
               <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
               <div class="mt-1">
                 <input id="email" name="email" type="email" v-model="customerData.email" autocomplete="email" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
               </div>
             </div>
-            <div class="sm:col-span-2">
+            <div >
               <label for="home_address" class="block text-sm font-medium text-gray-700">Home Address</label>
               <div class="mt-1">
                 <input type="text" name="home_address" id="home_address" v-model="customerData.home_address" autocomplete="organization" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
               </div>
             </div>
-            <div class="sm:col-span-2">
+            <div >
               <div class="flex justify-between">
-                <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
-                <span id="phone-description" class="text-sm text-gray-500">Optional</span>
+                <label for="telephone" class="block text-sm font-medium text-gray-700">telephone</label>
               </div>
               <div class="mt-1">
-                <input type="text" name="phone" v-model="customerData.phone" id="phone" autocomplete="tel" aria-describedby="phone-description" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                <input type="text" name="telephone" v-model="customerData.telephone" id="phone" autocomplete="tel" aria-describedby="phone-description" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
               </div>
             </div>
-            <div class="sm:col-span-2">
+            <div >
               <label for="date_of_birth" class="block text-sm font-medium text-gray-700">Date of Birth</label>
               <div class="mt-1">
                 <input type="date" name="date_of_birth" v-model="customerData.date_of_birth" id="date_of_birth" autocomplete="organization" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
               </div> 
             </div>
-            <div class="sm:col-span-2">
+            <div >
+              <label for="state" class="block text-sm font-medium text-gray-700">State</label>
+              <div class="mt-1">
+                <input type="text" name="state" id="state" v-model="customerData.state" autocomplete="state" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+              </div>
+            </div>
+            <div >
               <label for="city" class="block text-sm font-medium text-gray-700">City</label>
               <div class="mt-1">
                 <select  name="city" id="city" autocomplete="city" v-model="customerData.city" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" >
@@ -60,26 +62,40 @@
                 </select>
               </div>
             </div>
-            <div class="text-right sm:col-span-2">
-              <defaultButton name=" Create Account" :action="validateData">
+            
+            <div class="text-right  mt-8  lg:flex lg:justify-center  sm:col-span-2">
+              <defaultButton name=" Create Account" :action="validateData" class=" lg:w-1/3">
                             <template v-slot:icon>
                                 <plus />
                             </template>
                         </defaultButton>
             </div>
           </form>
-        </div>
-      </div>
     </div>
+    </App>
+    
   </div>
 </template> 
 <script setup>
 import { ref, reactive } from "vue";
 import plus from "@/assets/svgs/plus.vue"
 import defaultButton from '@/components/button.vue';
-import { useRouter } from "vue-router";
- const router = useRouter()
-     const areas = ref([
+import App from "@/layouts/App.vue";
+import { handleError } from "../utilities/GlobalFunctions"
+import { useStore } from "vuex";
+const store = useStore();
+      const customerData = reactive({
+        first_name:null,
+        last_name:null,
+        email:null,
+        home_address:null,
+        telephone:null,
+        date_of_birth:null,
+        state:null,
+        city:null
+        
+      })
+      const areas = ref([
         {
           value:'Apata',
           name:'Apata, Ibadan'
@@ -146,17 +162,24 @@ import { useRouter } from "vue-router";
         },
         
       ])
-      const customerData = reactive({
-        firstname:null,
-        lastname:null,
-        email:null,
-        home_address:null,
-        phone:null,
-        date_of_birth:null,
-        city:null
-      })
       function validateData(event){
-       router.push({name: 'CreateOrder',  params:{phone_number: '08034441800'}})
+        for(let [key, value] of Object.entries(customerData)){
+          var invalidNumber;
+          if(!value){
+            handleError(`Please enter your ${key}`)
+          }
+          if(customerData.telephone.length !== 11){
+            invalidNumber = true
+            handleError(`Your phone number number must be 11 digits`)
+          }
+            //  
+        }
+        if(Object.values(customerData).every(el => el) && !invalidNumber){
+          alert('halleluyah')
+          store.dispatch("CreateCustomer", customerData); 
+        }
+        
+      
     
          event.preventDefault();
       }

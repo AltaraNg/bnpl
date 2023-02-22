@@ -1,6 +1,6 @@
 import router from "../router";
 import Apis from "../services/ApiCalls.js";
-import {  handleSuccess } from "../utilities/GlobalFunctions";
+import { handleSuccess, handleError } from "../utilities/GlobalFunctions";
 import store from "../store";
 export const Login = ({ commit }, data) => {
   commit("LOADING", true);
@@ -40,4 +40,18 @@ export const CustomerDetails = ({ commit }, data) => {
     })
             commit("CUSTOMER_DETAILS", response);
 
+};
+export const CreateCustomer = ({ commit }, data) => {
+    commit("LOADING", true);
+    Apis.createcustomer(data).then((response) => {
+        if (response) {
+            commit("CREATE_CUSTOMER", response);
+            handleSuccess("Success");
+          router.push({ name: "CreateOrder", params: { phone_number: response?.result?.telephone } });
+            commit("LOADING", false);
+        } else {
+            commit("LOADING", false);
+            handleError("Please try again")
+        }
+    });
 };

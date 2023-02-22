@@ -151,7 +151,7 @@
         </h2>
         <div class="mx-auto mt-4 max-w-6xl px-4 text-lg font-medium leading-6 text-gray-900 sm:px-6 lg:px-8 space-x-4">
           <button type="button" @click="showModal=true"
-            class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-0">Show Modal</button>
+            class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm  focus:outline-none focus:ring-0">Show Modal</button>
           <button type="button" @click="notify()"
             class="inline-flex items-center rounded-md border border-transparent bg-green-600 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-0">Show Notification</button>
           <button type="button" @click="handleError()"
@@ -177,7 +177,7 @@
       </div>
       <div class="mt-5 sm:mt-6">
         <button type="button"
-          class="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-0 sm:text-sm"
+          class="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm  focus:outline-none focus:ring-0 sm:text-sm"
           @click="showModal = false">
           Go back to dashboard
         </button>
