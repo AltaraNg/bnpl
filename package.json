@@ -11,11 +11,13 @@
   "dependencies": {
     "@headlessui/vue": "^1.7.8",
     "@heroicons/vue": "^2.0.14",
+    "@vueuse/core": "^9.13.0",
     "axios": "^1.2.2",
     "core-js": "^3.8.3",
     "pinia": "^2.0.28",
     "register-service-worker": "^1.7.1",
     "vue": "^3.2.45",
+    "vue-currency-input": "^3.0.3",
     "vue-router": "^4.1.6",
     "vuex": "^4.0.2"
   },

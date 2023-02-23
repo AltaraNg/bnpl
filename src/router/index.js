@@ -90,7 +90,7 @@ const router = createRouter({
             component: AllTransactions,
         },
         {
-            path: "/:phone_number/create-order",
+            path: "/:id/create-order",
             name: "CreateOrder",
             component: CreateOrder,
         },

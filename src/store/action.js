@@ -47,11 +47,17 @@ export const CreateCustomer = ({ commit }, data) => {
         if (response) {
             commit("CREATE_CUSTOMER", response);
             handleSuccess("Success");
-          router.push({ name: "CreateOrder", params: { phone_number: response?.result?.telephone } });
+          router.push({ name: "CreateOrder", params: { id: response?.result?.id } });
             commit("LOADING", false);
         } else {
             commit("LOADING", false);
             handleError("Please try again")
         }
     });
+};
+
+export const Calculate = ({ commit }, data) => {
+    commit("LOADING", true);
+   console.log(data, 'action');
+   commit("LOADING", false);
 };

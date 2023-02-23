@@ -4,9 +4,13 @@
       class="w-full flex items-center text-sm justify-center text-white rounded-md border-primary border bg-primary py-2 px-4"
       @click="action"
     >
-      <slot name="icon"></slot>
+     
       <loader v-if="$store.state.status.loading" />
-      <p v-else class="pl-2">{{ name }}</p>
+      <div  v-else class="flex items-center" >
+        <slot name="icon"></slot>
+      <p class="">{{ name }}</p>
+      </div>
+       
     </button>
   </main>
 </template>

@@ -167,15 +167,13 @@ const store = useStore();
           var invalidNumber;
           if(!value){
             handleError(`Please enter your ${key}`)
-          }
-          if(customerData.telephone.length !== 11){
+          }else if(customerData.telephone.length !== 11){
             invalidNumber = true
             handleError(`Your phone number number must be 11 digits`)
           }
-            //  
+             
         }
         if(Object.values(customerData).every(el => el) && !invalidNumber){
-          alert('halleluyah')
           store.dispatch("CreateCustomer", customerData); 
         }
         
