@@ -23,7 +23,7 @@ export default {
                     date: "Jan 3, 2023",
                     verification: {
                         id: 6743235661,
-                        status: "awaiting",
+                        status: "pending",
                     },
                 },
                 {
@@ -74,7 +74,7 @@ export default {
                     date: "Jan 3, 2023",
                     verification: {
                         id: 1852434,
-                        status: "awaiting",
+                        status: "pending",
                     },
                 },
                 {
@@ -148,7 +148,7 @@ export default {
                     date: "Jan 3, 2023",
                     verification: {
                         id: 46556771,
-                        status: "awaiting",
+                        status: "pending",
                     },
                 },
                 {
@@ -183,5 +183,6 @@ export default {
         },
     ],
     Customer:null,
-    CustomerHistory: null
+    CustomerHistory: null,
+    verification:null
 };

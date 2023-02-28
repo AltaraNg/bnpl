@@ -1,4 +1,5 @@
 import { Apiservice } from "./ApiService";
+const verification_id = JSON.parse(localStorage.getItem("credit_check_verification"))?.id;
 const api = new Apiservice();
 
 export default {
@@ -22,5 +23,14 @@ export default {
     },
     downpayments() {
         return api.changeBaseURL(process.env.VUE_APP_URL).get("api/down_payment_rate");
+    },
+    repaymentcycle() {
+        return api.changeBaseURL(process.env.VUE_APP_URL).get("api/repayment_cycle");
+    },
+    initiatecreditcheck(data) {
+        return api.post("initiate/credit/check", data);
+    },
+    verifycreditcheck() {
+        return api.get(`verify/credit/check/${verification_id}`);
     },
 };

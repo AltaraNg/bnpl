@@ -23,7 +23,7 @@
                     <div class="mb-4 w-full block md:hidden">
                         <ArrowLeftIcon class="h-10 w-10 text-primary" aria-hidden="true" @click="goBack" />
                     </div>
-                    <AwaitingVerification v-if="verification_status == 'awaiting'" :goBack="goBack" />
+                    <AwaitingVerification v-if="verification_status == 'pending'" :goBack="goBack" />
                     <FailedVerification v-else-if="verification_status == 'failed'"  :goBack="goBack"/>
                     <SuccessfulVerification v-else />
                 </div>

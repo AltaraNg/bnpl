@@ -3,7 +3,6 @@ import { handleError } from "../utilities/GlobalFunctions";
 export class Apiservice {
   constructor() {
     const userdata = JSON.parse(localStorage.getItem("vuex"));
-  
     this.token = userdata?.result?.token
     this.baseUrl = process.env.VUE_APP_API_URL;
     this.requestConfig = {};
@@ -61,7 +60,6 @@ export class Apiservice {
       this.resetRequestConfig();
     }
   }
-
 
   changeBaseURL(url) {
     this.requestConfig.baseURL = url;

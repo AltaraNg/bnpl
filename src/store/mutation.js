@@ -19,3 +19,7 @@ export const CUSTOMER_DETAILS = (state, response) => {
 export const CREATE_CUSTOMER = (state, response) => {
     state.Customer = response;
 };
+export const CREDIT_CHECK_VERIFICATION = (state, verification) => {
+    state.verification = verification;
+    localStorage.setItem("credit_check_verification", JSON.stringify(verification));
+};
