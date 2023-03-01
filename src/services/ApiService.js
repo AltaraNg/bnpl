@@ -1,5 +1,6 @@
 import axios from "axios";
 import { handleError } from "../utilities/GlobalFunctions";
+import store from "../store";
 export class Apiservice {
   constructor() {
     const userdata = JSON.parse(localStorage.getItem("vuex"));
@@ -25,16 +26,20 @@ export class Apiservice {
     return this;
   }
   async get(url) {
+    store.dispatch("loader/show", { root: true });
     try {
       let result = await this.api_connector.get(url, this.requestConfig);
       this.resetRequestConfig();
+      store.dispatch("loader/hide", { root: true });
       return result;
     } catch (error) {
-      this.handleErrors(error);
+      store.dispatch("loader/hide", { root: true });
+      handleError(error.response.data.message);
     }
   }
 
   async post(url, data, isFormData) {
+    store.dispatch("loader/show", { root: true });
     // handle content type application/json
     let postData = data;
     if (isFormData) {
@@ -54,8 +59,10 @@ export class Apiservice {
         this.requestConfig
       );
       this.resetRequestConfig();
+      store.dispatch("loader/hide", { root: true });
       return result.data;
     } catch (error) {
+      store.dispatch("loader/hide", { root: true });
        handleError(error.response.data.message);
       this.resetRequestConfig();
     }

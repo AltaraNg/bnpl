@@ -3,6 +3,7 @@ import { RouterView } from "vue-router";
 // import NavBar from "./components/Nav.vue";
 // import SideBarMain from './components/SideBarMain.vue'
 import Notification from "@/components/Notification.vue"
+import Loader from "@/components/Loader.vue";
 </script>
 
 <template>
@@ -29,6 +30,7 @@ import Notification from "@/components/Notification.vue"
       />
       </div>
   <Notification />
+  <Loader/>
 </template>
 <style>
 body {

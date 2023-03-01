@@ -7,6 +7,7 @@ export default {
     Customers: [
         {
             name: "Lindsay Walton",
+            id: 36554,
             address: "12 Jon Okon Street, Ilupeju",
             email: "lindsay.walton@example.com",
             phone_number: "08045334455",
@@ -58,6 +59,7 @@ export default {
         },
         {
             name: "Lindsay Walton",
+            id: 19554,
             address: "12 Jon Okon Street, Ilupeju",
             email: "lindsay.walton@example.com",
             phone_number: "09034441899",
@@ -109,6 +111,7 @@ export default {
         },
         {
             name: "Lindsay Walton",
+            id: 87644,
             address: "12 Jon Okon Street, Ilupeju",
             email: "lindsay.walton@example.com",
             phone_number: "09866554455",
@@ -132,6 +135,7 @@ export default {
         },
         {
             name: "Lindsay Walton",
+            id: 18765,
             address: "12 Jon Okon Street, Ilupeju",
             email: "lindsay.walton@example.com",
             phone_number: "07044554433",
@@ -182,7 +186,7 @@ export default {
             ],
         },
     ],
-    Customer:null,
+    Customer: null,
     CustomerHistory: null,
-    verification:null
+    verification: null,
 };

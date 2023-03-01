@@ -33,4 +33,10 @@ export default {
     verifycreditcheck() {
         return api.get(`verify/credit/check/${verification_id}`);
     },
+    allcustomers() {
+        return api.get("customers");
+    },
+    customerdetails(phone_number){
+        return api.get(`customers/${phone_number}`);
+    }
 };

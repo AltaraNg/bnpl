@@ -6,12 +6,14 @@ import state from "./state";
 import * as actions from "./action";
 import * as mutations from "./mutation";
 import notification from "./notification";
+import { loader } from "./loader";
 
 // vue.use(Vuex);
 
 export default new Vuex.Store({
     modules: {
         notification,
+        loader,
     },
     state,
     mutations,

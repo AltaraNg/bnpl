@@ -1,35 +1,36 @@
 <template>
     <div class="lg:p-5 p-6 text-gray-800">
-          <div class="mb-4 w-full block cursor-pointer">
+          <div class="mb-2 w-full block cursor-pointer">
                         <ArrowLeftIcon class="h-10 w-10 text-indigo-600" aria-hidden="true" @click="goBack" />
                     </div>
-            <div class="lg:px-8 py-4 lg:mb-5">
+            <div class="lg:px-8 py-4 lg:py-0 lg:mb-5">
                 <div class="lg:space-x-6 space-x-0 lg:flex-row flex flex-col lg:justify-center lg:items-center">
                     <span class="inline-flex h-24 w-24 items-center justify-center rounded-full bg-gray-500">
-                        <span class="text-4xl font-medium leading-none text-white">{{ Customer.name.charAt(0) }}</span>
+                        <span class="text-4xl font-medium leading-none text-white">{{ Customer.first_name.charAt(0)+""+Customer.last_name.charAt(0) }}</span>
                     </span>
-                    <p class="text-4xl font-semibold mt-2 text-gray-800">{{ Customer.name }}</p>
+                    <p class="text-4xl font-semibold mt-2 text-gray-800">{{ Customer.first_name + " " + Customer.last_name }}</p>
                 </div>
                 <div class="flex flex-col lg:items-center lg:justify-between lg:flex-row">
                     <div>
                         <p class="font-semibold mt-2">j{{ Customer.email }}</p>
-                        <p class="font-semibold mt-2">{{ Customer.phone_number }}</p>
+                        <p class="font-semibold mt-2">{{ Customer.telephone }}</p>
                     </div>
                     <div>
-                        <p class="font-semibold mt-2">{{ Customer.address }}</p>
-                        <p class="font-medium text-gray-500 mt-2">Joined December 6, 2018</p>
+                        <p class="font-semibold mt-2">{{ Customer.area_address }}</p>
+                        <p class="font-medium text-gray-500 mt-2">Joined {{ Customer.date_of_registration.split(' ')[0] }}</p>
                     </div>
                     <button
-                        @click="$router.push({ name: 'CreateOrder', params:{phone_number: Customer.phone_number} })"
                         type="button"
                         class="inline-flex items-center rounded-md border border-transparent bg-primary p-3 text-base font-medium leading-4 text-white shadow-sm focus:outline-none focus:ring-0 justify-center mt-4 w-full lg:w-fit"
+                        @click="$router.push({ name: 'CreateOrder', params: { id: Customer.id } })"
                     >
                         <plus  />
                         New Sale
                     </button>
                 </div>
             </div>
-            <div class="lg:hidden">
+            <div v-if="Customer.orders.length > 0">
+                 <div class="lg:hidden">
                 <div class="overflow-hidden bg-white px-4 lg:px-8 pb-6">
                     <div class="relative mx-auto max-w-xl">
                         <svg
@@ -67,7 +68,7 @@
 
                             <div class="text-left w-full mt-6 text-gray-600 text-lg font-medium">Transactions:</div>
                             <OrderDetails
-                                v-for="item in CustomerHistory"
+                                v-for="item in Customer.orders"
                                 :orderDetails="item"
                                 :key="item.productName"
                                 @click="VerificationStatus(item)"
@@ -89,7 +90,7 @@
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Date</th>
                     </template>
                     <template #default>
-                        <tr v-for="history in CustomerHistory" class="cursor-pointer" :key="history.id" @click="VerificationStatus(history)">
+                        <tr v-for="history in Customer.orders" class="cursor-pointer" :key="history.id" @click="VerificationStatus(history)">
                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                                 <div class="flex flex-col items-start">
                                     <div class="font-medium text-gray-900 mb-1">{{ history.productName }}</div>
@@ -112,26 +113,30 @@
                     </template>
                 </TableVue>
             </div>
+            </div>
+            <div v-else class="flex items-center justify-center mt-6 lg:mt-16 flex-col">
+                <zerostate/>
+                <p class="text-gray-800 lg:text-2xl mb-0.5">This customer's has no sales</p>
+                            <p class="text-gray-500 text-xs lg:text-normal mb-6">You can create a new sale by clicking New Sale</p>
+            </div>
+           
         </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref , onBeforeMount} from "vue";
 // import SideModal from "@/components/SideModal.vue";
 import OrderDetails from "@/components/OrderDetails.vue";
 import { useRoute, useRouter } from "vue-router";
-import { useStore } from "vuex";
-import { computed } from "vue";
 import plus from "@/assets/svgs/plus.vue";
 import { ArrowLeftIcon } from "@heroicons/vue/24/solid";
 import TableVue from "@/components/Table.vue";
+import zerostate from "@/assets/svgs/zerostate.vue";
 import {goBack} from "@/utilities/GlobalFunctions"
-const store = useStore();
+import Apis from "@/services/ApiCalls";
 const route = useRoute();
  const router = useRouter()
-store.dispatch("CustomerDetails", route.params.phone_number);
-const Customer = computed(() => store.state.Customer);
-const CustomerHistory = ref(Customer.value.history);
+const Customer = ref();
 
 function VerificationStatus(history) {
     router.push({ name: "Verification", params: { verification_id: history.verification.id,verification_status: history.verification.status } });
@@ -139,7 +144,7 @@ function VerificationStatus(history) {
 function ColorStatus(history) {
     let color = "";
     switch (history.verification.status) {
-        case "awaiting":
+        case "pending":
             color = "bg-yellow-100  text-yellow-800";
             break;
         case "failed":
@@ -153,5 +158,12 @@ function ColorStatus(history) {
     }
     return color;
 }
+    async function CustomerDetails() {
+    const result = await Apis.customerdetails(route.params.phone_number);
+    Customer.value = result?.data?.result
+}
+  onBeforeMount(() => {
+    CustomerDetails()
+});
 
 </script>

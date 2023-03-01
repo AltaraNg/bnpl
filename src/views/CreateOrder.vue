@@ -67,8 +67,9 @@
                             </select>
                         </div>
                     </div>
-                    <div>
-                        <p class="mb-5 text-gray-800 font-bold">First Guarantor</p>
+                   
+                    <div   class="p-5 lg:py-8 lg:mt-6 rounded shadow-sm bg-gray-200">
+                        <p class="mb-4 text-gray-800 font-bold">First Guarantor</p>
                         <div>
                             <label for="guarantor_1" class="block text-sm font-medium text-gray-700">Full Name</label>
                             <div class="mt-1">
@@ -109,8 +110,8 @@
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <p class="mb-5 text-gray-800 font-bold">Second Guarantor</p>
+                    <div class="p-5 lg:mt-6 lg:py-8 rounded shadow-sm bg-gray-200">
+                        <p class="mb-4 text-gray-800 font-bold">Second Guarantor</p>
                         <div>
                             <label for="guarantor_2" class="block text-sm font-medium text-gray-700">Full Name</label>
                             <div class="mt-1">
@@ -151,6 +152,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="text-right mt-8 lg:flex lg:justify-center sm:col-span-2">
                         <defaultButton name=" New Sale" :action="NewSale" class="lg:w-1/3">
                             <template v-slot:icon>
