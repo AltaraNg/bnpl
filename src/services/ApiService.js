@@ -34,7 +34,7 @@ export class Apiservice {
       return result;
     } catch (error) {
       store.dispatch("loader/hide", { root: true });
-      handleError(error.response.data.message);
+      handleError(error?.response?.data?.message);
     }
   }
 

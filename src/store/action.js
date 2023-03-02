@@ -65,13 +65,3 @@ export const InitiateCreditCheck = ({ commit }, data) => {
     });
 };
 
-//  setInterval(() => {
-//      const res = Apis.verifycreditcheck().then((verification_status) => {
-//          console.log(verification_status);
-//          const status = verification_status.data.result.status;
-//          console.log(verification_status);
-
-//          console.log(status);
-//      });
-//      console.log(res);
-//  }, 0.5 * 30 * 1000);

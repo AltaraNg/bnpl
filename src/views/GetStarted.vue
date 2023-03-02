@@ -133,7 +133,6 @@ const FindCustomer = () => {
         return customer.telephone.includes(phone_number.value);
     });
     return phone_number.value ? FilteredCustomer.value : Customers.value?.slice(0, 3);
-    // console.log( FilteredCustomer, phone_number.value)
 };
 const DisplayCustomer = computed(() => {
     return phone_number.value ? FilteredCustomer.value : Customers.value?.slice(0, 3);

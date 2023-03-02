@@ -229,9 +229,7 @@ function Calculate() {
         OrderResult.value.total = total;
         OrderResult.value.actualDownpayment = actualDownpayment;
         OrderResult.value.rePayment = rePayment;
-        // console.log(OrderResult.total, OrderResult.actualDownpayment, OrderResult.rePayment);
     } catch (e) {
-        console.log(e);
         window.localStorage.removeItem("data");
     }
 }
