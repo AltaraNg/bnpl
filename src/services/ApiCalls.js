@@ -13,21 +13,20 @@ export default {
         return api.post("customers", data);
     },
     repaymentduration() {
-        return api.changeBaseURL(process.env.VUE_CONTROL_API_URL).get("api/repayment_duration");
+        return api.changeBaseURL(process.env.VUE_APP_CONTROL_API_URL).get("api/repayment_duration");
     },
     businesstype() {
-        console.log(process.env.VUE_CONTROL_API_URL);
-        return api.changeBaseURL(process.env.VUE_CONTROL_API_URL).get("api/business_type");
+        return api.changeBaseURL(process.env.VUE_APP_CONTROL_API_URL).get("api/business_type");
         
     },
     getcalculations() {
-        return api.changeBaseURL(process.env.VUE_CONTROL_API_URL).get("api/price_calculator");
+        return api.changeBaseURL(process.env.VUE_APP_CONTROL_API_URL).get("api/price_calculator");
     },
     downpayments() {
-        return api.changeBaseURL(process.env.VUE_CONTROL_API_URL).get("api/down_payment_rate");
+        return api.changeBaseURL(process.env.VUE_APP_CONTROL_API_URL).get("api/down_payment_rate");
     },
     repaymentcycle() {
-        return api.changeBaseURL(process.env.VUE_CONTROL_API_URL).get("api/repayment_cycle");
+        return api.changeBaseURL(process.env.VUE_APP_CONTROL_API_URL).get("api/repayment_cycle");
     },
     initiatecreditcheck(data) {
         return api.post("initiate/credit/check", data);
