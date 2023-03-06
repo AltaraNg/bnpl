@@ -21,6 +21,9 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
+    - name: Print environment variables
+      run: env
+
     - name: Run tests
       run: |
         echo "base_ref: ${GITHUB_BASE_REF}"
