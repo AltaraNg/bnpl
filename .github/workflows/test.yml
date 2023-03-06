@@ -6,6 +6,7 @@ on:
     types: [opened, synchronize, reopened]
     paths:
       - '**.js'
+      - '**.vue'
 
 jobs:
   test:
