@@ -24,19 +24,8 @@ jobs:
     - name: Print environment variables
       run: env
 
-    - name: Run tests
-      run: |
-        echo "base_ref: ${GITHUB_BASE_REF}"
-        echo "sha: ${GITHUB_SHA}"
-        echo "base_sha: ${GITHUB_EVENT_PULL_REQUEST_BASE_SHA}"
-        if [ "${{ github.base_ref }}" = "refs/heads/staging" ]; then
-          echo "Skipping tests"
-        elif [ "${{ github.event_name }}" = "pull_request" ] && git diff --name-only "${{ github.event.pull_request.base.sha }}..${{ github.sha }}" | grep --quiet ".*\\.vue$"; then
-          echo "Vue files changed:"
-          git diff --name-only "${{ github.event.pull_request.base.sha }}..${{ github.sha }}" | grep ".*\\.vue$"
-          npm run test
-        else
-          echo "No tests to run"
-        fi
+    - name: Run Tests
+        if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.changed_files, 'src/**/*.js') || contains(github.event.pull_request.changed_files, 'src/**/*.vue') && github.event.pull_request.base.ref != 'staging' }}
+        run: npm test
 
 
