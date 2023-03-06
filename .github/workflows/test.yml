@@ -31,5 +31,5 @@ jobs:
       run: env
 
     - name: Run Tests
-      if: ${{ !contains(run: echo $(git log --format=%B -n 1), "Merge branch 'staging' into") }}
+      if: "!contains(github.event.head_commit.message, 'Merge branch ''staging'' into')"
       run: npm run test:unit
