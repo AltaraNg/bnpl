@@ -26,6 +26,8 @@ jobs:
 
     - name: Run Tests
       run: |
+        echo ${{ github.event.pull_request.changed_files }}
+        echo ${{ github.base_ref }}
         if [ "${{ github.base_ref }}" = "refs/heads/staging" ]; then
           echo "Skipping tests"
         elif ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.changed_files, 'src/**/*.js') || contains(github.event.pull_request.changed_files, 'src/**/*.vue') }}; then
