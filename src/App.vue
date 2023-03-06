@@ -1,7 +1,5 @@
 <script setup>
 import { RouterView } from "vue-router";
-// import NavBar from "./components/Nav.vue";
-// import SideBarMain from './components/SideBarMain.vue'
 import Notification from "@/components/Notification.vue"
 </script>
 
@@ -20,7 +18,7 @@ import Notification from "@/components/Notification.vue"
         :class="!$route.meta.noAuth ? 'lg:w-full overflow-hiden' : 'w-full'"
       />
       </div>
-      
+
     </div>
   </div> -->
  <div class="flex items-center w-full   justify-center">
