@@ -1,0 +1,26 @@
+name: Unit Test Checks
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  npm_unit_test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [15.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 15.1
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+      - name: Check if files have changed
+        id: check_changes
+        run: echo ::set-output name=files_changed::$(if [ "$(git diff-tree --no-commit-id --name-only -r ${{ github.event.pull_request.head.sha }} | grep -E '^(services\/api|frontend)\/')" == "" ]; then echo "false"; else echo "true"; fi)
+      - name: NPM Unit Tests
+        if: steps.check_changes.outputs.files_changed == 'true' && github.head_ref != 'master'
+        run: |
+          npm install
+          npm run test:unit
