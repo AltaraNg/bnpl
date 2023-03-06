@@ -23,12 +23,14 @@ jobs:
 
     - name: Run tests
       run: |
-        git diff --name-only --diff-filter=MA "${{ github.event.pull_request.base.sha }}..${{ github.sha }}" | grep ".*\\.vue$"
+        echo "base_ref: ${GITHUB_BASE_REF}"
+        echo "sha: ${GITHUB_SHA}"
+        echo "base_sha: ${GITHUB_EVENT_PULL_REQUEST_BASE_SHA}"
         if [ "${{ github.base_ref }}" = "refs/heads/staging" ]; then
           echo "Skipping tests"
-        elif [ "${{ github.event_name }}" = "pull_request" ] && git diff --name-only --diff-filter=MA "${{ github.event.pull_request.base.sha }}..${{ github.sha }}" | grep --quiet ".*\\.vue$"; then
+        elif [ "${{ github.event_name }}" = "pull_request" ] && git diff --name-only "${{ github.event.pull_request.base.sha }}..${{ github.sha }}" | grep --quiet ".*\\.vue$"; then
           echo "Vue files changed:"
-          git diff --name-only --diff-filter=MA "${{ github.event.pull_request.base.sha }}..${{ github.sha }}" | grep ".*\\.vue$"
+          git diff --name-only "${{ github.event.pull_request.base.sha }}..${{ github.sha }}" | grep ".*\\.vue$"
           npm run test
         else
           echo "No tests to run"
