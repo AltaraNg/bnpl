@@ -41,7 +41,7 @@ jobs:
         echo ${{ contains(github.event.pull_request.changed_files, 'src/**/*.vue') }}
         echo ${{ github.base_ref }}
         echo ${{ github.event.pull_request.base.ref }}
-        if ${{ !contains(run: echo $(git log --format=%B -n 1), "Merge branch 'staging' into") }}
+        if ${{ !contains(run: echo $(git log --format=%B -n 1), "Merge branch 'staging' into") }}; then
           echo "I'm good to run"
         else
           echo "Nope stand still"
