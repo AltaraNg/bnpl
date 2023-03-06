@@ -30,6 +30,7 @@ jobs:
     - name: Run Tests
       run: |
         echo "Helloooo, kkkkkkkkk"
+        echo $(git log --format=%B -n 1 ${{ github.event.pull_request.head.sha }})
         echo ${{ join(github.event.commits.*.message) }}
         echo ${{ github.event.pull_request.head.ref }}
         echo ${{ github.event.pull_request.base.ref }}
