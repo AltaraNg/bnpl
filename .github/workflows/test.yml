@@ -26,7 +26,8 @@ jobs:
 
     - name: Run Tests
       run: |
-        echo ${{ github.event.pull_request }}
+        echo ${{ github.event.pull_request.head.ref }}
+        echo ${{ github.event.pull_request.base.ref }}
         echo ${{ github.event.pull_request.changed_files }}
         echo ${{ contains(github.event.pull_request.changed_files, 'src/**/*.vue') }}
         echo ${{ github.base_ref }}
