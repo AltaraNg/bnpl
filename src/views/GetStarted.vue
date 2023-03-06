@@ -41,7 +41,7 @@
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500" @click="SeeMore(item)">
                                                 <span
                                                     class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800"
-                                                    >New</span
+                                                    >{{ UserStatus(item) }}</span
                                                 >
                                             </td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500" @click="SeeMore(item)">
@@ -51,6 +51,7 @@
                                                 <button
                                                     @click="$router.push({ name: 'CreateOrder', params: { id: item.id } })"
                                                     class="border rounded bg-primary px-3 py-2 text-white"
+                                                    :class="hideNewSale(item)"
                                                 >
                                                     New Sale
                                                 </button>
@@ -65,11 +66,9 @@
                                     :key="item.email"
                                     class="rounded-lg bg-white p-4 flex items-center gap-2 shadow-lg"
                                 >
-                                    <img
-                                        class="inline-block h-12 w-12 rounded-full"
-                                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                        alt=""
-                                    />
+                                  <div class="h-10 w-10 flex-shrink-0 bg-purple-300 rounded-full flex items-center justify-center">
+                                                        <p class=" font-bold  ">{{ item.first_name.charAt(0)+""+item.last_name.charAt(0) }}</p>
+                                                    </div>
                                     <div class="items-center flex justify-between w-full">
                                         <div class="flex-1" @click="SeeMore(item)">
                                             <p class="text-lg font-semibold">{{ item.first_name }} {{ item.last_name }}</p>
@@ -78,6 +77,7 @@
                                         <button
                                             @click="$router.push({ name: 'CreateOrder', params: { id: item.id } })"
                                             class="border text-xs rounded bg-primary px-3 py-2 text-white"
+                                            :class="hideNewSale(item)"
                                         >
                                             New Sale
                                         </button>
@@ -113,14 +113,16 @@ import zerostate from "@/assets/svgs/zerostate.vue";
 import plus from "@/assets/svgs/plus.vue";
 import { ref, onBeforeMount, computed,   } from "vue";
 import { useRouter } from "vue-router";
-// import { useStore } from "vuex";
+import { useStore } from "vuex";
 import Apis from "@/services/ApiCalls";
 const router = useRouter();
+const store = useStore()
 const Customers = ref(undefined);
 const phone_number = ref();
 const FilteredCustomer = ref();
 
 const SeeMore = (item) => {
+    store.state.CustomerPhoneNumber = item.telephone
     router.push({ name: "CustomerDetails", params: { phone_number: item.telephone } });
 };
 function SearchPhoneNumber(phoneNumber) {
@@ -128,12 +130,28 @@ function SearchPhoneNumber(phoneNumber) {
     
     FindCustomer();
 }
-const FindCustomer = () => {
-    FilteredCustomer.value = Customers.value.filter((customer) => {
-        return customer.telephone.includes(phone_number.value);
-    });
+const FindCustomer = async() => {
+    const result = await Apis.searchcustomer(phone_number.value);
+    FilteredCustomer.value = result.data.result.customers.data
     return phone_number.value ? FilteredCustomer.value : Customers.value?.slice(0, 3);
 };
+function hideNewSale(customer){
+  const pending =  customer.orders.some((order)=> order.status_id == 3)
+  return  (customer?.latest_credit_checker_verifications?.status == "pending" || pending ) ? "hidden": "block"
+
+}
+
+ function UserStatus(customer) {
+  if(hideNewSale(customer) == "hidden"){
+    return 'Pending'
+  }
+  if(hideNewSale(customer) == "block" && customer.orders.length==0 && !customer?.latest_credit_checker_verifications ){
+    return 'New'
+  }
+  if(hideNewSale(customer) == "block" && (customer.orders.length!==0 || customer?.latest_credit_checker_verifications == 'approved' )){
+    return 'Approved'
+  }
+}
 const DisplayCustomer = computed(() => {
     return phone_number.value ? FilteredCustomer.value : Customers.value?.slice(0, 3);
 });
