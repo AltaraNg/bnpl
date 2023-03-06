@@ -1,0 +1,42 @@
+name: Run tests
+
+on:
+  pull_request:
+    branches:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '15.x'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Print environment variables
+      run: env
+
+    - name: Run tests
+      run: |
+        echo "base_ref: ${GITHUB_BASE_REF}"
+        echo "sha: ${GITHUB_SHA}"
+        echo "base_sha: ${GITHUB_EVENT_PULL_REQUEST_BASE_SHA}"
+        if [ "${{ github.base_ref }}" = "refs/heads/staging" ]; then
+          echo "Skipping tests"
+        elif [ "${{ github.event_name }}" = "pull_request" ] && git diff --name-only "${{ github.event.pull_request.base.sha }}..${{ github.sha }}" | grep --quiet ".*\\.vue$"; then
+          echo "Vue files changed:"
+          git diff --name-only "${{ github.event.pull_request.base.sha }}..${{ github.sha }}" | grep ".*\\.vue$"
+          npm run test
+        else
+          echo "No tests to run"
+        fi
+
+
