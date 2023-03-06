@@ -11,8 +11,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    outputs:
-      head-commit-message: ${{ steps.get_head_commit_message.outputs.headCommitMsg }}
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
 
     steps:
     - name: Checkout code
@@ -29,14 +28,9 @@ jobs:
     - name: Print environment variables
       run: env
 
-    - name: Print head git commit message
-      id: get_head_commit_message
-      run: echo "::set-output name=headCommitMsg::$(git show -s --format=%s)"
-
     - name: Run Tests
       run: |
         echo "Helloooo, kkkkkkkkk"
-        echo ${{ needs.check_skip_flags.outputs.head-commit-message }}
         echo ${{ github.event.head_commit.message }}
         echo ${{ github.event.pull_request.head.ref }}
         echo ${{ github.event.pull_request.base.ref }}
