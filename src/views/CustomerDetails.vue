@@ -253,8 +253,11 @@ function ColorStatus(status) {
         case "pending":
             color = "bg-yellow-100  text-yellow-800";
             break;
-        case "approved":
+        case "passed":
             color = "bg-green-100  text-green-800";
+            break;
+            case "failed":
+            color = "bg-red-100  text-red-800";
             break;
         default:
             color = "bg-gray-100 ";
@@ -280,7 +283,7 @@ function orderStatus(history) {
 }
 function hideNewSale(customer) {
     const pending = customer.orders.some((order) => order.status_id == 3);
-    return customer?.latest_credit_checker_verifications?.status == "pending" || pending ? "hidden" : "block";
+    return customer?.latest_credit_checker_verifications || pending ? "hidden" : "block";
 }
 
 async function CustomerDetails() {

@@ -133,11 +133,11 @@ function SearchPhoneNumber(phoneNumber) {
 const FindCustomer = async() => {
     const result = await Apis.searchcustomer(phone_number.value);
     FilteredCustomer.value = result.data.result.customers.data
-    return phone_number.value ? FilteredCustomer.value : Customers.value?.slice(0, 3);
+    return phone_number.value ? FilteredCustomer.value : Customers.value?.slice(0, 10);
 };
 function hideNewSale(customer){
   const pending =  customer.orders.some((order)=> order.status_id == 3)
-  return  (customer?.latest_credit_checker_verifications?.status == "pending" || pending ) ? "hidden": "block"
+  return  (customer?.latest_credit_checker_verifications || pending ) ? "hidden": "block"
 
 }
 
@@ -153,11 +153,12 @@ function hideNewSale(customer){
   }
 }
 const DisplayCustomer = computed(() => {
-    return phone_number.value ? FilteredCustomer.value : Customers.value?.slice(0, 3);
+    return phone_number.value ? FilteredCustomer.value : Customers.value?.slice(0, 10);
 });
     async function AllCustomers() {
-    const result = await Apis.allcustomers();
+    let result = await Apis.allcustomers();
     Customers.value = result?.data.result.customers.data
+
 }
   onBeforeMount(() => {
     AllCustomers()

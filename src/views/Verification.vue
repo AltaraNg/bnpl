@@ -38,7 +38,7 @@
                     </div>
                     <AwaitingVerification v-if="verification_status == 'pending'" :goBack="goBack" />
                     <FailedVerification v-else-if="verification_status == 'failed'" :goBack="goBack" />
-                    <SuccessfulVerification v-else />
+                    <SuccessfulVerification  v-if="verification_status == 'passed'" />
                 </div>
             </div>
         </div>
@@ -54,20 +54,22 @@ import AwaitingVerification from "@/components/AwaitingVerification.vue";
 import FailedVerification from "@/components/FailedVerification.vue";
 import SuccessfulVerification from "@/components/SuccessfulVerification.vue";
 import { ArrowLeftIcon } from "@heroicons/vue/24/solid";
-import { useRoute } from "vue-router";
+import { useRoute,useRouter  } from "vue-router";
 import Apis from "@/services/ApiCalls";
 import { goBack } from "@/utilities/GlobalFunctions";
 const open = ref(false);
 const route = useRoute();
+const router = useRouter();
 const verification_status = route.params.verification_status;
+const verification_id = route.params.verification_id;
 const res = ref();
-
 function VerifyCreditCheck() {
     res.value = setInterval(() => {
-        Apis.verifycreditcheck().then((verification_status) => {
+        Apis.verifycreditcheck(verification_id).then((verification_status) => {
             const status = verification_status.data.result.status;
-            if (status == "verified") {
+            if (status == "passed") {
                 clearInterval(res.value);
+                router.push({ name: "Verification", params: { verification_id: verification_id, verification_status: "passed"} });
             }            
         });
     }, 0.5 * 30 * 1000);

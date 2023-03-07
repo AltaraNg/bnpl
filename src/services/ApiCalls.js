@@ -1,5 +1,4 @@
 import { Apiservice } from "./ApiService";
-const verification_id = JSON.parse(localStorage.getItem("credit_check_verification"))?.id;
 const api = new Apiservice();
 
 export default {
@@ -17,7 +16,6 @@ export default {
     },
     businesstype() {
         return api.changeBaseURL(process.env.VUE_APP_CONTROL_API_URL).get("api/business_type");
-        
     },
     getcalculations() {
         return api.changeBaseURL(process.env.VUE_APP_CONTROL_API_URL).get("api/price_calculator");
@@ -31,17 +29,16 @@ export default {
     initiatecreditcheck(data) {
         return api.post("initiate/credit/check", data);
     },
-    verifycreditcheck() {
-        return api.get(`verify/credit/check/${verification_id}`);
+    verifycreditcheck(verification_id) {
+        return api.getWithoutLoader(`verify/credit/check/${verification_id}`);
     },
     allcustomers() {
         return api.get("customers");
     },
-    customerdetails(phone_number){
-         return api.get(`customers/${phone_number}`);
+    customerdetails(phone_number) {
+        return api.get(`customers/${phone_number}`);
     },
-    searchcustomer(phone_number){
-         return api.get(`customers?telephone=${phone_number}`);
-    }
-
+    searchcustomer(phone_number) {
+        return api.get(`customers?telephone=${phone_number}`);
+    },
 };

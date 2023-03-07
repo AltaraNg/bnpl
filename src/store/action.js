@@ -52,6 +52,7 @@ export const VerifyCreditCheck = ({ commit }) => {
 export const InitiateCreditCheck = ({ commit }, data) => {
     Apis.initiatecreditcheck(data).then((response) => {
         if (response) {
+            handleSuccess("Success");
             commit("CREDIT_CHECK_VERIFICATION", response.result.credit_check_verification);
             router.push({
                 name: "Verification",
@@ -60,7 +61,7 @@ export const InitiateCreditCheck = ({ commit }, data) => {
                     verification_status: response.result.credit_check_verification.status,
                 },
             });
-            handleSuccess("Success");
+            
         } 
     });
 };

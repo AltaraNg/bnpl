@@ -1,6 +1,6 @@
 <template>
     <div class="grid grid-cols-1 justify-items-center bg-green-400p py-8">
-        <img src="/img/verification.png" alt="verification" class="max-w-[250px]">
+        <img src="../assets/images/waiting.gif" alt="verification" class="max-w-[250px]">
         <p class="text-3xl">Awaiting Verification</p>
         <p class="my-8 text-gray-600 text-center max-w-[90%]">Thank you for submitting your loan application. Your request is currently being reviewed and processed. We appreciate your patience while our team
             verifies all
