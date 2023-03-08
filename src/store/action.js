@@ -58,6 +58,7 @@ export const InitiateCreditCheck = ({ commit }, data) => {
                 name: "Verification",
                 params: {
                     verification_id: response.result.credit_check_verification.id,
+                    phone_number: response.result.telephone,
                     verification_status: response.result.credit_check_verification.status,
                 },
             });

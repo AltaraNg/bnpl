@@ -11,6 +11,7 @@ import AllOrders from "@/views/AllOrders.vue";
 import AllTransactions from "../views/AllTransactions.vue"
 import CreateCustomer from "../views/CreateCustomer.vue";
 import CreateOrder from '../views/CreateOrder.vue'
+import SuccessfulVerification from "@/views/SuccessfulVerification.vue";
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes: [
@@ -70,9 +71,14 @@ const router = createRouter({
             },
         },
         {
-            path: "/verification/:verification_id/:verification_status",
+            path: "/verification/:phone_number/:verification_id/:verification_status",
             name: "Verification",
             component: Verification,
+        },  
+        {
+            path: "/success/:phone_number/:verification_id",
+            name: "SuccessfulVerification",
+            component: SuccessfulVerification,
         },
         {
             path: "/:phone_number/customer-details",

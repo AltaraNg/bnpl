@@ -40,7 +40,7 @@
                             <div class="text-left w-full mt-6 text-gray-600 text-lg font-medium">Pending Verification:</div>
                             <div
                                 class="flex flex-col rounded-3xl bg-white shadow-xl ring-1 ring-black/10 p-8 w-full mt-2"
-                                @click="VerificationStatus(Customer.latest_credit_checker_verifications)"
+                                @click="VerificationStatus(Customer)"
                             >
                                 <div class="flex items=center justify-between">
                                     <p class="text-base font-semibold leading-8 tracking-tight text-indigo-600">Details</p>
@@ -92,7 +92,7 @@
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Date</th>
                     </template>
                     <template #default>
-                        <tr class="cursor-pointer" @click="VerificationStatus(Customer.latest_credit_checker_verifications)">
+                        <tr class="cursor-pointer" @click="VerificationStatus(Customer)">
                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                                 <div class="flex flex-col items-start">
                                     <div class="font-medium text-gray-900 mb-1">
@@ -235,8 +235,8 @@ const router = useRouter();
 const Customer = ref(undefined);
 const loading = ref(true);
 
-function VerificationStatus(verification) {
-    router.push({ name: "Verification", params: { verification_id: verification.id, verification_status: verification.status } });
+function VerificationStatus(customer) {
+    router.push({ name: "Verification", params: { verification_id: customer.latest_credit_checker_verifications.id, verification_status: customer.latest_credit_checker_verifications.status, phone_number:customer.telephone } });
 }
 function ColorStatus(status) {
     let color = "";

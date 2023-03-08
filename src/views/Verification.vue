@@ -37,8 +37,7 @@
                         <ArrowLeftIcon class="h-10 w-10 text-primary" aria-hidden="true" @click="goBack" />
                     </div>
                     <AwaitingVerification v-if="verification_status == 'pending'" :goBack="goBack" />
-                    <FailedVerification v-else-if="verification_status == 'failed'" :goBack="goBack" />
-                    <SuccessfulVerification  v-if="verification_status == 'passed'" />
+                    <FailedVerification v-if="verification_status == 'failed'" :goBack="goBack" />
                 </div>
             </div>
         </div>
@@ -49,12 +48,10 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
 import App from "@/layouts/App.vue";
-import Loader from "@/components/Loader.vue";
 import AwaitingVerification from "@/components/AwaitingVerification.vue";
 import FailedVerification from "@/components/FailedVerification.vue";
-import SuccessfulVerification from "@/components/SuccessfulVerification.vue";
 import { ArrowLeftIcon } from "@heroicons/vue/24/solid";
-import { useRoute,useRouter  } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import Apis from "@/services/ApiCalls";
 import { goBack } from "@/utilities/GlobalFunctions";
 const open = ref(false);
@@ -62,15 +59,16 @@ const route = useRoute();
 const router = useRouter();
 const verification_status = route.params.verification_status;
 const verification_id = route.params.verification_id;
+const phone_number = route.params.phone_number;
 const res = ref();
 function VerifyCreditCheck() {
     res.value = setInterval(() => {
         Apis.verifycreditcheck(verification_id).then((verification_status) => {
             const status = verification_status.data.result.status;
             if (status == "passed") {
+                router.push({ name: "Verification", params: { verification_id: verification_id, phone_number: phone_number } });
                 clearInterval(res.value);
-                router.push({ name: "Verification", params: { verification_id: verification_id, verification_status: "passed"} });
-            }            
+            }
         });
     }, 0.5 * 30 * 1000);
 }
