@@ -4,6 +4,9 @@ on:
   pull_request:
     branches:
     types: [opened, synchronize, reopened]
+    paths:
+      - '**.js'
+      - '**.vue'
 
 jobs:
   test:
@@ -12,6 +15,9 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+      with:
+        repository: ${{ github.event.pull_request.head.repo.full_name }}
+        ref: ${{ github.event.pull_request.head.ref }}
 
     - name: Setup Node.js
       uses: actions/setup-node@v2
@@ -24,19 +30,12 @@ jobs:
     - name: Print environment variables
       run: env
 
-    - name: Run tests
+    - name: Run Tests
       run: |
-        echo "base_ref: ${GITHUB_BASE_REF}"
-        echo "sha: ${GITHUB_SHA}"
-        echo "base_sha: ${GITHUB_EVENT_PULL_REQUEST_BASE_SHA}"
-        if [ "${{ github.base_ref }}" = "refs/heads/staging" ]; then
-          echo "Skipping tests"
-        elif [ "${{ github.event_name }}" = "pull_request" ] && git diff --name-only "${{ github.event.pull_request.base.sha }}..${{ github.sha }}" | grep --quiet ".*\\.vue$"; then
-          echo "Vue files changed:"
-          git diff --name-only "${{ github.event.pull_request.base.sha }}..${{ github.sha }}" | grep ".*\\.vue$"
-          npm run test
+        echo $(git log --format=%B -n 1)
+        if echo $(git log --format=%B -n 1) | grep -q "Merge branch 'staging' into"; then
+          echo "No test to run"
         else
-          echo "No tests to run"
+          echo "Running tests"
+          npm run test:unit
         fi
-
-
