@@ -64,7 +64,7 @@ export default {
     methods: {
         login(event) {
           this.validatePassword()
-            if (this.validated  ) {
+            if (this.validated) {
                this.$store.dispatch("ResetPassword", {
                     ...this.data,
                     ...this.$route.params,

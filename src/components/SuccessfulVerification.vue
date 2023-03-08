@@ -17,10 +17,10 @@
         accordance with the repayment schedule and other terms outlined in this agreement. You understand that failure to repay the loan as agreed may result in late
         fees, additional interest charges, and/or collection activities.</p>
         <button type="button"
-            class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-3 py-4 text-base font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-0 min-w-[250px] justify-center mt-8 w-full">Continue</button>
+            class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-3 py-4 text-base font-medium leading-4 text-white shadow-sm  focus:outline-none focus:ring-0 min-w-[250px] justify-center mt-8 w-full">Continue</button>
     </div>
 </template>
 
 <script setup>
-
+// const props = defineProps(["goBack"]);
 </script>

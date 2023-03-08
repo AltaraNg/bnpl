@@ -28,7 +28,7 @@
                     <div class="relative mt-1">
                         <a href="#" class="text-blue-400 text-sm font-normal">Forgot Password?</a>
                         <button type="submit"
-                            class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-0 mt-8">Sign
+                            class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm  focus:outline-none focus:ring-0 mt-8">Sign
                             in</button>
                         <p class="mt-4 text-xs font-normal">
                             &copy; {{ copyright() }}

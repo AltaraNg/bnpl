@@ -8,7 +8,9 @@ import CustomerRegistration from "@/views/CustomerRegistration.vue";
 import CustomerDetails from "@/views/CustomerDetails.vue";
 import Verification from "@/views/Verification.vue";
 import AllOrders from "@/views/AllOrders.vue";
-import SignUp from "../views/SignUp.vue";
+import AllTransactions from "../views/AllTransactions.vue"
+import CreateCustomer from "../views/CreateCustomer.vue";
+import CreateOrder from '../views/CreateOrder.vue'
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes: [
@@ -45,12 +47,9 @@ const router = createRouter({
             component: Profile,
         },
         {
-            path: "/signup",
-            name: "SignUp",
-            component: SignUp,
-            meta: {
-                noAuth: true,
-            },
+            path: "/create-customer",
+            name: "CreateCustomer",
+            component: CreateCustomer,
         },
         {
             path: "/get-started",
@@ -63,17 +62,20 @@ const router = createRouter({
             component: Offer,
         },
         {
-            path: "/register-customer",
+            path: "/signup",
             name: "CustomerRegistration",
             component: CustomerRegistration,
+            meta: {
+                noAuth: true,
+            },
         },
         {
-            path: "/verification",
+            path: "/verification/:verification_id/:verification_status",
             name: "Verification",
             component: Verification,
         },
         {
-            path: "/customer-details",
+            path: "/:phone_number/customer-details",
             name: "CustomerDetails",
             component: CustomerDetails,
         },
@@ -81,6 +83,16 @@ const router = createRouter({
             path: "/all-orders",
             name: "AllOrders",
             component: AllOrders,
+        },
+        {
+            path: "/all-transactions",
+            name: "AllTransactions",
+            component: AllTransactions,
+        },
+        {
+            path: "/:id/create-order",
+            name: "CreateOrder",
+            component: CreateOrder,
         },
     ],
 });

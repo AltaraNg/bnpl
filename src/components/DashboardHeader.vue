@@ -35,13 +35,13 @@
                             </dl>
                         </div>
                     </div>
-                    <div @click="showModal = true">
+                    <RouterLink :to="{name:'GetStarted'}" >
                         <defaultButton name=" New Sale">
                             <template v-slot:icon>
                                 <plus />
                             </template>
                         </defaultButton>
-                    </div>
+                    </RouterLink>
                 </div>
                 <div class="mt-6 flex space-x-3 md:mt-0 md:ml-4"></div>
             </div>
@@ -61,7 +61,7 @@
             <div class="mt-5 sm:mt-6">
                 <button
                     type="button"
-                    class="inline-flex w-full justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-0 sm:text-sm"
+                    class="inline-flex w-full justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-base font-medium text-white shadow-sm  focus:outline-none focus:ring-0 sm:text-sm"
                     @click="showModal = false"
                 >
                     Go back to dashboard
@@ -73,6 +73,7 @@
 <script>
 import { BuildingOfficeIcon, CheckCircleIcon } from "@heroicons/vue/20/solid";
 import { userdata } from "../utilities/GlobalFunctions";
+import { CheckIcon } from "@heroicons/vue/24/outline";
 import BaseModal from "@/components/BaseModal.vue";
 import defaultButton from "../components/button.vue";
 import plus from "@/assets/svgs/plus.vue";
@@ -82,7 +83,7 @@ export default {
         CheckCircleIcon,
         defaultButton,
         plus,
-        BaseModal,
+        BaseModal,CheckIcon
     },
     data() {
         return {

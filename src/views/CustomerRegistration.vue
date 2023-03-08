@@ -77,7 +77,7 @@
                         </div>
                         <div class="sm:col-span-2">
                             <button type="submit"
-                                class="inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-0">Submit</button>
+                                class="inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm  focus:outline-none focus:ring-0">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -92,6 +92,6 @@ import {ref} from "vue";
 import App from "@/layouts/App.vue";
 import Loader from "@/components/Loader.vue";
 
-const open = ref(false);
+const open = ref(true);
 
 </script>
