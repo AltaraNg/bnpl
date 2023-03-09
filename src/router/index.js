@@ -12,6 +12,7 @@ import AllTransactions from "../views/AllTransactions.vue"
 import CreateCustomer from "../views/CreateCustomer.vue";
 import CreateOrder from '../views/CreateOrder.vue'
 import SuccessfulVerification from "@/views/SuccessfulVerification.vue";
+import OTP from "@/views/OTP.vue"
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes: [
@@ -74,11 +75,16 @@ const router = createRouter({
             path: "/verification/:phone_number/:verification_id/:verification_status",
             name: "Verification",
             component: Verification,
-        },  
+        },
         {
             path: "/success/:phone_number/:verification_id",
             name: "SuccessfulVerification",
             component: SuccessfulVerification,
+        },
+        {
+            path: "/:phone_number/OTP",
+            name: "OTP",
+            component: OTP,
         },
         {
             path: "/:phone_number/customer-details",
