@@ -14,7 +14,7 @@ jobs:
 
     steps:
     - name: Verify commit signature
-      if: github.event.head_commit.committer.verified == true
+      if: github.event.head_commit.verification.signature.key_id == '4AEE18F83AFDEB23'
       run: echo "Commit has a verified signature, skipping tests"
     - name: Checkout code
       uses: actions/checkout@v2
