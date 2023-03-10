@@ -20,6 +20,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+      env:
+        message: ${{ github.event.head_commit.message }}
       with:
         repository: ${{ github.event.pull_request.head.repo.full_name }}
         ref: ${{ github.event.pull_request.head.ref }}
