@@ -10,3 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: 'echo "No build required"'
+  api:
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo "No build required"'

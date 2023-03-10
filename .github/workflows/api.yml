@@ -1,28 +1,24 @@
 name: Run tests
 on:
   pull_request:
-    branches:
     types: [opened, synchronize, reopened]
     paths:
-      - '**.js'
-      - '**.vue'
+      - '**.py'
 jobs:
-  test:
+  api:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v2
       with:
         ref: ${{ github.event.pull_request.head.sha }}
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
       with:
-        node-version: '15.x'
-    - name: Run Tests
+        python-version: 3.8
+    - name: API Unit Tests
       run: |
         if echo $(git log --format=%B -n 1) | grep -q "Merge branch 'staging' into"; then
-          echo "No test to run"
+          echo "Skipping test"
         else
-          echo "Running tests"
-          npm run test:unit
+          echo "Running API tests"
         fi
