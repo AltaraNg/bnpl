@@ -8,6 +8,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - run: |
-        echo "No build required"
-        echo $(github.event.head_commit.message)
+      - name: Run Tests
+        run: |
+          echo "No build required"
+          echo $(github.event.head_commit.message)
