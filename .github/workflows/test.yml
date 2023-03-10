@@ -18,7 +18,7 @@ jobs:
 
     - name: Check for file changes
       run: |
-        CHANGED_FILES=$(git diff --name-only "$(git rev-parse HEAD)~1" HEAD | grep -E "\.(js|vue|py)$")
+        CHANGED_FILES=$(git diff --name-only HEAD^ HEAD | grep -E "\.(js|vue|py)$")
         if [ -z "$CHANGED_FILES" ]; then
           echo "No relevant files have changed, skipping tests"
           exit 0
