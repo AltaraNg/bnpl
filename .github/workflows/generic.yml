@@ -2,8 +2,8 @@ name: Run tests
 on:
   pull_request:
     paths:
-      - '**.js'
-      - '**.vuep'
+      - '!**.js'
+      - '!**.vuep'
 jobs:
   test:
     runs-on: ubuntu-latest
