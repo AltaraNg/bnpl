@@ -3,7 +3,7 @@ on:
   pull_request:
     paths-ignore:
       - '**.js'
-      - '**.vuep'
+      - '**.vue'
 jobs:
   test:
     runs-on: ubuntu-latest
