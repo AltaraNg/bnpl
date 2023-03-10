@@ -1,0 +1,16 @@
+name: Run tests
+on:
+  pull_request:
+    paths-ignore:
+      - '**.js'
+      - '**.vue'
+      - '**.ts'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo "No build required"'
+  api:
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo "No build required"'
