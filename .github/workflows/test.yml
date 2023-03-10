@@ -11,11 +11,7 @@ on:
 
 jobs:
   test:
-    if: "!contains(github.event.pull_request.body, 'SKIP CI')"
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [15.x]
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -32,7 +28,6 @@ jobs:
 
     - name: Run Tests
       run: |
-        echo $(git log --format=%B -n 1)
         if echo $(git log --format=%B -n 1) | grep -q "Merge branch 'staging' into"; then
           echo "No test to run"
         else
