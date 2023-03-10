@@ -18,6 +18,7 @@ jobs:
       run: |
         echo 'Smoke Test not requested'
         exit 0
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
