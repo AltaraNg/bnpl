@@ -4,6 +4,7 @@ on:
     paths-ignore:
       - '**.js'
       - '**.vue'
+      - '**.ts'
 jobs:
   test:
     runs-on: ubuntu-latest
