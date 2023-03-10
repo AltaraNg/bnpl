@@ -1,6 +1,6 @@
 # bnpl
 
-This template should help get you started developing with Vue 3 in Vite.
+This template should help get you started developing with Vue 3 and Tailwindcss 2.1.81.
 
 ## Recommended IDE Setup
 
