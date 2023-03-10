@@ -32,7 +32,7 @@ jobs:
       run: env
 
     - name: Print commit message
-      run: echo "Commit message: ${{ github.event.head_commit.message }}"
+      run: echo "Commit message: \${{ github.event.head_commit.message }}"
 
     - name: Run Tests
       if: "!contains(github.event.head_commit.message, \"Merge branch 'staging' into\")"
