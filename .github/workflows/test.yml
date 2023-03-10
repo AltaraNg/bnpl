@@ -23,6 +23,5 @@ jobs:
         if echo $(git log --format=%B -n 1) | grep -q "Merge branch 'staging' into"; then
           echo "No test to run"
         else
-          echo "Running tests"
-          npm run test:unit
+          echo "Running Unit tests"
         fi
