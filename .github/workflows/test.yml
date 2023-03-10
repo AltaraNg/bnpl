@@ -7,7 +7,7 @@ on:
     paths:
       - '**.js'
       - '**.vue'
-      - '**.t'
+      - '**.ts'
 
 jobs:
   test:
