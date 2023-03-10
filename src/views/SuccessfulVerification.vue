@@ -4,7 +4,7 @@
             <div class=" mx-auto max-w-xl">
                 <div>
                     <div class=" w-full absolute left-0">
-                        <ArrowLeftIcon class="h-8 w-10 text-primary" aria-hidden="true" @click="goBack" />
+                        <ArrowLeftIcon class="h-8 w-10 text-primary" aria-hidden="true" @click="goBack()" />
                     </div>
                     <div class="grid grid-cols-1 justify-items-center bg-green-400p pt-2 sm:mt-6">
                         <p class="mb-2 text-xl text-gray-600 font-medium">Order Details</p>
@@ -83,11 +83,7 @@ const OrderResult = ref({
 })
 
  async function RouteOTP(){
-    const result = await Apis.generateOTP({
-         "phone_number":Customer.value.telephone,
-         "regenerate": true
-    });
-    console.log(result);
+    store.dispatch("SaveResult", {...OrderResult.value, ...Order.value, email:Customer.value.email})
         router.push({name:'OTP', params:{
             phone_number:Customer.value.telephone
         }})
@@ -108,7 +104,6 @@ function Calculate() {
             );
         });
         const { total, actualDownpayment, rePayment } = calculate(Data.amount, Data, params, 0);
-
         OrderResult.value.total = total;
         OrderResult.value.actualDownpayment = actualDownpayment;
         OrderResult.value.rePayment = rePayment;

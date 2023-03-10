@@ -236,7 +236,20 @@ const Customer = ref(undefined);
 const loading = ref(true);
 
 function VerificationStatus(customer) {
-    router.push({ name: "Verification", params: { verification_id: customer.latest_credit_checker_verifications.id, verification_status: customer.latest_credit_checker_verifications.status, phone_number:customer.telephone } });
+    customer.latest_credit_checker_verifications.status == "passed"
+        ? router.push({
+              name: "SuccessfulVerification",
+              params: { verification_id: customer.latest_credit_checker_verifications.id, phone_number: customer.telephone },
+          })
+        : router.push({
+              name: "Verification",
+              params: {
+                  verification_id: customer.latest_credit_checker_verifications.id,
+                  verification_status: customer.latest_credit_checker_verifications.status,
+                  phone_number: customer.telephone,
+              },
+              
+          });
 }
 function ColorStatus(status) {
     let color = "";
@@ -256,7 +269,7 @@ function ColorStatus(status) {
         case "passed":
             color = "bg-green-100  text-green-800";
             break;
-            case "failed":
+        case "failed":
             color = "bg-red-100  text-red-800";
             break;
         default:

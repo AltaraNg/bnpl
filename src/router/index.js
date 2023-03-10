@@ -48,6 +48,7 @@ const router = createRouter({
             name: "Profile",
             component: Profile,
         },
+        
         {
             path: "/create-customer",
             name: "CreateCustomer",

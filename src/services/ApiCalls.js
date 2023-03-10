@@ -44,7 +44,7 @@ export default {
     generateOTP(data) {
         return api.post("generate/otp", data);
     },
-    validateeOTP(data) {
+    validateOTP(data) {
         return api.post("validate/otp", data);
     },
 };

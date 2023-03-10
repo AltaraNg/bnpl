@@ -66,5 +66,8 @@ export const InitiateCreditCheck = ({ commit }, data) => {
         } 
     });
 };
+export const SaveResult = ({ commit }, data) => {
+    commit("SAVERESULT", data);
+};
 
 
