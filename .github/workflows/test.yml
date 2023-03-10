@@ -32,7 +32,7 @@ jobs:
       run: env
 
     - name: Run Tests
-      if: "!contains(github.event.pull_request.head.sha^1.message, 'Merge branch')"
+      if: $(git log --format=%B -n 1 ${{github.event.pull_request.head.sha}}^ | grep -qv 'Merge branch')
       run: |
         echo $(git log --format=%B -n 1)
         if echo $(git log --format=%B -n 1) | grep -q "Merge branch 'staging' into"; then
