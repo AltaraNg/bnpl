@@ -29,9 +29,9 @@ jobs:
         ref: ${{ github.event.pull_request.head.ref }}
 
     - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: echo "$GITHUB_CONTEXT"
 
     - name: Setup Node.js
       uses: actions/setup-node@v2
