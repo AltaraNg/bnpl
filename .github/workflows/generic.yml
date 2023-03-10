@@ -7,8 +7,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [15.x]
     steps:
-      - name: Run Tests
-        run: |
-          echo "No build required"
-          echo $(github.event.head_commit.message)
+      - run: 'echo "No build required"'
