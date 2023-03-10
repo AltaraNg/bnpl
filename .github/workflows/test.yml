@@ -34,7 +34,7 @@ jobs:
     - name: Debug
       run: |
         echo ${{github.event.pull_request.head.sha}}
-        echo $(git log -1 --pretty=format:%H ${{github.event.pull_request.head.sha}}^)
+        echo $(git log -1 --pretty=format:%H HEAD^)
 
     - name: Run Tests
       if: $(git log --format=%B -n 1 ${{github.event.pull_request.head.sha}}^ | grep -qv 'Merge branch')
