@@ -11,7 +11,7 @@ on:
 
 jobs:
   test:
-    if: "contains(github.event.head_commit.message, '[beaf]')"
+    # if: "contains(github.event.head_commit.message, '[beaf]')"
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -34,6 +34,7 @@ jobs:
     - name: Debug
       run: |
         echo ${{github.event.pull_request.head.sha}}
+        echo ${{github.event.head_commit.message}}
         echo $(git log -1 --pretty=format:%H HEAD~1)
 
     - name: Run Tests
