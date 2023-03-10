@@ -11,10 +11,7 @@ on:
 
 jobs:
   test:
-    # if: "contains(github.event.head_commit.message, '[beaf]')"
-    env:
-      msg: ${{ github.event.head_commit.message }}
-    if: "!contains(github.event.head_commit.message, 'SKIP CI')"
+    if: "!contains(github.event.pull_request.body, 'SKIP CI')"
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -22,16 +19,9 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-      env:
-        message: ${{ github.event.head_commit.message }}
       with:
         repository: ${{ github.event.pull_request.head.repo.full_name }}
         ref: ${{ github.event.pull_request.head.ref }}
-
-    - name: Dump GitHub context
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: echo "$GITHUB_CONTEXT"
 
     - name: Setup Node.js
       uses: actions/setup-node@v2
@@ -40,15 +30,6 @@ jobs:
 
     - name: Install dependencies
       run: npm ci
-
-    - name: Print environment variables
-      run: env
-
-    - name: Debug
-      run: |
-        echo ${GITHUB_SHA}
-        echo $(git log -1 --pretty=format:%H ${GITHUB_SHA}~1)
-        echo $(git log -1 --pretty=format:%B ${GITHUB_SHA}
 
     - name: Run Tests
       run: |
