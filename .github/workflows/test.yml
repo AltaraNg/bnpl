@@ -32,7 +32,7 @@ jobs:
       run: env
 
     - name: Run Tests
-      if: github.event.head_commit.verification.signature.is_verified == false
+      if: "github.event.head_commit.message != 'Merge branch ''staging'' into'"
       run: |
         echo $(git log --format=%B -n 1)
         if echo $(git log --format=%B -n 1) | grep -q "Merge branch 'staging' into"; then
