@@ -46,9 +46,9 @@ jobs:
 
     - name: Debug
       run: |
-        echo ${{github.event.pull_request.head.sha}}
-        echo ${{github.event.head_commit.message}}
-        echo $(git log -1 --pretty=format:%H HEAD~1)
+        echo ${GITHUB_SHA}
+        echo $(git log -1 --pretty=format:%H ${GITHUB_SHA}~1)
+        echo $(git log -1 --pretty=format:%B ${GITHUB_SHA}
 
     - name: Run Tests
       run: |
