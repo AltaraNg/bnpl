@@ -1,7 +1,8 @@
 <template>
     <App>
         <main class="flex h-screen lg:items-center mt-20 lg:mt-0 justify-center w-full">
-            <div class="w-full flex flex-col items-center lg:justify-center lg:mt-0 px-8 lg:px-0">
+            
+            <div class="w-full flex flex-col items-center lg:justify-center lg:mt-0 px-8 lg:px-0" >
                 <p class="text-2xl font-black mb-1">Verify Order Details</p>
                 <p class="text-gray-700 mb-8 lg:w-[423px] w-full text-center">
                     Check your Phone. We sent a confirmation sms containing a 6 digits code to <span class="font-bold">{{ phone_number }}</span>
@@ -10,6 +11,7 @@
                     <div class="flex items-center justify-center w-full">
                         <!-- <div class="border border-gray-400 rounded flex items-center justify-center  w-[56px] h-[56px]">{{otp}}</div> -->
                         <v-otp-input
+                            :isDisabled="validate"
                             ref="otpInput"
                             input-classes="border border-gray-400 text-center text-2xl font-bold rounded mx-1 flex items-center justify-center  w-[56px] h-[56px]"
                             separator=""
@@ -21,8 +23,8 @@
                         />
                     </div>
                 </div>
-
-                <button class="lg:w-[443px] w-full rounded bg-primary text-white font-semibold py-2" :disabled="disabled">
+                <div v-if="!validate" class="w-full flex flex-col items-center">
+                    <button class="lg:w-[443px] w-full rounded bg-primary text-white font-semibold py-2" :disabled="disabled">
                     <router-link :to="{ name: 'OTP' }"> Verify </router-link>
                 </button>
                 <div class="flex items-center space-x-3 pt-4" v-if="!tryagain">
@@ -34,17 +36,23 @@
                         <p>Try Again</p>
                     </div>
                 </div>
+                </div>
+
+                <div v-else>
+                <paystack
+                    buttonClass="paystack"
+                    buttonText="Make Payment"
+                    :amount="OrderDetails.actualDownpayment * 100"
+                    :email="OrderDetails.email"
+                    :publicKey="PUBLIC_KEY"
+                    :reference="'LMNOPQRSTUVWXYZabcdefghijklmno'"
+                    :onSuccess="processPayment"
+                    :onCancel="close"
+                    
+                >
+                </paystack>
             </div>
-            <paystack
-                :amount="400000"
-                :email="'cheedin@gmail.com'"
-                :paystackkey="PUBLIC_KEY"
-                :reference="reference"
-                :callback="processPayment"
-                :close="close"
-            >
-                Make Payment
-            </paystack>
+            </div>
         </main>
     </App>
 </template>
@@ -53,7 +61,7 @@ import { ref, onMounted, onUnmounted } from "vue";
 import App from "@/layouts/App.vue";
 import VOtpInput from "vue3-otp-input";
 import { useRoute } from "vue-router";
-import paystack from "vue-paystack";
+import paystack from "vue3-paystack";
 import Apis from "@/services/ApiCalls";
 import { useStore } from "vuex";
 import { handleSuccess } from "../utilities/GlobalFunctions";
@@ -66,7 +74,7 @@ const phone_number = ref(route.params.phone_number);
 const time = ref(60);
 const PUBLIC_KEY = ref(process.env.VUE_APP_TEST_PUBLIC_KEY || "");
 const timer = ref();
-// const validate = ref(false);
+const validate = ref(false);
 const tryagain = ref(false);
 const OrderDetails = ref(store.state.result);
 
@@ -74,23 +82,21 @@ function processPayment() {
     window.alert("Payment recieved");
 }
 function close() {
-    console.log("You closed checkout page");
+     window.alert("You closed checkout page");
 }
-function reference() {
-    let text = "";
-    let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    for (let i = 0; i < 10; i++) text += possible.charAt(Math.floor(Math.random() * possible.length));
-    return text;
-}
+
 const handleOnComplete = (value) => {
     disabled.value = false;
     Apis.validateOTP({
         phone_number: phone_number.value,
         otp: value,
     }).then((response) => {
-        console.log(OrderDetails.value.actualDownpayment * 100, OrderDetails.value.email, PUBLIC_KEY.value, response);
+        if (response){
+            console.log(OrderDetails.value.actualDownpayment * 100, OrderDetails.value.email, PUBLIC_KEY.value, response);
         handleSuccess("OTP is Valid");
-        // validate.value = response.success ? true : false;
+        validate.value = response.success ? true : false;
+        }
+        
     });
 };
 const handleOnChange = () => {
@@ -128,3 +134,11 @@ onMounted(() => {
 });
 onUnmounted(() => clearInterval(timer.value));
 </script>
+<style>
+.paystack {
+    background-color: #074A74;
+    color: white;
+    padding: 8px 15px ;
+    border-radius: 5px;
+}
+</style>
