@@ -81,7 +81,7 @@ import { useStore } from "vuex";
 import paystack from "vue3-paystack";
 
 const store = useStore();
-const PUBLIC_KEY = ref(process.env.VUE_APP_TEST_PUBLIC_KEY || "");
+const PUBLIC_KEY = ref(process.env.VUE_APP_PAYSTACK_PK || "");
 const route = useRoute();
 const router = useRouter();
 const Customer = ref(undefined);
