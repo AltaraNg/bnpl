@@ -66,7 +66,7 @@ function VerifyCreditCheck() {
         Apis.verifycreditcheck(verification_id).then((verification_status) => {
             const status = verification_status.data.result.status;
             if (status == "passed") {
-                router.push({ name: "SuccessfulVerification", params: { verification_id: verification_id, phone_number: phone_number } });
+                router.push({ name: "SuccessfulVerification", params: { verification_id: verification_id, phone_number: phone_number, OTPvalidate:false } });
                 clearInterval(res.value);
             }
               if (status == "failed") {
