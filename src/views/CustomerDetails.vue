@@ -1,7 +1,7 @@
 <template>
     <div class="lg:p-5 p-6 text-gray-800">
         <div class="mb-2 w-full block cursor-pointer">
-            <ArrowLeftIcon class="h-10 w-10 text-indigo-600" aria-hidden="true" @click="goBack" />
+            <ArrowLeftIcon class="h-10 w-10 text-indigo-600" aria-hidden="true" @click="router.push({ name: 'GetStarted' })" />
         </div>
         <div class="lg:px-8 py-4 lg:py-0 lg:mb-5">
             <div class="lg:space-x-6 space-x-0 lg:flex-row flex flex-col lg:justify-center lg:items-center">
@@ -40,7 +40,7 @@
                             <div class="text-left w-full mt-6 text-gray-600 text-lg font-medium">Pending Verification:</div>
                             <div
                                 class="flex flex-col rounded-3xl bg-white shadow-xl ring-1 ring-black/10 p-8 w-full mt-2"
-                                @click="VerificationStatus(Customer.latest_credit_checker_verifications)"
+                                @click="VerificationStatus(Customer)"
                             >
                                 <div class="flex items=center justify-between">
                                     <p class="text-base font-semibold leading-8 tracking-tight text-indigo-600">Details</p>
@@ -81,7 +81,7 @@
                     </div>
                 </div>
             </div>
-            <div class="hidden lg:flex flex-col justify-center pl-8 items-center w-full">
+            <div class="hidden my-8 lg:flex flex-col justify-center pl-8 items-center w-full" v-if="!Customer.orders.length > 0">
                 <div class="text-left w-full text-center my-6 text-gray-600 text-2xl font-semibold">Pending Verification:</div>
                 <TableVue class="w-2/3">
                     <template #columns>
@@ -92,7 +92,7 @@
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Date</th>
                     </template>
                     <template #default>
-                        <tr class="cursor-pointer" @click="VerificationStatus(Customer.latest_credit_checker_verifications)">
+                        <tr class="cursor-pointer" @click="VerificationStatus(Customer)">
                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                                 <div class="flex flex-col items-start">
                                     <div class="font-medium text-gray-900 mb-1">
@@ -227,7 +227,7 @@ import plus from "@/assets/svgs/plus.vue";
 import { ArrowLeftIcon } from "@heroicons/vue/24/solid";
 import TableVue from "@/components/Table.vue";
 import zerostate from "@/assets/svgs/zerostate.vue";
-import { goBack, formatCurrency } from "@/utilities/GlobalFunctions";
+import { formatCurrency } from "@/utilities/GlobalFunctions";
 import Apis from "@/services/ApiCalls";
 
 const route = useRoute();
@@ -235,8 +235,20 @@ const router = useRouter();
 const Customer = ref(undefined);
 const loading = ref(true);
 
-function VerificationStatus(verification) {
-    router.push({ name: "Verification", params: { verification_id: verification.id, verification_status: verification.status } });
+function VerificationStatus(customer) {
+    customer.latest_credit_checker_verifications.status == "passed"
+        ? router.push({
+              name: "SuccessfulVerification",
+              params: { verification_id: customer.latest_credit_checker_verifications.id, phone_number: customer.telephone, OTPvalidate: "false" },
+          })
+        : router.push({
+              name: "Verification",
+              params: {
+                  verification_id: customer.latest_credit_checker_verifications.id,
+                  verification_status: customer.latest_credit_checker_verifications.status,
+                  phone_number: customer.telephone,
+              },
+          });
 }
 function ColorStatus(status) {
     let color = "";
@@ -256,7 +268,7 @@ function ColorStatus(status) {
         case "passed":
             color = "bg-green-100  text-green-800";
             break;
-            case "failed":
+        case "failed":
             color = "bg-red-100  text-red-800";
             break;
         default:
