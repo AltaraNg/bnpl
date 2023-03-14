@@ -1,7 +1,7 @@
 <template>
     <div class="lg:p-5 p-6 text-gray-800">
         <div class="mb-2 w-full block cursor-pointer">
-            <ArrowLeftIcon class="h-10 w-10 text-indigo-600" aria-hidden="true" @click="goBack" />
+            <ArrowLeftIcon class="h-10 w-10 text-indigo-600" aria-hidden="true" @click="router.push({ name: 'GetStarted' })" />
         </div>
         <div class="lg:px-8 py-4 lg:py-0 lg:mb-5">
             <div class="lg:space-x-6 space-x-0 lg:flex-row flex flex-col lg:justify-center lg:items-center">
@@ -81,7 +81,7 @@
                     </div>
                 </div>
             </div>
-            <div class="hidden lg:flex flex-col justify-center pl-8 items-center w-full">
+            <div class="hidden my-8 lg:flex flex-col justify-center pl-8 items-center w-full" v-if="!Customer.orders.length > 0">
                 <div class="text-left w-full text-center my-6 text-gray-600 text-2xl font-semibold">Pending Verification:</div>
                 <TableVue class="w-2/3">
                     <template #columns>
@@ -227,7 +227,7 @@ import plus from "@/assets/svgs/plus.vue";
 import { ArrowLeftIcon } from "@heroicons/vue/24/solid";
 import TableVue from "@/components/Table.vue";
 import zerostate from "@/assets/svgs/zerostate.vue";
-import { goBack, formatCurrency } from "@/utilities/GlobalFunctions";
+import { formatCurrency } from "@/utilities/GlobalFunctions";
 import Apis from "@/services/ApiCalls";
 
 const route = useRoute();
@@ -239,7 +239,7 @@ function VerificationStatus(customer) {
     customer.latest_credit_checker_verifications.status == "passed"
         ? router.push({
               name: "SuccessfulVerification",
-              params: { verification_id: customer.latest_credit_checker_verifications.id, phone_number: customer.telephone },
+              params: { verification_id: customer.latest_credit_checker_verifications.id, phone_number: customer.telephone, OTPvalidate: "false" },
           })
         : router.push({
               name: "Verification",
@@ -248,7 +248,6 @@ function VerificationStatus(customer) {
                   verification_status: customer.latest_credit_checker_verifications.status,
                   phone_number: customer.telephone,
               },
-              
           });
 }
 function ColorStatus(status) {

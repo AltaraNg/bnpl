@@ -48,7 +48,7 @@ const router = createRouter({
             name: "Profile",
             component: Profile,
         },
-        
+
         {
             path: "/create-customer",
             name: "CreateCustomer",
@@ -78,12 +78,12 @@ const router = createRouter({
             component: Verification,
         },
         {
-            path: "/success/:phone_number/:verification_id",
+            path: "/success/:phone_number/:verification_id/:OTPvalidate",
             name: "SuccessfulVerification",
             component: SuccessfulVerification,
         },
         {
-            path: "/:phone_number/OTP",
+            path: "/:phone_number/OTP/:verification_id",
             name: "OTP",
             component: OTP,
         },

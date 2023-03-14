@@ -11,7 +11,6 @@
                     <div class="flex items-center justify-center w-full">
                         <!-- <div class="border border-gray-400 rounded flex items-center justify-center  w-[56px] h-[56px]">{{otp}}</div> -->
                         <v-otp-input
-                            :isDisabled="validate"
                             ref="otpInput"
                             input-classes="border border-gray-400 text-center text-2xl font-bold rounded mx-1 flex items-center justify-center  w-[56px] h-[56px]"
                             separator=""
@@ -23,7 +22,7 @@
                         />
                     </div>
                 </div>
-                <div v-if="!validate" class="w-full flex flex-col items-center">
+                <div  class="w-full flex flex-col items-center">
                     <button class="lg:w-[443px] w-full rounded bg-primary text-white font-semibold py-2" :disabled="disabled">
                     <router-link :to="{ name: 'OTP' }"> Verify </router-link>
                 </button>
@@ -38,52 +37,30 @@
                 </div>
                 </div>
 
-                <div v-else>
-                <paystack
-                    buttonClass="paystack"
-                    buttonText="Make Payment"
-                    :amount="OrderDetails.actualDownpayment * 100"
-                    :email="OrderDetails.email"
-                    :publicKey="PUBLIC_KEY"
-                    :reference="'LMNOPQRSTUVWXYZabcdefghijklmno'"
-                    :onSuccess="processPayment"
-                    :onCancel="close"
-                    
-                >
-                </paystack>
-            </div>
+             
             </div>
         </main>
     </App>
 </template>
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, } from "vue";
 import App from "@/layouts/App.vue";
 import VOtpInput from "vue3-otp-input";
-import { useRoute } from "vue-router";
-import paystack from "vue3-paystack";
+import { useRoute, useRouter } from "vue-router";
 import Apis from "@/services/ApiCalls";
-import { useStore } from "vuex";
 import { handleSuccess } from "../utilities/GlobalFunctions";
 
-const store = useStore();
 const route = useRoute();
+const router = useRouter();
 const otpInput = ref(null);
 const disabled = ref(true);
 const phone_number = ref(route.params.phone_number);
+const verification_id = ref(route.params.verification_id)
 const time = ref(60);
-const PUBLIC_KEY = ref(process.env.VUE_APP_TEST_PUBLIC_KEY || "");
 const timer = ref();
-const validate = ref(false);
 const tryagain = ref(false);
-const OrderDetails = ref(store.state.result);
 
-function processPayment() {
-    window.alert("Payment recieved");
-}
-function close() {
-     window.alert("You closed checkout page");
-}
+
 
 const handleOnComplete = (value) => {
     disabled.value = false;
@@ -92,9 +69,14 @@ const handleOnComplete = (value) => {
         otp: value,
     }).then((response) => {
         if (response){
-            console.log(OrderDetails.value.actualDownpayment * 100, OrderDetails.value.email, PUBLIC_KEY.value, response);
         handleSuccess("OTP is Valid");
-        validate.value = response.success ? true : false;
+         router.push({name:'SuccessfulVerification', params:{
+            phone_number:phone_number.value,
+            verification_id:verification_id.value,
+            OTPvalidate:'validated'
+
+         }})
+        
         }
         
     });
@@ -122,6 +104,7 @@ function countDownTimer() {
         }
     }, 1000);
 }
+
 async function GenerateOTP() {
     await Apis.generateOTP({
         phone_number: phone_number.value,
@@ -133,12 +116,8 @@ onMounted(() => {
     GenerateOTP();
 });
 onUnmounted(() => clearInterval(timer.value));
+
+
+
 </script>
-<style>
-.paystack {
-    background-color: #074A74;
-    color: white;
-    padding: 8px 15px ;
-    border-radius: 5px;
-}
-</style>
+

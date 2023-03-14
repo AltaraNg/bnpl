@@ -47,4 +47,8 @@ export default {
     validateOTP(data) {
         return api.post("validate/otp", data);
     },
+    storeOrder(data) {
+        return api.post("store/order", data);
+    },
+    
 };
