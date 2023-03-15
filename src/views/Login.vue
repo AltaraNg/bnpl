@@ -5,8 +5,11 @@
             src="../assets/images/market.jpg"
         />
         <div class="flex items-center justify-center w-full">
-            <div class="mx-auto w-full max-w-sm lg:w-96 space-y-8">
-                <img src="../assets/images/logo2.png" />
+            <div class="mx-auto  space-y-8">
+                <div class="flex lg:justify-start justify-center w-full">
+                    <img src="../assets/images/logo2.png" />
+                </div>
+                
                 <form method="post"  class="space-y-5">
                     <div>
                         <label for="email" class="block text-xs font-medium text-gray-700">Email address</label>
@@ -39,7 +42,6 @@
                         </div>
                     </div>
                     <div class="relative mt-1">
-                        <p class="text-sm">Don't have an account? <span  class="text-blue-400 text-sm font-normal"><RouterLink :to="{name:'CreateCustomer'}">Sign Up</RouterLink> </span> </p>
                         <DefButton name="Login" :action="login" :loading="loader" />
                         <p class="mt-4 text-xs font-normal">
                             &copy; {{ copyright }} <a href="#" class="text-primary text-xs" target="_blank"> Privacy Policy</a> |
