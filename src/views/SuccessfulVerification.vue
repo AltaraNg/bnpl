@@ -79,7 +79,6 @@ import { formatCurrency } from "@/utilities/GlobalFunctions";
 import { calculate } from "@/utilities/calculator";
 import { useStore } from "vuex";
 import paystack from "vue3-paystack";
-
 const store = useStore();
 const PUBLIC_KEY = ref(process.env.VUE_APP_PAYSTACK_PK || "");
 const route = useRoute();
@@ -119,8 +118,7 @@ async function processPayment() {
         repayment_cycle_id: Order.value.repayment_cycle_id,
         repayment_duration_id: Order.value.repayment_duration_id,
         product_name: Order.value.product.name,
-    }).then((res) => {
-        console.log(res);
+    }).then(() => {
         route.params.OTPvalidate = "order_created"
         router.push({
             name: "CustomerDetails",
@@ -153,7 +151,7 @@ function close() {}
         OrderResult.value.repayment_cycle = Order.value.repayment_cycle.name
         OrderResult.value.duration = Order.value?.repayment_duration?.name
     } catch (e) {
-        console.log(e);
+      throw new Error(e)
     }
 }
 async function CustomerDetails() {
