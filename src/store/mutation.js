@@ -23,5 +23,8 @@ export const CREDIT_CHECK_VERIFICATION = (state, verification) => {
     state.verification = verification;
     localStorage.setItem("credit_check_verification", JSON.stringify(verification));
 };
+export const SAVERESULT = (state, result) => {
+    state.result = result;
+};
 
 

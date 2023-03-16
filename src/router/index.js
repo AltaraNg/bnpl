@@ -11,6 +11,8 @@ import AllOrders from "@/views/AllOrders.vue";
 import AllTransactions from "../views/AllTransactions.vue"
 import CreateCustomer from "../views/CreateCustomer.vue";
 import CreateOrder from '../views/CreateOrder.vue'
+import SuccessfulVerification from "@/views/SuccessfulVerification.vue";
+import OTP from "@/views/OTP.vue"
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes: [
@@ -46,6 +48,7 @@ const router = createRouter({
             name: "Profile",
             component: Profile,
         },
+
         {
             path: "/create-customer",
             name: "CreateCustomer",
@@ -70,9 +73,19 @@ const router = createRouter({
             },
         },
         {
-            path: "/verification/:verification_id/:verification_status",
+            path: "/verification/:phone_number/:verification_id/:verification_status",
             name: "Verification",
             component: Verification,
+        },
+        {
+            path: "/success/:phone_number/:verification_id/:OTPvalidate",
+            name: "SuccessfulVerification",
+            component: SuccessfulVerification,
+        },
+        {
+            path: "/:phone_number/OTP/:verification_id",
+            name: "OTP",
+            component: OTP,
         },
         {
             path: "/:phone_number/customer-details",
