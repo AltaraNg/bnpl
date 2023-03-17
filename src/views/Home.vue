@@ -9,7 +9,7 @@
           <h2 class="text-lg font-medium leading-6 text-gray-900">Overview</h2>
           <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-3 lg:grid-cols-4">
             <!-- Card -->
-            <div v-for="card in cards" :key="card.name" class="overflow-hidden rounded-lg bg-white shadow">
+            <div v-for="card in cards" :key="card.name" class="overflow-hidden rounded-lg cursor-pointer bg-white shadow" @click="showModal = true">
               <div class="p-5">
                 <div class="flex items-center">
                   <div class="flex-shrink-0">
@@ -130,6 +130,28 @@
           </div>
         </div>
       </div>
+       <BaseModal @close="showModal=false" v-if="showModal">
+      <div>
+        <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
+          <CheckIcon class="h-6 w-6 text-green-600" aria-hidden="true" />
+        </div>
+        <div class="mt-3 text-center sm:mt-5">
+          <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900">Coming soon</DialogTitle>
+          <div class="mt-2">
+            <p class="text-sm text-gray-500">
+             This page is in progress
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="mt-5 sm:mt-6">
+        <button type="button"
+          class="inline-flex w-full justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-base font-medium text-white shadow-sm  focus:outline-none focus:ring-0 sm:text-sm"
+          @click="showModal = false">
+          Go back to dashboard
+        </button>
+      </div>
+    </BaseModal>
     </div>
   </App>
 </template>
@@ -139,7 +161,10 @@ import App from "@/layouts/App.vue";
 import DashboardHeader from "@/components/DashboardHeader.vue";
 import { ScaleIcon } from "@heroicons/vue/24/outline";
 import { BanknotesIcon, ChevronRightIcon } from "@heroicons/vue/20/solid";
-
+import BaseModal from "@/components/BaseModal.vue";
+import { ref } from "vue";
+ 
+const showModal = ref(false);
 const cards = [
   { name: "No of Sales", href: "#", icon: ScaleIcon, amount: "50" },
   { name: "Total Revenue", href: "#", icon: ScaleIcon, amount: "₦130,500.00" },

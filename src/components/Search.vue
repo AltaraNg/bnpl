@@ -21,11 +21,9 @@
                         />
                     </div>
                     <div class="flex justify-center items-center py-2 md:py-4 px-4">
-                        <button
-                            type="button"
-                            class="inline-flex items-center rounded-full border border-transparent bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-0"
-                        >
-                            <EnvelopeIcon class="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
+                        <button type="button"
+                            class="inline-flex items-center rounded-full border border-transparent bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm  focus:outline-none focus:ring-0">
+                            <MagnifyingGlassIcon class="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
                             Search
                         </button>
                     </div>
@@ -35,11 +33,11 @@
     </div>
 </template>
 
-<script>
-import { EnvelopeIcon } from "@heroicons/vue/20/solid";
-export default {
-    components: {
-        EnvelopeIcon,
+<script >
+import { MagnifyingGlassIcon  } from '@heroicons/vue/20/solid'
+export default{
+    components:{
+        MagnifyingGlassIcon
     },
     data() {
         return {
