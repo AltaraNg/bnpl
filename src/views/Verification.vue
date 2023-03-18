@@ -49,7 +49,6 @@ import AwaitingVerification from "@/components/AwaitingVerification.vue";
 import FailedVerification from "@/components/FailedVerification.vue";
 import { useRoute, useRouter } from "vue-router";
 import Apis from "@/services/ApiCalls";
-import { goBack } from "@/utilities/GlobalFunctions";
 const open = ref(false);
 const route = useRoute();
 const router = useRouter();
@@ -71,6 +70,9 @@ function VerifyCreditCheck() {
             }
         });
     }, 0.5 * 30 * 1000);
+}
+function goBack(){
+    router.push({name:'GetStarted'})
 }
 
 onMounted(() => {

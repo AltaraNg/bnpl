@@ -49,7 +49,11 @@
             <div >
               <label for="state" class="block text-sm font-medium text-gray-700">State</label>
               <div class="mt-1">
-                <input type="text" name="state" id="state" v-model="customerData.state" autocomplete="state" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                 <select  name="state" id="state" autocomplete="state" v-model="customerData.state" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" >
+                   <option value="default" class disabled>State</option>
+            <option class="text-sm" v-for="state in states"
+              :key="state.value" :value=state.value>{{ state.name }}</option>
+                </select>
               </div>
             </div>
             <div >
@@ -161,6 +165,20 @@ const store = useStore();
           name:'Isale Igbeyin Showroom'
         },
         
+      ])
+      const states = ref([
+        {
+          value:'Kwara',
+          name:'Kwara State'
+        },
+        {
+          value:'Ogun',
+          name:'Ogun State'
+        },
+        {
+          value:'Oyo',
+          name:'Oyo State'
+        },
       ])
       function validateData(event){
         for(let [key, value] of Object.entries(customerData)){

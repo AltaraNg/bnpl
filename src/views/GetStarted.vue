@@ -87,7 +87,7 @@
                                 </div>
                             </div>
                         </template>
-                        <div v-if="phone_number && !FilteredCustomer.length" class="flex text-center items-center flex-col justify-center px-5">
+                        <div v-if="(phone_number && !FilteredCustomer.length || Customers?.length === 0)" class="flex text-center items-center flex-col justify-center px-5">
                             <zerostate />
                             <p class="text-gray-800 lg:text-2xl mb-0.5">This customer's phone number does not exist</p>
                             <p class="text-gray-500 text-xs lg:text-normal mb-6">You can create an acount by clicking below</p>
