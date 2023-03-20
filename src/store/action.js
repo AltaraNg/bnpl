@@ -51,19 +51,18 @@ export const VerifyCreditCheck = ({ commit }) => {
 };
 export const InitiateCreditCheck = ({ commit }, data) => {
     Apis.initiatecreditcheck(data).then((response) => {
-        if (response) {
+    
             handleSuccess("Success");
             commit("CREDIT_CHECK_VERIFICATION", response.result.credit_check_verification);
             router.push({
                 name: "Verification",
                 params: {
                     verification_id: response.result.credit_check_verification.id,
-                    phone_number: response.result.telephone,
-                    verification_status: response.result.credit_check_verification.status,
+                    phone_number: store.state.Customer.result.telephone,
+                    verification_status: 'pending',
                 },
             });
             
-        } 
     });
 };
 export const SaveResult = ({ commit }, data) => {

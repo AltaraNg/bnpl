@@ -14,7 +14,7 @@
             </div>
             <div class="flex flex-col lg:items-center lg:justify-between lg:flex-row">
                 <div>
-                    <p class="font-semibold mt-2">j{{ Customer.email }}</p>
+                    <p class="font-semibold mt-2">{{ Customer.email }}</p>
                     <p class="font-semibold mt-2">{{ Customer.telephone }}</p>
                 </div>
                 <div>
@@ -33,7 +33,7 @@
             </div>
         </div>
         <div v-if="Customer.latest_credit_checker_verifications">
-            <div class="lg:hidden">
+            <div class="lg:hidden"  v-if="!Customer.orders.length > 0">
                 <div class="overflow-hidden bg-white px-4 lg:px-8 pb-6">
                     <div class="relative mx-auto max-w-xl">
                         <div class="grid grid-cols-1 justify-items-center bg-green-400p pt-4">
@@ -169,6 +169,9 @@
                                 :key="item.productName"
                                 :ColorStatus="ColorStatus(item.status_id)"
                                 :orderStatus="orderStatus(item)"
+                                :repayment_duration="repayment_duration"
+                                :repayment_cycle="repayment_cycle"
+                                :findRepayment="findRepayment"
                             />
                         </div>
                     </div>
@@ -194,9 +197,9 @@
                                 </div>
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ formatCurrency(history.down_payment) }}</td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ formatCurrency(history.repayment) }}</td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ formatCurrency(history.amortizations[0].expected_amount) }}</td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ history.down_payment_rate_id }}0%</td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ history.amortizations.length / 2 }}months</td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ findRepayment(history.repayment_duration_id, repayment_duration )  }}/ {{ findRepayment(history.repayment_cycle_id,repayment_cycle ) }}</td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                 <span
                                     class="inline-flex capitalize rounded-full px-2 text-xs font-semibold leading-5"
@@ -215,11 +218,34 @@
             <p class="text-gray-800 lg:text-2xl mb-0.5">This customer's has no sales</p>
             <p class="text-gray-500 text-xs lg:text-normal mb-6">You can create a new sale by clicking New Sale</p>
         </div>
+          <BaseModal @close="showModal=false" v-if="showModal">
+      <div>
+        <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
+          <CheckIcon class="h-6 w-6 text-green-600" aria-hidden="true" />
+        </div>
+        <div class="mt-3 text-center sm:mt-5">
+          <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900">Coming soon</DialogTitle>
+          <div class="mt-2">
+            <p class="text-sm text-gray-500">
+             This page is in progress
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="mt-5 sm:mt-6">
+        <button type="button"
+          class="inline-flex w-full justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-base font-medium text-white shadow-sm  focus:outline-none focus:ring-0 sm:text-sm"
+          @click="showModal = false">
+          Go back to dashboard
+        </button>
+      </div>
+    </BaseModal>
     </div>
 </template>
 
 <script setup>
 import { ref, onBeforeMount } from "vue";
+import BaseModal from "@/components/BaseModal.vue";
 // import SideModal from "@/components/SideModal.vue";
 import OrderDetails from "@/components/OrderDetails.vue";
 import { useRoute, useRouter } from "vue-router";
@@ -229,11 +255,27 @@ import TableVue from "@/components/Table.vue";
 import zerostate from "@/assets/svgs/zerostate.vue";
 import { formatCurrency } from "@/utilities/GlobalFunctions";
 import Apis from "@/services/ApiCalls";
-
+const showModal = ref(false);
 const route = useRoute();
 const router = useRouter();
-const Customer = ref(undefined);
-const loading = ref(true);
+const repayment_duration = ref();
+const repayment_cycle = ref([
+    {
+        slug: "monthly",
+        name: "Monthly",
+        id: 2,
+        value: 28,
+    },
+    {
+        slug: "bi-monthly",
+        name: "Bi-Monthly",
+        id: 1,
+        value: 14,
+    },
+]);
+const Customer = ref({
+    first_name:''
+});
 
 function VerificationStatus(customer) {
     customer.latest_credit_checker_verifications.status == "passed"
@@ -301,10 +343,24 @@ function hideNewSale(customer) {
 async function CustomerDetails() {
     const result = await Apis.customerdetails(route.params.phone_number);
     Customer.value = result?.data?.result;
-    loading.value = false;
+}
+async function RepaymentDuration() {
+    const result = await Apis.repaymentduration();
+    repayment_duration.value = result?.data?.data?.data.filter((duration)=>{
+      return  duration.name !== 'nine_months'
+    });
+}
+function findRepayment(customerData, array){
+   const result = array.find((data)=>{
+        return data.id == customerData
+    })
+    return result?.name
+    
 }
 
-onBeforeMount(async () => {
-    await CustomerDetails();
+
+onBeforeMount( async() => {
+    await RepaymentDuration()
+     CustomerDetails();
 });
 </script>

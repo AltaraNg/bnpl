@@ -3,7 +3,10 @@
         <img class="hidden lg:block h-screen w-1/2 max-w-2xl opacity-50" src="../assets/images/market.jpg" />
         <div class="flex items-center justify-center w-full">
             <div class="mx-auto w-full max-w-sm lg:w-96 space-y-8">
-                <img src="../assets/images/logo2.png" />
+             
+                <router-link to="/">
+                    <img src="../assets/images/logo2.png" />
+                </router-link>
                 <form :actions="false" id="changePasswordForm" name="changePasswordForm" class="space-y-5">
                     <div>
                         <label for="new_password" class="block text-xs font-medium text-gray-700">New Password</label>
@@ -11,12 +14,13 @@
                             <input
                                 id="new_password"
                                 name="new_password"
-                                type="text"
+                                type="password"
                                 v-model="data.password"
                                 autocomplete="new_password"
                                 required=""
                                 class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                             />
+                            <p class="block text-xs font-medium text-gray-400">(Password must atleast four characters)</p>
                         </div>
                     </div>
                     <div class="mt-4">
@@ -25,12 +29,13 @@
                             <input
                                 id="confirm_password"
                                 name="confirm_password"
-                                type="text"
+                                type="password"
                                 v-model="data.confirm_password"
                                 autocomplete="current-password"
                                 required=""
                                 class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                             />
+                            <p class="block text-xs font-medium text-gray-400">(Password must atleast four characters)</p>
                         </div>
                     </div>
                     <div class="relative mt-1">
