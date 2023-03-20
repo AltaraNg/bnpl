@@ -12,6 +12,7 @@
                 <div class="w-2/3">
                     <p class="text-gray-500 text-sm font-medium">Order Number:</p>
                     <p class="text-lg font-semibold text-gray-600">{{ props.orderDetails.order_number }}</p>
+                    <p class="text-xs -mt-1 text-gray-600">{{ props.orderDetails.bnpl_product.name }}</p>
                 </div>
                 <div>
                     <p class="text-gray-500 text-sm font-medium">Date:</p>
@@ -21,10 +22,10 @@
             <p class="text-gray-500 text-sm font-medium mt-4">Product Price:</p>
             <p class="text-lg font-semibold text-gray-800">{{ formatCurrency(props.orderDetails.product_price) }}</p>
             <p class="text-gray-500 text-sm font-medium mt-4">Downpayment:</p>
-            <p class="text-lg font-semibold text-gray-800">{{ formatCurrency(props.orderDetails.down_payment) }}</p>
+            <p class="text-lg font-semibold text-gray-800">{{ formatCurrency(props.orderDetails?.down_payment) }}</p>
         </div>
         <p class="mt-4 flex text-lg font-semibold text-gray-800">
-            {{ formatCurrency(props.orderDetails.amortizations[0].expected_amount) }}<span class="text-sm font-semibold leading-8 tracking-normal text-gray-500">/ {{ findRepayment(props.orderDetails.repayment_cycle_id, repayment_cycle ) }}</span>
+            {{ formatCurrency(props.orderDetails?.amortizations[0]?.expected_amount) }}<span class="text-sm font-semibold leading-8 tracking-normal text-gray-500">/ {{ findRepayment(props.orderDetails.repayment_cycle_id, repayment_cycle ) }}</span>
         </p>
         <p class="text-gray-500 text-xl font-medium mt-4"> for {{ findRepayment(props.orderDetails.repayment_duration_id, repayment_duration )  }}</p>
     </div>

@@ -50,5 +50,9 @@ export default {
     storeOrder(data) {
         return api.post("store/order", data);
     },
+     dashboarddata() {
+        return api.get("get/dashboard/data");
+    },
+   
     
 };
