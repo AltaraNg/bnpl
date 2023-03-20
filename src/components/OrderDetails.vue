@@ -20,7 +20,7 @@
             </div>
             <p class="text-gray-500 text-sm font-medium mt-4">Product Price:</p>
             <p class="text-lg font-semibold text-gray-800">{{ formatCurrency(props.orderDetails.product_price) }}</p>
-            <p class="text-gray-500 text-sm font-medium mt-4">Downpayment:</p>
+            <p class="text-gray-500 text-sm font-medium mt-4">Down payment:</p>
             <p class="text-lg font-semibold text-gray-800">{{ formatCurrency(props.orderDetails.down_payment) }}</p>
         </div>
         <p class="mt-4 flex text-lg font-semibold text-gray-800">

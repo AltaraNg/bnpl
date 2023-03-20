@@ -3,7 +3,7 @@
     <App>
       <div class=" lg:pr-8 py-8 px-6  lg:mx-auto lg:flex flex-col lg:max-w-7xl  ">
           <div>
-            <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Let's work together</h2>
+            <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Let's get started</h2>
           <p class="mt-4 text-lg text-gray-500 sm:mt-3">Just one more step to create your first order</p>
           </div>
           

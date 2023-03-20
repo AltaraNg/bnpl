@@ -3,7 +3,10 @@
         <img class="hidden lg:block h-screen w-1/2 max-w-2xl opacity-50" src="../assets/images/market.jpg" />
         <div class="flex items-center justify-center w-full">
             <div class="mx-auto w-full max-w-sm lg:w-96 space-y-8">
-                <img src="../assets/images/logo2.png" />
+             
+                <router-link to="/">
+                    <img src="../assets/images/logo2.png" />
+                </router-link>
                 <form :actions="false" id="changePasswordForm" name="changePasswordForm" class="space-y-5">
                     <div>
                         <label for="new_password" class="block text-xs font-medium text-gray-700">New Password</label>
