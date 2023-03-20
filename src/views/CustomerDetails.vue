@@ -7,7 +7,7 @@
             <div class="lg:space-x-6 space-x-0 lg:flex-row flex flex-col lg:justify-center lg:items-center">
                 <span class="inline-flex h-24 w-24 items-center justify-center rounded-full bg-primary">
                     <span class="text-4xl font-medium leading-none text-white">{{
-                        Customer?.first_name?.charAt(0) + "" + Customer?.last_name?.charAt(0)
+                        Customer.first_name.charAt(0) + "" + Customer.last_name.charAt(0)
                     }}</span>
                 </span>
                 <p class="text-4xl font-semibold mt-2 text-gray-800">{{ Customer.first_name + " " + Customer.last_name }}</p>
@@ -19,7 +19,7 @@
                 </div>
                 <div>
                     <p class="font-semibold mt-2">{{ Customer.area_address }}</p>
-                    <p class="font-medium text-gray-500 mt-2">Joined {{ Customer?.date_of_registration?.split(" ")[0] ?? '' }}</p>
+                    <p class="font-medium text-gray-500 mt-2">Joined {{ Customer.date_of_registration.split(" ")[0] }}</p>
                 </div>
                 <button
                     type="button"
@@ -125,7 +125,7 @@
             </div>
         </div>
 
-        <div v-if="Customer?.orders?.length > 0">
+        <div v-if="Customer.orders.length > 0">
             <div class="lg:hidden">
                 <div class="overflow-hidden bg-white px-4 lg:px-8 pb-6">
                     <div class="relative mx-auto max-w-xl">
@@ -180,14 +180,14 @@
             <div class="">
                 <TableVue class="hidden lg:block">
                     <template #columns>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Product Name</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Product Price</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Downpayment</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Repayment</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Percentage</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Duration</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Status</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Date</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Product Name</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Product Price</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Downpayment</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Repayment</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Percentage</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Duration</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Date</th>
                     </template>
                     <template #default>
                         <tr v-for="history in Customer.orders" class="cursor-pointer" :key="history.id">
@@ -248,7 +248,6 @@
 <script setup>
 import { ref, onBeforeMount } from "vue";
 import BaseModal from "@/components/BaseModal.vue";
-// import SideModal from "@/components/SideModal.vue";
 import OrderDetails from "@/components/OrderDetails.vue";
 import { useRoute, useRouter } from "vue-router";
 import plus from "@/assets/svgs/plus.vue";
@@ -336,7 +335,7 @@ function orderStatus(history) {
     return status;
 }
 function hideNewSale(customer) {
-    const pending = customer?.orders?.some((order) => order.status_id == 3);
+    const pending = customer.orders.some((order) => order.status_id == 3);
     return customer?.latest_credit_checker_verifications || pending ? "hidden" : "block";
 }
 
