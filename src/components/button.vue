@@ -24,7 +24,7 @@ export default {
             type: String,
         },
         action: {
-            required: true,
+            required: false,
             type: Function,
         },
     },
