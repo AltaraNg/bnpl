@@ -7,7 +7,7 @@
             <div class="lg:space-x-6 space-x-0 lg:flex-row flex flex-col lg:justify-center lg:items-center">
                 <span class="inline-flex h-24 w-24 items-center justify-center rounded-full bg-gray-500">
                     <span class="text-4xl font-medium leading-none text-white">{{
-                        Customer.first_name.charAt(0) + "" + Customer.last_name.charAt(0)
+                        Customer?.first_name?.charAt(0) + "" + Customer?.last_name?.charAt(0)
                     }}</span>
                 </span>
                 <p class="text-4xl font-semibold mt-2 text-gray-800">{{ Customer.first_name + " " + Customer.last_name }}</p>
@@ -19,7 +19,7 @@
                 </div>
                 <div>
                     <p class="font-semibold mt-2">{{ Customer.area_address }}</p>
-                    <p class="font-medium text-gray-500 mt-2">Joined {{ Customer.date_of_registration.split(" ")[0] }}</p>
+                    <p class="font-medium text-gray-500 mt-2">Joined {{ Customer?.date_of_registration?.split(" ")[0] ?? '' }}</p>
                 </div>
                 <button
                     type="button"
@@ -125,7 +125,7 @@
             </div>
         </div>
 
-        <div v-if="Customer.orders.length > 0">
+        <div v-if="Customer?.orders?.length > 0">
             <div class="lg:hidden">
                 <div class="overflow-hidden bg-white px-4 lg:px-8 pb-6">
                     <div class="relative mx-auto max-w-xl">
@@ -336,7 +336,7 @@ function orderStatus(history) {
     return status;
 }
 function hideNewSale(customer) {
-    const pending = customer.orders.some((order) => order.status_id == 3);
+    const pending = customer?.orders?.some((order) => order.status_id == 3);
     return customer?.latest_credit_checker_verifications || pending ? "hidden" : "block";
 }
 
