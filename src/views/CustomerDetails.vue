@@ -248,6 +248,7 @@
 <script setup>
 import { ref, onBeforeMount } from "vue";
 import BaseModal from "@/components/BaseModal.vue";
+// import SideModal from "@/components/SideModal.vue";
 import OrderDetails from "@/components/OrderDetails.vue";
 import { useRoute, useRouter } from "vue-router";
 import plus from "@/assets/svgs/plus.vue";
@@ -274,7 +275,9 @@ const repayment_cycle = ref([
         value: 14,
     },
 ]);
-const Customer = ref();
+const Customer = ref({
+    first_name:''
+});
 
 function VerificationStatus(customer) {
     customer.latest_credit_checker_verifications.status == "passed"

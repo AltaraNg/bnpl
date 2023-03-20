@@ -57,8 +57,8 @@ export const InitiateCreditCheck = ({ commit }, data) => {
             router.push({
                 name: "Verification",
                 params: {
-                    verification_id: response?.result?.credit_check_verification?.id,
-                    phone_number: store.state.Customer?.result?.telephone,
+                    verification_id: response.result.credit_check_verification.id,
+                    phone_number: store.state.Customer.result.telephone,
                     verification_status: 'pending',
                 },
             });
