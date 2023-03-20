@@ -151,8 +151,8 @@ const navigation = [
   { name: "Profile", icon: UsersIcon, current: false, slug: "Profile" },
   { name: "Settings", icon: FolderIcon, current: false, slug: "Settings" },
   { name: "Transactions", icon: ArrowsRightLeftIcon, current: false, slug: "AllTransactions" },
-  { name: "Log Out", icon: ArrowLeftOnRectangleIcon, current: false, slug: "login" },
    { name: "All Customers", icon: UserGroupIcon, current: false, slug: "GetStarted" },
+   { name: "Log Out", icon: ArrowLeftOnRectangleIcon, current: false, slug: "login" },
 ];
 const sidebarOpen = ref(false);
 function logOut() {
