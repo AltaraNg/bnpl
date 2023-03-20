@@ -5,7 +5,7 @@
         </div>
         <div class="lg:px-8 py-4 lg:py-0 lg:mb-5">
             <div class="lg:space-x-6 space-x-0 lg:flex-row flex flex-col lg:justify-center lg:items-center">
-                <span class="inline-flex h-24 w-24 items-center justify-center rounded-full bg-gray-500">
+                <span class="inline-flex h-24 w-24 items-center justify-center rounded-full bg-primary">
                     <span class="text-4xl font-medium leading-none text-white">{{
                         Customer.first_name.charAt(0) + "" + Customer.last_name.charAt(0)
                     }}</span>
@@ -180,16 +180,18 @@
             <div class="">
                 <TableVue class="hidden lg:block">
                     <template #columns>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Product Price</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Downpayment</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Repayment</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Percentage</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Duration</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Date</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Product Name</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Product Price</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Downpayment</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Repayment</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Percentage</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Duration</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Status</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Date</th>
                     </template>
                     <template #default>
                         <tr v-for="history in Customer.orders" class="cursor-pointer" :key="history.id">
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ history.bnpl_product.name }}</td>
                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                                 <div class="flex flex-col items-start">
                                     <div class="font-medium text-gray-900 mb-1">{{ formatCurrency(history.product_price) }}</div>
@@ -273,9 +275,7 @@ const repayment_cycle = ref([
         value: 14,
     },
 ]);
-const Customer = ref({
-    first_name:''
-});
+const Customer = ref();
 
 function VerificationStatus(customer) {
     customer.latest_credit_checker_verifications.status == "passed"

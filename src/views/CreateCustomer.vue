@@ -34,7 +34,7 @@
             </div>
             <div >
               <div class="flex justify-between">
-                <label for="telephone" class="block text-sm font-medium text-gray-700">telephone</label>
+                <label for="telephone" class="block text-sm font-medium text-gray-700">Telephone</label>
               </div>
               <div class="mt-1">
                 <input type="text" name="telephone" v-model="customerData.telephone" id="phone" autocomplete="tel" aria-describedby="phone-description" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
