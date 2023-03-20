@@ -1,202 +1,241 @@
 <template>
-  <div>
-    <App>
-      <div class=" lg:pr-8 py-8 px-6  lg:mx-auto lg:flex flex-col lg:max-w-7xl  ">
-          <div>
-            <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Let's get started</h2>
-          <p class="mt-4 text-lg text-gray-500 sm:mt-3">Just one more step to create your first order</p>
-          </div>
-          
-          <form  class="mt-9 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
-            <div>
-              <label for="first-name" class="block text-sm font-medium text-gray-700">First name</label>
-              <div class="mt-1">
-                <input type="text" name="first-name" v-model="customerData.first_name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-              </div>
+    <div>
+        <App>
+            <div class="lg:pr-8 py-8 px-6 lg:mx-auto lg:flex flex-col lg:max-w-7xl">
+                <div>
+                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Let's get started</h2>
+                    <p class="mt-4 text-lg text-gray-500 sm:mt-3">Just one more step to create your first order</p>
+                </div>
+
+                <!-- <form > -->
+                <Form @submit="onSubmit" :validation-schema="CreateCustomerSchema" v-slot="{ errors }">
+                    <div class="mt-9 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
+                        <div>
+                            <app-label label-title="First name" label-for="first_name" />
+                            <div class="mt-1">
+                                <app-input
+                                    type="text"
+                                    name="first_name"
+                                    :model-value="customerData.first_name"
+                                    id="first-name"
+                                    autocomplete="given-name"
+                                />
+                            </div>
+                            <span class="invalid-feedback">{{ errors?.first_name }}</span>
+                        </div>
+                        <div>
+                            <app-label label-title="Last name" label-for="last_name" />
+                            <div class="mt-1">
+                                <app-input
+                                    type="text"
+                                    name="last_name"
+                                    :model-value="customerData.last_name"
+                                    id="last-name"
+                                    autocomplete="family-name"
+                                />
+                            </div>
+                            <span class="invalid-feedback">{{ errors?.last_name }}</span>
+                        </div>
+                        <div>
+                            <app-label label-title="Email" label-for="email" />
+                            <div class="mt-1">
+                                <app-input type="email" name="email" :model-value="customerData.email" id="email" autocomplete="email" />
+                            </div>
+                            <span class="invalid-feedback">{{ errors?.email }}</span>
+                        </div>
+                        <div>
+                            <app-label label-title="Home address" label-for="home_address" />
+                            <div class="mt-1">
+                                <app-input
+                                    type="text"
+                                    name="home_address"
+                                    :model-value="customerData.home_address"
+                                    id="home_address"
+                                    autocomplete="address"
+                                />
+                            </div>
+                            <span class="invalid-feedback">{{ errors?.home_address }}</span>
+                        </div>
+                        <div>
+                            <app-label label-title="Telephone" label-for="telephone" />
+                            <div class="mt-1">
+                                <app-input
+                                    type="text"
+                                    name="telephone"
+                                    :model-value="customerData.telephone"
+                                    id="telephone"
+                                    autocomplete="telephone"
+                                />
+                            </div>
+                            <span class="invalid-feedback">{{ errors?.telephone }}</span>
+                        </div>
+                        <div>
+                            <app-label label-title="Date of Birth" label-for="date_of_birth" />
+                            <div class="mt-1">
+                                <app-input
+                                    type="date"
+                                    name="date_of_birth"
+                                    :model-value="customerData.date_of_birth"
+                                    id="date_of_birth"
+                                    autocomplete="date_of_birth"
+                                />
+                            </div>
+                            <span class="invalid-feedback">{{ errors?.date_of_birth }}</span>
+                        </div>
+                        <div>
+                            <app-label label-title="State" label-for="state" />
+                            <div class="mt-1">
+                                <app-select-input name="state" :modelValue="customerData.state" @update:modelValue="onSelectChange">
+                                    <option value="" disabled>Select State</option>
+                                    <option class="text-sm" v-for="state in states" :key="state.value" :value="state.value">{{ state.name }}</option>
+                                </app-select-input>
+                            </div>
+                            <span class="invalid-feedback">{{ errors?.state }}</span>
+                        </div>
+                        <div>
+                            <app-label label-title="City" label-for="city" />
+                            <div class="mt-1">
+                                <app-select-input name="city" :modelValue="customerData.city" @update:modelValue="onSelectChange">
+                                    <option value="" disabled>Select City</option>
+                                    <option class="text-sm" v-for="item in areas" :key="item.value" :value="item.value">{{ item.name }}</option>
+                                </app-select-input>
+                            </div>
+                            <span class="invalid-feedback">{{ errors?.city }}</span>
+                        </div>
+
+                        <div class="text-right mt-8 lg:flex lg:justify-center sm:col-span-2">
+                            <defaultButton name="Create Account" class="lg:w-1/3">
+                                <template v-slot:icon>
+                                    <plus />
+                                </template>
+                            </defaultButton>
+                        </div>
+                    </div>
+                </Form>
             </div>
-            <div>
-              <label for="last-name" class="block text-sm font-medium text-gray-700">Last name</label>
-              <div class="mt-1">
-                <input type="text" name="last-name" id="last-name" v-model="customerData.last_name" autocomplete="family-name" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-              </div>
-            </div>
-            <div >
-              <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-              <div class="mt-1">
-                <input id="email" name="email" type="email" v-model="customerData.email" autocomplete="email" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-              </div>
-            </div>
-            <div >
-              <label for="home_address" class="block text-sm font-medium text-gray-700">Home Address</label>
-              <div class="mt-1">
-                <input type="text" name="home_address" id="home_address" v-model="customerData.home_address" autocomplete="organization" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-              </div>
-            </div>
-            <div >
-              <div class="flex justify-between">
-                <label for="telephone" class="block text-sm font-medium text-gray-700">Telephone</label>
-              </div>
-              <div class="mt-1">
-                <input type="text" name="telephone" v-model="customerData.telephone" id="phone" autocomplete="tel" aria-describedby="phone-description" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-              </div>
-            </div>
-            <div >
-              <label for="date_of_birth" class="block text-sm font-medium text-gray-700">Date of Birth</label>
-              <div class="mt-1">
-                <input type="date" name="date_of_birth" v-model="customerData.date_of_birth" id="date_of_birth" autocomplete="organization" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-              </div> 
-            </div>
-            <div >
-              <label for="state" class="block text-sm font-medium text-gray-700">State</label>
-              <div class="mt-1">
-                 <select  name="state" id="state" autocomplete="state" v-model="customerData.state" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" >
-                   <option value="default" class disabled>State</option>
-            <option class="text-sm" v-for="state in states"
-              :key="state.value" :value=state.value>{{ state.name }}</option>
-                </select>
-              </div>
-            </div>
-            <div >
-              <label for="city" class="block text-sm font-medium text-gray-700">City</label>
-              <div class="mt-1">
-                <select  name="city" id="city" autocomplete="city" v-model="customerData.city" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" >
-                   <option value="default" class disabled>Area</option>
-            <option class="text-sm" v-for="branch in areas"
-              :key="branch.value" :value=branch.value>{{ branch.name }}</option>
-                </select>
-              </div>
-            </div>
-            
-            <div class="text-right  mt-8  lg:flex lg:justify-center  sm:col-span-2">
-              <defaultButton name=" Create Account" :action="validateData" class=" lg:w-1/3">
-                            <template v-slot:icon>
-                                <plus />
-                            </template>
-                        </defaultButton>
-            </div>
-          </form>
+        </App>
     </div>
-    </App>
-    
-  </div>
 </template> 
 <script setup>
-import { ref, reactive } from "vue";
-import plus from "@/assets/svgs/plus.vue"
-import defaultButton from '@/components/button.vue';
+import { ref, watch } from "vue";
+import { Form } from "vee-validate";
+import AppInput from "../components/AppInput.vue";
+import AppLabel from "../components/AppLabel.vue";
+import AppSelectInput from "../components/AppSelectInput.vue";
+import plus from "@/assets/svgs/plus.vue";
+import defaultButton from "@/components/button.vue";
 import App from "@/layouts/App.vue";
-import { handleError } from "../utilities/GlobalFunctions"
+// import { handleError } from "../utilities/GlobalFunctions";
 import { useStore } from "vuex";
+import { CreateCustomerSchema } from "@/shemas/CreateCustomerSchema";
+
+const initialCreateCustomerStore = {
+    first_name: "",
+    last_name: "",
+    email: "",
+    home_address: "",
+    telephone: "",
+    date_of_birth: "",
+    state: "",
+    city: "",
+};
+
 const store = useStore();
-      const customerData = reactive({
-        first_name:null,
-        last_name:null,
-        email:null,
-        home_address:null,
-        telephone:null,
-        date_of_birth:null,
-        state:null,
-        city:null
-        
-      })
-      const areas = ref([
-        {
-          value:'Apata',
-          name:'Apata, Ibadan'
-        },
-        {
-          value:'Dugbe',
-          name:'Dugbe, Ibadan'
-        },
-        {
-          value:'Gate',
-          name:'Gate, Ibadan'
-        },
-        {
-          value:'Bodija',
-          name:'Bodija, Ibadan'
-        },
-        {
-          value:'Iwo',
-          name:'Iwo Road, Ibadan'
-        },
-        {
-          value:'Challenge',
-          name:'Challenge, Ibadan'
-        },
-        {
-          value:'Iyana_church',
-          name:' Iyana church, Ibadan'
-        },
-        {
-          value:'Oyo',
-          name:'Oyo Town'
-        },
-        {
-          value:'Ogbomosho',
-          name:'Ogbomosho'
-        },
-        {
-          value:'Yoruba_Road',
-          name:'Yoruba Road, Ilorin'
-        },
-        {
-          value:'Gambari',
-          name:'Gambari, Ilorin'
-        },
-        {
-          value:'Taiwo_Road',
-          name:'Taiwo Road, Ilorin'
-        },
-        {
-          value:'Ijebu_Ode',
-          name:'Ijebu Ode'
-        },
-        {
-          value:'Sagamu',
-          name:'Sagamu'
-        },
-        {
-          value:'Abiola_Way',
-          name:'Abiola Way Showroom'
-        },
-        {
-          value:'Isale_Igbeyin',
-          name:'Isale Igbeyin Showroom'
-        },
-        
-      ])
-      const states = ref([
-        {
-          value:'Kwara',
-          name:'Kwara State'
-        },
-        {
-          value:'Ogun',
-          name:'Ogun State'
-        },
-        {
-          value:'Oyo',
-          name:'Oyo State'
-        },
-      ])
-      function validateData(event){
-        for(let [key, value] of Object.entries(customerData)){
-          var invalidNumber;
-          if(!value){
-            handleError(`Please enter your ${key}`)
-          }else if(customerData.telephone.length !== 11){
-            invalidNumber = true
-            handleError(`Your phone number number must be 11 digits`)
-          }
-             
-        }
-        if(Object.values(customerData).every(el => el) && !invalidNumber){
-          store.dispatch("CreateCustomer", customerData); 
-        }
-        
-      
-    
-         event.preventDefault();
-      }
+const customerData = ref(initialCreateCustomerStore);
+const areas = ref([]);
+const states = ref([
+    {
+        value: "Kwara",
+        name: "Kwara State",
+        areas: [
+            {
+                value: "Yoruba_Road",
+                name: "Yoruba Road, Ilorin",
+            },
+            {
+                value: "Gambari",
+                name: "Gambari, Ilorin",
+            },
+            {
+                value: "Taiwo_Road",
+                name: "Taiwo Road, Ilorin",
+            },
+        ],
+    },
+    {
+        value: "Ogun",
+        name: "Ogun State",
+        areas: [
+            {
+                value: "Ijebu_Ode",
+                name: "Ijebu Ode",
+            },
+            {
+                value: "Sagamu",
+                name: "Sagamu",
+            },
+            {
+                value: "Abiola_Way",
+                name: "Abiola Way Showroom",
+            },
+            {
+                value: "Isale_Igbeyin",
+                name: "Isale Igbeyin Showroom",
+            },
+        ],
+    },
+    {
+        value: "Oyo",
+        name: "Oyo State",
+        areas: [
+            {
+                value: "Apata",
+                name: "Apata, Ibadan",
+            },
+            {
+                value: "Dugbe",
+                name: "Dugbe, Ibadan",
+            },
+            {
+                value: "Gate",
+                name: "Gate, Ibadan",
+            },
+            {
+                value: "Bodija",
+                name: "Bodija, Ibadan",
+            },
+            {
+                value: "Iwo",
+                name: "Iwo Road, Ibadan",
+            },
+            {
+                value: "Challenge",
+                name: "Challenge, Ibadan",
+            },
+            {
+                value: "Iyana_church",
+                name: " Iyana church, Ibadan",
+            },
+        ],
+    },
+]);
+
+watch(
+    () => customerData.value.state,
+    (newValue) => {
+        states.value.filter((element) => {
+            if (element.value == newValue) {
+                areas.value = element.areas;
+                return element;
+            }
+        });
+    }
+);
+function onSelectChange(value, name) {
+    customerData.value[name] = value;
+}
+
+function onSubmit(value) {
+    store.dispatch("CreateCustomer", value);
+}
 </script>
