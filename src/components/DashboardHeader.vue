@@ -5,18 +5,14 @@
                 <div class="min-w-0 flex-1 lg:flex lg:items-center lg:w-full lg:justify-between">
                     <!-- Profile -->
                     <div class="flex items-center mb-5 lg:mb-0">
-                        <img 
-                            class="hidden h-16 w-16 rounded-full sm:block"
-                            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80"
-                            alt=""
-                        />
+                        <div class="h-16 hidden lg:flex w-16 flex-shrink-0 bg-purple-300 rounded-full flex items-center justify-center">
+                            <p class="font-bold text-2xl">{{ fullname[0].charAt(0) + "" + fullname[1].charAt(0) }}</p>
+                        </div>
                         <div>
                             <div class="flex items-center">
-                                <img
-                                    class="h-16 w-16 rounded-full sm:hidden"
-                                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80"
-                                    alt=""
-                                />
+                                 <div class="h-16 lg:hidden flex w-16 flex-shrink-0 bg-purple-300 rounded-full flex items-center justify-center">
+                            <p class="font-bold text-2xl">{{ fullname[0].charAt(0) + "" + fullname[1].charAt(0) }}</p>
+                        </div>
                                 <h1 class="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:leading-9">
                                     Hello, {{ userdata?.full_name }}
                                 </h1>
@@ -35,7 +31,7 @@
                             </dl>
                         </div>
                     </div>
-                    <RouterLink :to="{name:'GetStarted'}" >
+                    <RouterLink :to="{ name: 'GetStarted' }">
                         <defaultButton name=" New Sale">
                             <template v-slot:icon>
                                 <plus />
@@ -46,14 +42,16 @@
                 <div class="mt-6 flex space-x-3 md:mt-0 md:ml-4"></div>
             </div>
         </div>
-     
     </div>
 </template>
 <script setup>
 import { BuildingOfficeIcon, CheckCircleIcon } from "@heroicons/vue/20/solid";
 import { userdata } from "../utilities/GlobalFunctions";
-
+import { computed } from "vue";
 import defaultButton from "../components/button.vue";
 import plus from "@/assets/svgs/plus.vue";
 
+const fullname = computed(() => {
+    return userdata.full_name.split(" ");
+});
 </script>
