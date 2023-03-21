@@ -39,7 +39,7 @@ export default {
         return api.get(`customers/${phone_number}`);
     },
     searchcustomer(phone_number) {
-        return api.getWithoutLoader(`customers?telephone=${phone_number}`);
+        return api.get(`customers?telephone=${phone_number}`);
     },
     generateOTP(data) {
         return api.post("generate/otp", data);
@@ -50,5 +50,9 @@ export default {
     storeOrder(data) {
         return api.post("store/order", data);
     },
+     dashboarddata() {
+        return api.get("get/dashboard/data");
+    },
+   
     
 };

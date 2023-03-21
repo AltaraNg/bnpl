@@ -168,6 +168,7 @@
 import defaultButton from "@/components/button.vue";
 import { ref, reactive, onMounted } from "vue";
 import CurrencyInput from "@/components/CurrencyInput.vue";
+import plus from "@/assets/svgs/plus.vue";
 import App from "@/layouts/App.vue";
 import { handleError } from "../utilities/GlobalFunctions";
 import { useStore } from "vuex";
