@@ -119,13 +119,12 @@
 <script setup>
 import { ref, watch } from "vue";
 import { Form } from "vee-validate";
-import AppInput from "../components/AppInput.vue";
-import AppLabel from "../components/AppLabel.vue";
-import AppSelectInput from "../components/AppSelectInput.vue";
+import AppInput from "@/components/AppInput.vue";
+import AppLabel from "@/components/AppLabel.vue";
+import AppSelectInput from "@/components/AppSelectInput.vue";
 import plus from "@/assets/svgs/plus.vue";
 import defaultButton from "@/components/button.vue";
 import App from "@/layouts/App.vue";
-// import { handleError } from "../utilities/GlobalFunctions";
 import { useStore } from "vuex";
 import { CreateCustomerSchema } from "@/shemas/CreateCustomerSchema";
 

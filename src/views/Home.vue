@@ -195,11 +195,10 @@ async function FetchDashboard() {
         const summary = [
             { name: "No of Sales", href: "#", icon: ScaleIcon, amount: res?.data?.result?.total_number_of_sales },
             { name: "Total Revenue", href: "#", icon: ScaleIcon, amount: formatCurrency(res?.data?.result?.total_revenue) },
-            { name: "Commission", href: "#", icon: ScaleIcon, amount: "₦25,659.45" },
+            { name: "Commission", href: "#", icon: ScaleIcon, amount: "Coming soon" },
         ];
         cards.value.push(...summary);
         transactions.value.push(...res.data.result.recent_activities);
-        console.log()
 
     });
 }
