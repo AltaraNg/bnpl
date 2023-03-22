@@ -343,7 +343,6 @@ function NewSale(item) {
 function ShowAmmortization(history) {
     showModal.value = true;
     currentOrder.value = history;
-    console.log(history);
 }
 function VerificationStatus(customer) {
     customer.latest_credit_checker_verifications.status == "passed"
