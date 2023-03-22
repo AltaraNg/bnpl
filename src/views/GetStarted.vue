@@ -1,7 +1,11 @@
 <template>
     <div class="bg-gray-100 min-h-screen">
+
         <div class="w-full relative flex flex-col items-center justify-center">
-            <div class="bg-gradient-to-t from-blue-500 via-primary to-primary h-[191px] absolute top-0 w-full" />
+            <div class="bg-gradient-to-t from-blue-500 via-primary to-primary h-[191px] absolute top-0 w-full" ></div>
+                     <div class="w-full absolute top-5 left-3">
+                       <ArrowLeftIcon class="cursor-pointer h-8 w-10 text-white" @click="router.push({ name: 'Dashboard' })" />
+                    </div>
             <Search @search="SearchPhoneNumber" />
         </div>
         <div class="m-auto mt-20 w-full md:max-w-[742px] lg:max-w-[1008px]">
@@ -12,7 +16,7 @@
                             <p class="text-3xl font-bold mb-2">Customers</p>
                             <div class="hidden md:block">
                                 <TableVue>
-                                    <template #columns>
+                                    <template #columns v-if="Customers.length !== 0">
                                         <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
                                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Address</th>
                                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
@@ -46,7 +50,7 @@
                                             </td>
                                             <td class="whitespace-nowrap py-4 text-sm text-gray-500">
                                                 <button
-                                                    @click="$router.push({ name: 'CreateOrder', params: { id: item.id } })"
+                                                    @click="NewSale(item)"
                                                     class="border rounded bg-primary px-3 py-2 text-white"
                                                     :class="hideNewSale(item)"
                                                 >
@@ -69,15 +73,22 @@
                                     <div class="items-center flex justify-between w-full">
                                         <div class="flex-1" @click="SeeMore(item)">
                                             <p class="text-lg font-semibold">{{ item.first_name }} {{ item.last_name }}</p>
-                                            <p class="text-sm">{{ item.phone_number }}</p>
+                                            <p class="text-sm">{{ item.telephone }}</p>
                                         </div>
-                                        <button
-                                            @click="$router.push({ name: 'CreateOrder', params: { id: item.id } })"
+                                        <div class="flex flex-col items-end space-y-2">
+                                             <span
+                                                    class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800"
+                                                    >{{ UserStatus(item) }}</span
+                                                >
+                                             <button
+                                            @click="NewSale(item)"
                                             class="border text-xs rounded bg-primary px-3 py-2 text-white"
                                             :class="hideNewSale(item)"
                                         >
                                             New Sale
                                         </button>
+                                        </div>
+                                       
                                     </div>
 
                                     <!-- <SideModal v-if="sidebarOpen" @close="sidebarOpen = false" class=" lg:hidden"> hello </SideModal> -->
@@ -103,6 +114,7 @@
     </div>
 </template>
 <script setup>
+import { ArrowLeftIcon } from "@heroicons/vue/24/solid";
 import Search from "@/components/Search";
 import TableVue from "@/components/Table";
 import defaultButton from "@/components/button.vue";
@@ -124,7 +136,6 @@ const SeeMore = (item) => {
 };
 function SearchPhoneNumber(phoneNumber) {
      phone_number.value = phoneNumber;
-    
     FindCustomer();
 }
 const FindCustomer = async() => {
@@ -137,10 +148,13 @@ function hideNewSale(customer){
   return  (customer?.latest_credit_checker_verifications || pending ) ? "hidden": "block"
 
 }
+function NewSale(item){
+    store.dispatch('NewSale', item)
+}
 
  function UserStatus(customer) {
   if(hideNewSale(customer) == "hidden"){
-    return 'Pending'
+    return 'Active'
   }
   if(hideNewSale(customer) == "block" && customer.orders.length==0 && !customer?.latest_credit_checker_verifications ){
     return 'New'

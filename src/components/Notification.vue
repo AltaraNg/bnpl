@@ -40,7 +40,6 @@ import { XMarkIcon, XCircleIcon, InformationCircleIcon, CheckCircleIcon } from '
 import { useStore } from 'vuex';
 
 const store = useStore();
-
 const notification = store.state.notification
 
 const handleClose = () => {

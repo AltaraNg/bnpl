@@ -25,7 +25,7 @@
                     type="button"
                     :class="hideNewSale(Customer)"
                     class="inline-flex items-center rounded-md border border-transparent bg-primary p-3 text-base font-medium leading-4 text-white shadow-sm focus:outline-none focus:ring-0 justify-center mt-4 w-full lg:w-fit"
-                    @click="$router.push({ name: 'CreateOrder', params: { id: Customer.id } })"
+                    @click="NewSale(Customer)"
                 >
                     <plus />
                     New Sale
@@ -33,7 +33,7 @@
             </div>
         </div>
         <div v-if="Customer.latest_credit_checker_verifications">
-            <div class="lg:hidden"  v-if="!Customer.orders.length > 0">
+            <div class="lg:hidden" v-if="!Customer.orders.length > 0">
                 <div class="overflow-hidden bg-white px-4 lg:px-8 pb-6">
                     <div class="relative mx-auto max-w-xl">
                         <div class="grid grid-cols-1 justify-items-center bg-green-400p pt-4">
@@ -184,13 +184,12 @@
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Product Price</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Downpayment</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Repayment</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Percentage</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Duration</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Date</th>
                     </template>
                     <template #default>
-                        <tr v-for="history in Customer.orders" class="cursor-pointer" :key="history.id">
+                        <tr v-for="history in Customer.orders" class="cursor-pointer" :key="history.id" @click="ShowAmmortization(history)">
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ history.bnpl_product.name }}</td>
                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                                 <div class="flex flex-col items-start">
@@ -199,9 +198,13 @@
                                 </div>
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ formatCurrency(history.down_payment) }}</td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ formatCurrency(history.amortizations[0].expected_amount) }}</td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ history.down_payment_rate_id }}0%</td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ findRepayment(history.repayment_duration_id, repayment_duration )  }}/ {{ findRepayment(history.repayment_cycle_id,repayment_cycle ) }}</td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                {{ formatCurrency(history.amortizations[0].expected_amount) }}
+                            </td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                {{ findRepayment(history.repayment_duration_id, repayment_duration) }}/
+                                {{ findRepayment(history.repayment_cycle_id, repayment_cycle) }}
+                            </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                 <span
                                     class="inline-flex capitalize rounded-full px-2 text-xs font-semibold leading-5"
@@ -220,28 +223,82 @@
             <p class="text-gray-800 lg:text-2xl mb-0.5">This customer's has no sales</p>
             <p class="text-gray-500 text-xs lg:text-normal mb-6">You can create a new sale by clicking New Sale</p>
         </div>
-          <BaseModal @close="showModal=false" v-if="showModal">
-      <div>
-        <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-          <CheckIcon class="h-6 w-6 text-green-600" aria-hidden="true" />
-        </div>
-        <div class="mt-3 text-center sm:mt-5">
-          <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900">Coming soon</DialogTitle>
-          <div class="mt-2">
-            <p class="text-sm text-gray-500">
-             This page is in progress
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="mt-5 sm:mt-6">
-        <button type="button"
-          class="inline-flex w-full justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-base font-medium text-white shadow-sm  focus:outline-none focus:ring-0 sm:text-sm"
-          @click="showModal = false">
-          Go back to dashboard
-        </button>
-      </div>
-    </BaseModal>
+        <BaseModal @close="showModal = false" v-if="showModal">
+            <div class="hidden lg:block w-full space-y-10">
+                <div>
+                    <p class="text-lg mb-1 font-semibold mt-2 text-gray-800">Payment Summary</p>
+                    <TableVue>
+                        <template #columns>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Name</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Product Price</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Total Repayment</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Downpayment</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
+                        </template>
+                        <template #default>
+                            <tr v class="cursor-pointer">
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ currentOrder.customer.first_name + " " + currentOrder.customer.last_name  }}</td>
+                                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
+                                    <div class="flex flex-col items-start">
+                                        <div class="font-medium text-gray-900 mb-1">{{ formatCurrency(currentOrder.product_price) }}</div>
+                                        <div class="text-gray-500">{{ currentOrder.order_number }}</div>
+                                    </div>
+                                </td>
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ formatCurrency(currentOrder.repayment) }}</td>
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                    {{ formatCurrency(currentOrder.down_payment) }}
+                                </td>
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                    <span
+                                        class="inline-flex capitalize rounded-full px-2 text-xs font-semibold leading-5"
+                                        :class="ColorStatus(currentOrder.status_id)"
+                                        >{{ orderStatus(currentOrder) }}</span
+                                    >
+                                </td>
+                               
+                            </tr>
+                        </template>
+                    </TableVue>
+                </div>
+                <div>
+                    <p class="text-lg mb-1 font-semibold mt-2 text-gray-800">Ammortizations</p>
+                    <TableVue>
+                        <template #columns>
+                            <th scope="col" class="px-5 py-3.5 text-left text-sm font-semibold text-gray-900">Date</th>
+                            <th
+                                scope="col"
+                                class="px-5 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                v-for="amortization in currentOrder.amortizations"
+                                :key="amortization"
+                            >
+                                {{ amortization.expected_payment_date }}
+                            </th>
+                        </template>
+                        <template #default>
+                            <tr>
+                                <td class="whitespace-nowrap px-5 py-4 text-sm text-gray-500">Amount</td>
+                                <td
+                                    class="whitespace-nowrap px-5 py-4 text-sm text-gray-500"
+                                    v-for="amortization in currentOrder.amortizations"
+                                    :key="amortization"
+                                >
+                                    {{ formatCurrency(amortization.expected_amount) }}
+                                </td>
+                            </tr>
+                        </template>
+                    </TableVue>
+                </div>
+            </div>
+            <div class="mt-5 sm:mt-6 w-full flex justify-end">
+                <button
+                    type="button"
+                    class="inline-flex px-5 py-2 justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-base font-medium text-white shadow-sm focus:outline-none focus:ring-0 sm:text-sm"
+                    @click="showModal = false"
+                >
+                    Close
+                </button>
+            </div>
+        </BaseModal>
     </div>
 </template>
 
@@ -251,12 +308,16 @@ import BaseModal from "@/components/BaseModal.vue";
 import OrderDetails from "@/components/OrderDetails.vue";
 import { useRoute, useRouter } from "vue-router";
 import plus from "@/assets/svgs/plus.vue";
+import { useStore } from "vuex";
 import { ArrowLeftIcon } from "@heroicons/vue/24/solid";
 import TableVue from "@/components/Table.vue";
 import zerostate from "@/assets/svgs/zerostate.vue";
 import { formatCurrency } from "@/utilities/GlobalFunctions";
 import Apis from "@/services/ApiCalls";
+
+const store = useStore();
 const showModal = ref(false);
+const currentOrder = ref({});
 const route = useRoute();
 const router = useRouter();
 const repayment_duration = ref();
@@ -276,6 +337,13 @@ const repayment_cycle = ref([
 ]);
 const Customer = ref();
 
+function NewSale(item) {
+    store.dispatch("NewSale", item);
+}
+function ShowAmmortization(history) {
+    showModal.value = true;
+    currentOrder.value = history;
+}
 function VerificationStatus(customer) {
     customer.latest_credit_checker_verifications.status == "passed"
         ? router.push({
@@ -345,21 +413,19 @@ async function CustomerDetails() {
 }
 async function RepaymentDuration() {
     const result = await Apis.repaymentduration();
-    repayment_duration.value = result?.data?.data?.data.filter((duration)=>{
-      return  duration.name !== 'nine_months'
+    repayment_duration.value = result?.data?.data?.data.filter((duration) => {
+        return duration.name !== "nine_months";
     });
 }
-function findRepayment(customerData, array){
-   const result = array.find((data)=>{
-        return data.id == customerData
-    })
-    return result?.name
-    
+function findRepayment(customerData, array) {
+    const result = array.find((data) => {
+        return data.id == customerData;
+    });
+    return result?.name;
 }
 
-
-onBeforeMount( async() => {
-    await RepaymentDuration()
-     CustomerDetails();
+onBeforeMount(async () => {
+    await RepaymentDuration();
+    CustomerDetails();
 });
 </script>

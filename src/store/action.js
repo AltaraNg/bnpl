@@ -58,7 +58,7 @@ export const InitiateCreditCheck = ({ commit }, data) => {
                 name: "Verification",
                 params: {
                     verification_id: response?.result?.credit_check_verification?.id,
-                    phone_number: store.state.Customer?.result?.telephone,
+                    phone_number: store.state.Customer?.telephone,
                     verification_status: 'pending',
                 },
             });
@@ -67,6 +67,10 @@ export const InitiateCreditCheck = ({ commit }, data) => {
 };
 export const SaveResult = ({ commit }, data) => {
     commit("SAVERESULT", data);
+};
+export const NewSale = ({ commit }, item) => {
+    commit("SAVECUSTOMER", item);
+    router.push({ name: "CreateOrder", params: { id: item.id } });
 };
 
 
