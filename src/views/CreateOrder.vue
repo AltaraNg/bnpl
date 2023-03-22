@@ -259,12 +259,15 @@ function Calculate() {
                 x.repayment_duration_id == Order.repayment_duration_id
             );
         });
+
+        console.log(params);
         const { total, actualDownpayment, rePayment } = calculate(Order.amount, Data, params, 0);
 
         OrderResult.value.total = total;
         OrderResult.value.actualDownpayment = actualDownpayment;
         OrderResult.value.rePayment = rePayment;
     } catch (e) {
+        console.log(e);
         window.localStorage.removeItem("data");
     }
 }
