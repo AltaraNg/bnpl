@@ -417,11 +417,12 @@ async function RepaymentDuration() {
         return duration.name !== "nine_months";
     });
 }
-function findRepayment(customerData, array) {
-    const result = array.find((data) => {
-        return data.id == customerData;
-    });
-    return result?.name;
+function findRepayment(customerData, array){
+   const result = array.find((data)=>{
+        return data.id == customerData
+    })
+    return result?.name?.replace(/_/g , " ") ?? '';
+    
 }
 
 onBeforeMount(async () => {
