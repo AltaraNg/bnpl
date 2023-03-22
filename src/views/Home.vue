@@ -67,6 +67,8 @@
                                     <span class="flex flex-1 space-x-2 truncate">
                                         <BanknotesIcon class="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
                                         <span class="flex flex-col truncate text-sm text-gray-500">
+                                           <span class="text-lg font-semibold">{{  transaction.customer.first_name + " " + transaction.customer.last_name }}</span>
+                                         
                                             <span class="truncate">{{ transaction.bnpl_product.name }}</span>
                                             <span
                                                 ><span class="font-medium text-gray-900">{{ formatCurrency(transaction.price) }}</span>
@@ -160,7 +162,7 @@
                                             </td>
                                             <td class="hidden whitespace-nowrap px-6 py-4 text-sm text-gray-500 md:block">
                                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize">
-                                                    Customer name
+                                                    {{ transaction.customer.first_name + " " + transaction.customer.last_name }}
                                                 </span>
                                             </td>
                                             <td class="whitespace-nowrap px-6 py-4 text-right text-sm text-gray-500">

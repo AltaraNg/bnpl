@@ -154,7 +154,7 @@ function NewSale(item){
 
  function UserStatus(customer) {
   if(hideNewSale(customer) == "hidden"){
-    return 'Pending'
+    return 'Active'
   }
   if(hideNewSale(customer) == "block" && customer.orders.length==0 && !customer?.latest_credit_checker_verifications ){
     return 'New'
