@@ -228,7 +228,7 @@ const repayment_cycle = ref([
 const get_calculations = ref([]);
 const Order = reactive({
     product: "",
-    amount: "",
+    amount: 0,
     repayment_duration_id: "",
     repayment_cycle_id: "",
     first_guarantor_first_name: "",
