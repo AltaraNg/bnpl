@@ -85,7 +85,7 @@ export default {
                 this.$store.dispatch("Login", {
                     username: this.username,
                     password: this.password,
-                });
+                }); 
             }
             //
             event.preventDefault();
