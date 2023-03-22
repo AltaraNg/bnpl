@@ -228,16 +228,16 @@ const repayment_cycle = ref([
 const get_calculations = ref([]);
 const Order = reactive({
     product: "",
-    amount: 1000,
+    amount: 0,
     repayment_duration_id: "",
     repayment_cycle_id: "",
     first_guarantor_first_name: "",
     first_guarantor_last_name: "",
-    first_guarantor_telephone: "09086112324",
+    first_guarantor_telephone: "",
     first_guarantor_home_address: "",
     second_guarantor_first_name: "",
     second_guarantor_last_name: "",
-    second_guarantor_telephone: "09087661234",
+    second_guarantor_telephone: "",
     second_guarantor_home_address: "",
 });
 const business_type = ref();
