@@ -1,5 +1,5 @@
 <template>
-    <div class="lg:p-5 p-6 text-gray-800">
+    <div class="lg:p-5 p-6 text-gray-800  min-h-screen bg-gradient-to-r from-[#b7e6ff] to-[#def1ff]">
         <div class="mb-2 w-full block cursor-pointer">
             <ArrowLeftIcon class="h-10 w-10 text-indigo-600" aria-hidden="true" @click="router.push({ name: 'GetStarted' })" />
         </div>
@@ -414,7 +414,7 @@ function orderStatus(history) {
 }
 function hideNewSale(customer) {
     const pending = customer.orders.some((order) => order.status_id == 3);
-    return (customer?.latest_credit_checker_verifications?.status !== "failed") || pending ? "hidden" : "block";
+    return (customer?.latest_credit_checker_verifications?.status == "pending") || pending ? "hidden" : "block";
 }
 
 async function CustomerDetails() {

@@ -147,7 +147,7 @@ const FindCustomer = async() => {
 };
 function hideNewSale(customer){
   const pending =  customer.orders.some((order)=> order.status_id == 3)
-  return  ((customer?.latest_credit_checker_verifications?.status !== "failed") || pending ) ? "hidden": "block"
+  return  ((customer?.latest_credit_checker_verifications?.status == "pending") || pending ) ? "hidden": "block"
 
 }
 function NewSale(item){
