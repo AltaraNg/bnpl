@@ -1,9 +1,9 @@
 <template>
     <div class="bg-gray-100 min-h-screen">
 
-        <div class="w-full relative flex flex-col items-center justify-center">
+        <div class="w-full  flex flex-col items-center justify-center">
             <div class="bg-gradient-to-t from-blue-500 via-primary to-primary h-[191px] absolute top-0 w-full" ></div>
-                     <div class="w-full absolute top-5 left-3">
+                     <div class="w-full  z-10 pl-2 pt-3">
                        <ArrowLeftIcon class="cursor-pointer h-8 w-10 text-white" @click="router.push({ name: 'Dashboard' })" />
                     </div>
             <Search @search="SearchPhoneNumber" />
