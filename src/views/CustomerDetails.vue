@@ -73,7 +73,7 @@
                                     <p class="text-gray-500 text-sm font-medium mt-4">Downpayment:</p>
                                     <p class="text-gray-500 text-xl font-medium mt-4">
                                         {{ Customer.latest_credit_checker_verifications.down_payment_rate.percent || "" }}% -
-                                        {{ Customer.latest_credit_checker_verifications.repayment_duration.name || "" }}
+                                        {{ splitText(Customer.latest_credit_checker_verifications.repayment_duration.name) || "" }}
                                     </p>
                                 </div>
                             </div>
@@ -107,7 +107,7 @@
                                 {{ Customer.latest_credit_checker_verifications.down_payment_rate.percent || "" }}%
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {{ Customer.latest_credit_checker_verifications.repayment_duration.name || "" }}
+                                {{ splitText(Customer.latest_credit_checker_verifications.repayment_duration.name) || "" }}
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                 <span
@@ -423,6 +423,9 @@ function findRepayment(customerData, array){
     })
     return result?.name?.replace(/_/g , " ") ?? '';
     
+}
+function splitText(text){
+    return text.split("_").join(" ");
 }
 
 onBeforeMount(async () => {
