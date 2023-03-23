@@ -77,6 +77,7 @@
                                         </div>
                                         <div class="flex flex-col items-end space-y-2">
                                              <span
+                                             :class="hideNewSale(item) == 'block' ? 'hidden' : 'block'"
                                                     class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800"
                                                     >{{ UserStatus(item) }}</span
                                                 >
@@ -145,7 +146,7 @@ const FindCustomer = async() => {
 };
 function hideNewSale(customer){
   const pending =  customer.orders.some((order)=> order.status_id == 3)
-  return  (customer?.latest_credit_checker_verifications || pending ) ? "hidden": "block"
+  return  ((customer?.latest_credit_checker_verifications?.status !== "failed") || pending ) ? "hidden": "block"
 
 }
 function NewSale(item){

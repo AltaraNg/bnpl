@@ -3,7 +3,7 @@
         <div class="mb-2 w-full block cursor-pointer">
             <ArrowLeftIcon class="h-10 w-10 text-indigo-600" aria-hidden="true" @click="router.push({ name: 'GetStarted' })" />
         </div>
-        <div class="lg:px-8 py-4 lg:py-0 lg:mb-5">
+        <div class="lg:px-8 py-4 lg:py-0 lg:mb-10">
             <div class="lg:space-x-6 space-x-0 lg:flex-row flex flex-col lg:justify-center lg:items-center">
                 <span class="inline-flex h-24 w-24 items-center justify-center rounded-full bg-primary">
                     <span class="text-4xl font-medium leading-none text-white">{{
@@ -14,12 +14,12 @@
             </div>
             <div class="flex flex-col lg:items-center lg:justify-between lg:flex-row">
                 <div>
-                    <p class="font-semibold mt-2">{{ Customer.email }}</p>
-                    <p class="font-semibold mt-2">{{ Customer.telephone }}</p>
+                    <p class="font-semibold mt-0.5">{{ Customer.email }}</p>
+                    <p class="font-semibold text-primary mt-0.5">{{ Customer.telephone }}</p>
                 </div>
                 <div>
-                    <p class="font-semibold mt-2">{{ Customer.area_address }}</p>
-                    <p class="font-medium text-gray-500 mt-2">Joined {{ Customer.date_of_registration.split(" ")[0] }}</p>
+                    <p class="font-semibold mt-0.5">{{ Customer.area_address }}</p>
+                    <p class="font-semibold text-primary mt-0.5">Joined {{ Customer.date_of_registration.split(" ")[0] }}</p>
                 </div>
                 <button
                     type="button"
@@ -172,6 +172,7 @@
                                 :repayment_duration="repayment_duration"
                                 :repayment_cycle="repayment_cycle"
                                 :findRepayment="findRepayment"
+                                @click="ShowAmmortization(item)"
                             />
                         </div>
                     </div>
@@ -180,34 +181,34 @@
             <div class="">
                 <TableVue class="hidden lg:block">
                     <template #columns>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Product Name</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Product Price</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Downpayment</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Repayment</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Duration</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Date</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Product Name</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Product Price</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Downpayment</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Repayment</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Duration</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Status</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Date</th>
                     </template>
                     <template #default>
                         <tr v-for="history in Customer.orders" class="cursor-pointer" :key="history.id" @click="ShowAmmortization(history)">
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ history.bnpl_product.name }}</td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{{ history.bnpl_product.name }}</td>
                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                                 <div class="flex flex-col items-start">
                                     <div class="font-medium text-gray-900 mb-1">{{ formatCurrency(history.product_price) }}</div>
-                                    <div class="text-gray-500">{{ history.order_number }}</div>
+                                    <div class="text-gray-900">{{ history.order_number }}</div>
                                 </div>
                             </td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ formatCurrency(history.down_payment) }}</td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{{ formatCurrency(history.down_payment) }}</td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">
                                 {{ formatCurrency(history.amortizations[0].expected_amount) }}
                             </td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">
                                 {{ findRepayment(history.repayment_duration_id, repayment_duration) }}/
                                 {{ findRepayment(history.repayment_cycle_id, repayment_cycle) }}
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                 <span
-                                    class="inline-flex capitalize rounded-full px-2 text-xs font-semibold leading-5"
+                                    class="inline-flex capitalize rounded-full px-4 py-1 text-xs font-semibold leading-5"
                                     :class="ColorStatus(history.status_id)"
                                     >{{ orderStatus(history) }}</span
                                 >
@@ -224,7 +225,7 @@
             <p class="text-gray-500 text-xs lg:text-normal mb-6">You can create a new sale by clicking New Sale</p>
         </div>
         <BaseModal @close="showModal = false" v-if="showModal">
-            <div class="hidden lg:block w-full space-y-10">
+            <div class="block w-full space-y-10">
                 <div>
                     <p class="text-lg mb-1 font-semibold mt-2 text-gray-800">Payment Summary</p>
                     <TableVue>
@@ -234,10 +235,13 @@
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Total Repayment</th>
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Downpayment</th>
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Branch</th>
                         </template>
                         <template #default>
                             <tr v class="cursor-pointer">
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ currentOrder.customer.first_name + " " + currentOrder.customer.last_name  }}</td>
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                    {{ currentOrder.customer.first_name + " " + currentOrder.customer.last_name }}
+                                </td>
                                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                                     <div class="flex flex-col items-start">
                                         <div class="font-medium text-gray-900 mb-1">{{ formatCurrency(currentOrder.product_price) }}</div>
@@ -255,7 +259,9 @@
                                         >{{ orderStatus(currentOrder) }}</span
                                     >
                                 </td>
-                               
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                    {{ currentOrder.branch.name || currentOrder.vendor.address }}
+                                </td>
                             </tr>
                         </template>
                     </TableVue>
@@ -350,11 +356,15 @@ function VerificationStatus(customer) {
               name: "SuccessfulVerification",
               params: { verification_id: customer.latest_credit_checker_verifications.id, phone_number: customer.telephone, OTPvalidate: "false" },
           })
+        : customer.latest_credit_checker_verifications.status == "failed"
+        ? router.push({
+              name: "FailedVerification",
+              params: { verification_id: customer.latest_credit_checker_verifications.id, phone_number: customer.telephone },
+          })
         : router.push({
               name: "Verification",
               params: {
                   verification_id: customer.latest_credit_checker_verifications.id,
-                  verification_status: customer.latest_credit_checker_verifications.status,
                   phone_number: customer.telephone,
               },
           });
@@ -372,7 +382,7 @@ function ColorStatus(status) {
             color = "bg-green-100  text-green-800";
             break;
         case "pending":
-            color = "bg-yellow-100  text-yellow-800";
+            color = "bg-yellow-300  text-yellow-900";
             break;
         case "passed":
             color = "bg-green-100  text-green-800";
@@ -404,7 +414,7 @@ function orderStatus(history) {
 }
 function hideNewSale(customer) {
     const pending = customer.orders.some((order) => order.status_id == 3);
-    return customer?.latest_credit_checker_verifications || pending ? "hidden" : "block";
+    return (customer?.latest_credit_checker_verifications?.status !== "failed") || pending ? "hidden" : "block";
 }
 
 async function CustomerDetails() {
@@ -417,12 +427,11 @@ async function RepaymentDuration() {
         return duration.name !== "nine_months";
     });
 }
-function findRepayment(customerData, array){
-   const result = array.find((data)=>{
-        return data.id == customerData
-    })
-    return result?.name?.replace(/_/g , " ") ?? '';
-    
+function findRepayment(customerData, array) {
+    const result = array.find((data) => {
+        return data.id == customerData;
+    });
+    return result?.name?.replace(/_/g, " ") ?? "";
 }
 
 onBeforeMount(async () => {

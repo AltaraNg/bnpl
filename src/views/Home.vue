@@ -77,13 +77,13 @@
                                             <time :datetime="transaction.datetime">{{ transaction.order_date }}</time>
                                         </span>
                                     </span>
-                                    <ChevronRightIcon class="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
+                                    <ChevronRightIcon class="h-5 w-5 flex-shrink-0 text-gray-400 hidden" aria-hidden="true" />
                                 </span>
                             </a>
                         </li>
                     </ul>
 
-                    <nav class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3" aria-label="Pagination">
+                    <nav class="flex items-center justify-between border-t border-gray-200 hidden bg-white px-4 py-3" aria-label="Pagination">
                         <div class="flex flex-1 justify-between">
                             <a
                                 href="#"
@@ -152,7 +152,7 @@
                                             </td>
                                             <td class="w-full max-w-0 whitespace-nowrap px-6 py-4 text-sm text-gray-500">
                                                 <div>
-                                                    <p class="truncate text-gray-500 group-hover:text-gray-900">
+                                                    <p class="truncate text-gray-700 group-hover:text-gray-900 font-semibold">
                                                         {{ transaction.bnpl_product.name }}
                                                     </p>
                                                 </div>
@@ -161,7 +161,7 @@
                                                 <span class="font-medium text-gray-900">{{ formatCurrency(transaction.product_price) }}</span>
                                             </td>
                                             <td class="hidden whitespace-nowrap px-6 py-4 text-sm text-gray-500 md:block">
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize">
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-gray-700  font-semibold capitalize">
                                                     {{ transaction.customer.first_name + " " + transaction.customer.last_name }}
                                                 </span>
                                             </td>
