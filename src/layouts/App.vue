@@ -33,7 +33,7 @@
                   <router-link :to="{ name: item.slug }" v-for="item in navigation" :key="item.name">
                     <a @click="item.slug == 'login' ? logOut() : ''" :class="[
                       item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                      'group flex items-center px-2 py-2 text-base font-medium rounded-md',item.slug == 'login' ?' absolute bottom-0':''
+                      'group flex items-center px-2 py-2 text-base font-medium rounded-md',item.slug == 'login' ?' absolute w-full bottom-0':''
                     ]">
                       <component :is="item.icon" :class="[
                         item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
@@ -83,7 +83,7 @@
             <router-link :to="{ name: item.slug }" v-for="item in navigation" :key="item.name">
               <a @click="item.slug == 'login' ? logOut() : ''" :class="[
                 item.current ? 'bg-primary text-white mb-1' : 'text-white mb-1 hover:bg-gray-400 hover:text-white',
-                'group flex items-center px-2 py-2 text-sm font-medium rounded-md', item.slug == 'login' ?'absolute bottom-0':''
+                'group flex items-center px-2 py-2 text-sm font-medium rounded-md', item.slug == 'login' ?'absolute bottom-0 right-0 px-0 flex-1 w-full':''
               ]">
 
                 <component :is="item.icon"
@@ -113,7 +113,7 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-1 flex-col md:pl-64 min-h-[100vh]">
+    <div class="flex flex-1 flex-col md:pl-64 min-h-[100vh] relative">
       <div class="sticky top-0 z-10 bg-gray-100 pl-1 pt-1 sm:pl-3 sm:pt-3 md:hidden">
         <button type="button"
           class="-ml-0.5 -mt-0.5 inline-flex h-12 w-12 items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-0"
@@ -121,11 +121,11 @@
           <Bars3Icon class="h-6 w-6" aria-hidden="true" />
         </button>
       </div>
-      <main class="flex-1 bg-gray-50">
+      <main class="flex-1 bg-gray-50 mb-20">
         <slot></slot>
       </main>
     </div>
-    <Footer />
+    <Footer class="fixed bottom-0 w-full "  />
   </div>
 </template>
 

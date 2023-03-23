@@ -1,5 +1,5 @@
 <template>
-    <footer class="bg-indigo-800 block sm:hidden">
+    <footer class="bg-primary block sm:hidden">
         <div class="mx-auto max-w-7xl py-4 px-6 md:flex md:items-center md:justify-between lg:px-8">
             <div class="flex justify-evenly  md:order-2 text-white">
                 <RouterLink :to="{name:'GetStarted'}">

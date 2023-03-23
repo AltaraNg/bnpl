@@ -33,8 +33,7 @@
                     <rect width="404" height="404" fill="url(#85737c0e-0916-41d7-917f-596dc7edfa27)" />
                 </svg>
                 <div>
-                    <AwaitingVerification v-if="verification_status == 'pending'" :goBack="goBack" />
-                    <FailedVerification v-if="verification_status == 'failed'" :goBack="goBack" />
+                    <AwaitingVerification  :goBack="goBack" />
                 </div>
             </div>
         </div>
@@ -46,13 +45,11 @@
 import { ref, onMounted, onUnmounted } from "vue";
 import App from "@/layouts/App.vue";
 import AwaitingVerification from "@/components/AwaitingVerification.vue";
-import FailedVerification from "@/components/FailedVerification.vue";
 import { useRoute, useRouter } from "vue-router";
 import Apis from "@/services/ApiCalls";
 const open = ref(false);
 const route = useRoute();
 const router = useRouter();
-const verification_status = route.params.verification_status;
 const verification_id = route.params.verification_id;
 const phone_number = route.params.phone_number;
 const res = ref();
@@ -65,7 +62,7 @@ function VerifyCreditCheck() {
                 clearInterval(res.value);
             }
               if (status == "failed") {
-                router.push({ name: "Verification", params: { verification_id: verification_id, phone_number: phone_number, verification_status:'failed' } });
+                router.push({ name: "FailedVerification", params: { verification_id: verification_id, phone_number: phone_number } });
                 clearInterval(res.value);
             }
         });
