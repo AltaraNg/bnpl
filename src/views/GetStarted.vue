@@ -1,9 +1,9 @@
 <template>
     <div class="bg-gray-100 min-h-screen">
 
-        <div class="w-full relative flex flex-col items-center justify-center">
+        <div class="w-full  flex flex-col items-center justify-center">
             <div class="bg-gradient-to-t from-blue-500 via-primary to-primary h-[191px] absolute top-0 w-full" ></div>
-                     <div class="w-full absolute top-5 left-3">
+                     <div class="w-full  z-10 pl-2 pt-3">
                        <ArrowLeftIcon class="cursor-pointer h-8 w-10 text-white" @click="router.push({ name: 'Dashboard' })" />
                     </div>
             <Search @search="SearchPhoneNumber" />
@@ -16,7 +16,7 @@
                             <p class="text-3xl font-bold mb-2">Customers</p>
                             <div class="hidden md:block">
                                 <TableVue>
-                                    <template #columns v-if="Customers.length !== 0">
+                                    <template #columns v-if="Customers?.length !== 0">
                                         <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
                                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Address</th>
                                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
@@ -147,7 +147,7 @@ const FindCustomer = async() => {
 };
 function hideNewSale(customer){
   const pending =  customer.orders.some((order)=> order.status_id == 3)
-  return  ((customer?.latest_credit_checker_verifications?.status !== "failed") || pending ) ? "hidden": "block"
+  return  ((customer?.latest_credit_checker_verifications?.status == "pending") || pending ) ? "hidden": "block"
 
 }
 function NewSale(item){

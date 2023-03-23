@@ -3,10 +3,6 @@ export const LOGIN = (state, data) => {
   localStorage.setItem("vuex", JSON.stringify(data));
 };
 
-export const RESET_PASSWORD = (state, data) => {
-  state.userdata = data;
-  localStorage.setItem("vuex", JSON.stringify(data));
-};
 export const LOADING = (state, loadingState) => {
   state.status.loading = loadingState;
 };
