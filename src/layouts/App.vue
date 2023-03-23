@@ -144,7 +144,7 @@ import {
 import {
   Bars3Icon,
   HomeIcon,
-  CogIcon,
+  // CogIcon,
   UsersIcon,
   UserGroupIcon,
   XMarkIcon,
@@ -154,7 +154,7 @@ import {
 const navigation = [
   { name: "Dashboard", icon: HomeIcon, current: false, slug: "Dashboard" },
   { name: "Profile", icon: UsersIcon, current: false, slug: "Profile" },
-  { name: "Settings", icon: CogIcon, current: false, slug: "Settings" },
+  // { name: "Settings", icon: CogIcon, current: false, slug: "Settings" },
   { name: "Transactions", icon: ArrowsRightLeftIcon, current: false, slug: "AllTransactions" },
    { name: "All Customers", icon: UserGroupIcon, current: false, slug: "GetStarted" },
    { name: "Log Out", icon: ArrowLeftOnRectangleIcon, current: false, slug: "login" },
