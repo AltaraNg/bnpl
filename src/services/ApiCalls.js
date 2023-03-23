@@ -1,57 +1,56 @@
 import { Apiservice } from "./ApiService";
-const api = new Apiservice();
 
 export default {
     resetpassword(data) {
-        return api.post("reset/password", data, false);
+        return new Apiservice().post("reset/password", data, false);
     },
-    login(data) {
-        return api.post("auth/login", data);
+    login(data) { 
+        return new Apiservice().post("auth/login", data);
     },
     createcustomer(data) {
-        return api.post("customers", data);
+        return new Apiservice().post("customers", data);
     },
     repaymentduration() {
-        return api.changeBaseURL(process.env.VUE_APP_CONTROL_API_URL).get("api/repayment_duration");
+        return new Apiservice().changeBaseURL(process.env.VUE_APP_CONTROL_API_URL).get("api/repayment_duration");
     },
     businesstype() {
-        return api.changeBaseURL(process.env.VUE_APP_CONTROL_API_URL).get("api/business_type");
+        return new Apiservice().changeBaseURL(process.env.VUE_APP_CONTROL_API_URL).get("api/business_type");
     },
     getcalculations() {
-        return api.changeBaseURL(process.env.VUE_APP_CONTROL_API_URL).get("api/price_calculator");
+        return new Apiservice().changeBaseURL(process.env.VUE_APP_CONTROL_API_URL).get("api/price_calculator");
     },
     downpayments() {
-        return api.changeBaseURL(process.env.VUE_APP_CONTROL_API_URL).get("api/down_payment_rate");
+        return new Apiservice().changeBaseURL(process.env.VUE_APP_CONTROL_API_URL).get("api/down_payment_rate");
     },
     repaymentcycle() {
-        return api.changeBaseURL(process.env.VUE_APP_CONTROL_API_URL).get("api/repayment_cycle");
+        return new Apiservice().changeBaseURL(process.env.VUE_APP_CONTROL_API_URL).get("api/repayment_cycle");
     },
     initiatecreditcheck(data) {
-        return api.post("initiate/credit/check", data);
+        return new Apiservice().post("initiate/credit/check", data);
     },
     verifycreditcheck(verification_id) {
-        return api.getWithoutLoader(`verify/credit/check/${verification_id}`);
+        return new Apiservice().getWithoutLoader(`verify/credit/check/${verification_id}`);
     },
     allcustomers() {
-        return api.get("customers");
+        return new Apiservice().get("customers");
     },
     customerdetails(phone_number) {
-        return api.get(`customers/${phone_number}`);
+        return new Apiservice().get(`customers/${phone_number}`);
     },
     searchcustomer(phone_number) {
-        return api.get(`customers?telephone=${phone_number}`);
+        return new Apiservice().get(`customers?telephone=${phone_number}`);
     },
     generateOTP(data) {
-        return api.post("generate/otp", data);
+        return new Apiservice().post("generate/otp", data);
     },
     validateOTP(data) {
-        return api.post("validate/otp", data);
+        return new Apiservice().post("validate/otp", data);
     },
     storeOrder(data) {
-        return api.post("store/order", data);
+        return new Apiservice().post("store/order", data);
     },
      dashboarddata() {
-        return api.get("get/dashboard/data");
+      return new Apiservice().get("get/dashboard/data");
     },
    
     

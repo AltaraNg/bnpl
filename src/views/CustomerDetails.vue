@@ -1,5 +1,5 @@
 <template>
-    <div class="lg:p-5 p-6 text-gray-800">
+    <div class="lg:p-5 p-6 text-gray-800  min-h-screen bg-gradient-to-r from-[#b7e6ff] to-[#def1ff]">
         <div class="mb-2 w-full block cursor-pointer">
             <ArrowLeftIcon class="h-10 w-10 text-indigo-600" aria-hidden="true" @click="router.push({ name: 'GetStarted' })" />
         </div>
@@ -7,7 +7,7 @@
             <div class="lg:space-x-6 space-x-0 lg:flex-row flex flex-col lg:justify-center lg:items-center">
                 <span class="inline-flex h-24 w-24 items-center justify-center rounded-full bg-primary">
                     <span class="text-4xl font-medium leading-none text-white">{{
-                        Customer.first_name.charAt(0) + "" + Customer.last_name.charAt(0)
+                        Customer?.first_name?.charAt(0) + "" + Customer?.last_name?.charAt(0)
                     }}</span>
                 </span>
                 <p class="text-4xl font-semibold mt-2 text-gray-800">{{ Customer.first_name + " " + Customer.last_name }}</p>
@@ -19,7 +19,7 @@
                 </div>
                 <div>
                     <p class="font-semibold mt-0.5">{{ Customer.area_address }}</p>
-                    <p class="font-semibold text-primary mt-0.5">Joined {{ Customer.date_of_registration.split(" ")[0] }}</p>
+                    <p class="font-semibold text-primary mt-0.5">Joined {{ Customer?.date_of_registration?.split(" ")[0] }}</p>
                 </div>
                 <button
                     type="button"
@@ -73,7 +73,7 @@
                                     <p class="text-gray-500 text-sm font-medium mt-4">Downpayment:</p>
                                     <p class="text-gray-500 text-xl font-medium mt-4">
                                         {{ Customer.latest_credit_checker_verifications.down_payment_rate.percent || "" }}% -
-                                        {{ Customer.latest_credit_checker_verifications.repayment_duration.name || "" }}
+                                        {{ splitText(Customer.latest_credit_checker_verifications.repayment_duration.name) || "" }}
                                     </p>
                                 </div>
                             </div>
@@ -107,7 +107,7 @@
                                 {{ Customer.latest_credit_checker_verifications.down_payment_rate.percent || "" }}%
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {{ Customer.latest_credit_checker_verifications.repayment_duration.name || "" }}
+                                {{ splitText(Customer.latest_credit_checker_verifications.repayment_duration.name) || "" }}
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                 <span
@@ -341,7 +341,9 @@ const repayment_cycle = ref([
         value: 14,
     },
 ]);
-const Customer = ref();
+const Customer = ref({  
+    orders:[]
+});
 
 function NewSale(item) {
     store.dispatch("NewSale", item);
@@ -413,8 +415,8 @@ function orderStatus(history) {
     return status;
 }
 function hideNewSale(customer) {
-    const pending = customer.orders.some((order) => order.status_id == 3);
-    return (customer?.latest_credit_checker_verifications?.status !== "failed") || pending ? "hidden" : "block";
+    const pending = customer.orders?.some((order) => order.status_id == 3);
+    return (customer?.latest_credit_checker_verifications?.status == "pending") || pending ? "hidden" : "block";
 }
 
 async function CustomerDetails() {
@@ -432,6 +434,9 @@ function findRepayment(customerData, array) {
         return data.id == customerData;
     });
     return result?.name?.replace(/_/g, " ") ?? "";
+}
+function splitText(text){
+    return text.split("_").join(" ");
 }
 
 onBeforeMount(async () => {

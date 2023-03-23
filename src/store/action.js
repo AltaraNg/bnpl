@@ -5,19 +5,18 @@ import store from "../store";
 // import { loader } from "./loader";
 export const Login = ({ commit }, data) => {
     Apis.login(data).then((response) => {
-        if (response) {
-            commit("LOGIN", response);
-            handleSuccess("Success");
+        commit("LOGIN", response);
+        handleSuccess("Success");
+  
             router.push({
                 name: "Dashboard",
             });
-        }
     });
 };
 export const ResetPassword = ({ commit }, data) => {
     Apis.resetpassword(data).then((response) => {
         if (response) {
-            commit("RESET_PASSWORD", response);
+            commit("LOGIN", response);
             handleSuccess("Success");
             router.push({
                 name: "Dashboard",
