@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col rounded-3xl bg-white shadow-xl ring-1 ring-black/10 p-8 w-full mt-2">
+    <div class="flex flex-col rounded-3xl bg-white shadow-xl ring-1 ring-black/10 p-8 w-full mt-2" >
         <div class="flex items=center justify-between">
             <p class="text-base font-semibold leading-8 tracking-tight text-indigo-600">Payment Details</p>
             <span class="inline-flex capitalize rounded-full px-4 flex items-center justify-center text-xs font-semibold leading-5" :class="ColorStatus">{{
@@ -33,5 +33,5 @@
 
 <script setup>
 import {formatCurrency} from "@/utilities/GlobalFunctions"
-const props = defineProps(["orderDetails","ColorStatus","orderStatus","findRepayment", "repayment_cycle", "repayment_duration"]);
+const props = defineProps(["orderDetails","ColorStatus","orderStatus","findRepayment", "repayment_cycle", "repayment_duration",]);
 </script>

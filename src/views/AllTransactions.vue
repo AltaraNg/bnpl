@@ -1,13 +1,19 @@
 <template>
     <App>
-        <div class="pb-4">
-        
+        <div class="lg:pb-4">
+             
        
-            <div class="mt-8" >
-                <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-                    <h2 class="text-lg font-medium leading-6 text-gray-900">All Transactions</h2>
+            <div class="lg:mt-8 mt-3" >
+                <div class="flex items-center ">
+                      <div class=" p-1 block cursor-pointer lg:hidden block">
+            <ArrowLeftIcon class="lg:h-10 w-10 h-6 text-indigo-600" aria-hidden="true" @click="$router.push({ name: 'Dashboard' })" />
+        </div>
+                <div class="w-full lg:pl-10 ">
+                    <h2 class="text-lg font-semibold lg:text-2xl leading-6 lg:text-left text-center text-gray-900">All Transactions</h2>
                     
                 </div>
+                </div>
+                 
 
                 <!-- Activity list (smallest breakpoint only) -->
                 <div class="shadow sm:hidden">
@@ -40,13 +46,13 @@
                                             <time :datetime="transaction.datetime">{{ transaction.order_date }}</time>
                                         </span>
                                     </span>
-                                    <ChevronRightIcon class="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
+                                    <ChevronRightIcon class="h-5 w-5 hidden flex-shrink-0 text-gray-400" aria-hidden="true" />
                                 </span>
                             </a>
                         </li>
                     </ul>
 
-                    <nav class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3" aria-label="Pagination">
+                    <nav class="flex items-center justify-between border-t border-gray-200 hidden bg-white px-4 py-3" aria-label="Pagination">
                         <div class="flex flex-1 justify-between">
                             <a
                                 href="#"
@@ -166,6 +172,7 @@
 </template>
 
 <script setup>
+import { ArrowLeftIcon } from "@heroicons/vue/24/solid";
 import App from "@/layouts/App.vue";
 import defaultButton from '@/components/button.vue'
 import zerostate from "@/assets/svgs/zerostate.vue";
