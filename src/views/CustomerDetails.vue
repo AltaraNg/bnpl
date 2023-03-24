@@ -1,5 +1,5 @@
 <template>
-    <div class="lg:p-5 p-6 text-gray-800  min-h-screen bg-gradient-to-r from-[#b7e6ff] to-[#def1ff]">
+    <div class="lg:p-5 p-6 text-gray-800   min-h-screen bg-gradient-to-r from-[#def1ff] to-[#def1ff]">
         <div class="mb-2 w-full block cursor-pointer">
             <ArrowLeftIcon class="h-10 w-10 text-indigo-600" aria-hidden="true" @click="router.push({ name: 'GetStarted' })" />
         </div>
@@ -34,7 +34,7 @@
         </div>
         <div v-if="Customer.latest_credit_checker_verifications">
             <div class="lg:hidden" v-if="!Customer.orders.length > 0">
-                <div class="overflow-hidden bg-white px-4 lg:px-8 pb-6">
+                <div class="overflow-hidden px-4 lg:px-8 pb-6">
                     <div class="relative mx-auto max-w-xl">
                         <div class="grid grid-cols-1 justify-items-center bg-green-400p pt-4">
                             <div class="text-left w-full mt-6 text-gray-600 text-lg font-medium">Pending Verification:</div>
@@ -127,7 +127,7 @@
 
         <div v-if="Customer.orders.length > 0">
             <div class="lg:hidden">
-                <div class="overflow-hidden bg-white px-4 lg:px-8 pb-6">
+                <div class="overflow-hidden px-4 lg:px-8 pb-6">
                     <div class="relative mx-auto max-w-xl">
                         <svg
                             class="absolute left-full translate-x-1/2 transform"
@@ -230,7 +230,7 @@
                     <p class="text-lg mb-1 font-semibold mt-2 text-gray-800">Payment Summary</p>
                     <TableVue>
                         <template #columns>
-                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Name</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">ProductName</th>
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Product Price</th>
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Total Repayment</th>
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Downpayment</th>
@@ -240,7 +240,7 @@
                         <template #default>
                             <tr v class="cursor-pointer">
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    {{ currentOrder.customer.first_name + " " + currentOrder.customer.last_name }}
+                                    {{ currentOrder.bnpl_product.name  }}
                                 </td>
                                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                                     <div class="flex flex-col items-start">
@@ -260,7 +260,7 @@
                                     >
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    {{ currentOrder.branch.name || currentOrder.vendor.address }}
+                                    {{currentOrder.vendor.address || currentOrder.branch.name  }}
                                 </td>
                             </tr>
                         </template>
@@ -342,6 +342,8 @@ const repayment_cycle = ref([
     },
 ]);
 const Customer = ref({  
+    first_name:'',
+    last_name:'',
     orders:[]
 });
 
