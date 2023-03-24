@@ -84,7 +84,7 @@
                                             </div>
 
                                             <div class="relative hidden overflow-hidden rounded-full lg:block">
-                                                <img class="relative h-40 w-40 rounded-full" :src="user.imageUrl" alt="" />
+                                                <img class="relative h-40 w-40 rounded-full" :src="imageUrl" alt="" />
                                                 <label for="desktop-user-photo"
                                                     class="absolute inset-0 flex h-full w-full items-center justify-center bg-black bg-opacity-75 text-sm font-medium text-white opacity-0 focus-within:opacity-100 hover:opacity-100">
                                                     <span>Change</span>
@@ -140,12 +140,7 @@ import { Disclosure } from "@headlessui/vue";
 import App from "@/layouts/App.vue";
 import { userdata } from "../utilities/GlobalFunctions";
 
-const user = {
-    name: "Debbie Lewis",
-    id: "DEC4B",
-    email: "debbielewis@example.com",
-    imageUrl:
-        "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=320&h=320&q=80",
-};
+
+const imageUrl = "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=320&h=320&q=80";
 
 </script>
