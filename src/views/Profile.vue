@@ -43,23 +43,21 @@
                                     <div class="mt-6 flex flex-col lg:flex-row">
                                         <div class="flex-grow space-y-6">
                                             <div>
-                                                <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
-                                                <div class="mt-1 flex rounded-md shadow-sm">
-                                                    <span
-                                                        class="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm w-32">VT-2023-LT-</span>
+                                                <label for="username" class="block text-sm font-medium text-gray-700">Full Name</label>
+                                                <div class="mt-1 flex rounded-md shadow-sm">                                                    
                                                     <input type="text" name="username" id="username" autocomplete="username" disabled
                                                         class="block w-full min-w-0 flex-grow rounded-none rounded-r-md border-gray-300 focus:border-sky-500 focus:ring-sky-500 sm:text-sm"
-                                                        :value="user.id" />
+                                                        :value="userdata.full_name" />
                                                 </div>
                                             </div>
 
                                             <div>
-                                                <label for="about" class="block text-sm font-medium text-gray-700">About</label>
+                                                <label for="about" class="block text-sm font-medium text-gray-700">Email</label>
                                                 <div class="mt-1">
-                                                    <textarea id="about" name="about" rows="3"
-                                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm" />
+                                                    <input type="text" name="username" id="username" autocomplete="username" disabled
+                                                        class="block w-full min-w-0 flex-grow rounded-none rounded-r-md border-gray-300 focus:border-sky-500 focus:ring-sky-500 sm:text-sm"
+                                                        :value="userdata.email" />
                                                 </div>
-                                                <p class="mt-2 text-sm text-gray-500">Brief description for your profile. URLs are hyperlinked.</p>
                                             </div>
                                         </div>
 
@@ -100,14 +98,14 @@
 
                                     <div class="mt-6 grid grid-cols-12 gap-6">
                                         <div class="col-span-12 sm:col-span-6">
-                                            <label for="first-name" class="block text-sm font-medium text-gray-700">First name</label>
-                                            <input type="text" name="first-name" id="first-name" autocomplete="given-name" v-model="form.firstname"
+                                            <label for="first-name" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                                            <input type="text" name="first-name" id="first-name" autocomplete="given-name" disabled v-model="userdata.phone_number"
                                                 class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm" />
                                         </div>
 
                                         <div class="col-span-12 sm:col-span-6">
-                                            <label for="last-name" class="block text-sm font-medium text-gray-700">Last name</label>
-                                            <input type="text" name="last-name" id="last-name" autocomplete="family-name" v-model="form.lastname"
+                                            <label for="last-name" class="block text-sm font-medium text-gray-700">Vendor ID</label>
+                                            <input type="text" name="last-name" id="last-name" autocomplete="family-name" v-model="userdata.staff_id"
                                                 class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm" />
                                         </div>
 
@@ -118,8 +116,8 @@
                                         </div>
 
                                         <div class="col-span-12 sm:col-span-6">
-                                            <label for="company" class="block text-sm font-medium text-gray-700">Company</label>
-                                            <input type="text" name="company" id="company" autocomplete="organization" v-model="form.company"
+                                            <label for="company" class="block text-sm font-medium text-gray-700">Address</label>
+                                            <input type="text" name="company" id="company" autocomplete="organization" v-model="userdata.address"
                                                 class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm" />
                                         </div>
                                     </div>
@@ -138,9 +136,10 @@
 </template>
 
 <script setup>
-import {  reactive } from "vue";
 import { Disclosure } from "@headlessui/vue";
 import App from "@/layouts/App.vue";
+import { userdata } from "../utilities/GlobalFunctions";
+
 const user = {
     name: "Debbie Lewis",
     id: "DEC4B",
@@ -148,9 +147,5 @@ const user = {
     imageUrl:
         "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=320&h=320&q=80",
 };
-const form = reactive({
-    firstname: "Elon",
-    lastname: "Flinstone",
-    company: "Starlink Inc",
-});
+
 </script>
