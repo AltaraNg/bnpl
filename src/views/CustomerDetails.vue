@@ -230,7 +230,7 @@
                     <p class="text-lg mb-1 font-semibold mt-2 text-gray-800">Payment Summary</p>
                     <TableVue>
                         <template #columns>
-                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Product Name</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">ProductName</th>
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Product Price</th>
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Total Repayment</th>
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Downpayment</th>
@@ -260,7 +260,7 @@
                                     >
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    {{ currentOrder.branch.name || currentOrder.vendor.address }}
+                                    {{currentOrder.vendor.address || currentOrder.branch.name  }}
                                 </td>
                             </tr>
                         </template>
