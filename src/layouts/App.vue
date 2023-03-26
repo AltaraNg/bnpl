@@ -162,7 +162,7 @@ const navigation = [
    { name: "All Customers", icon: UserGroupIcon, current: false, slug: "GetStarted" },
    { name: "Log Out", icon: ArrowLeftOnRectangleIcon, current: false, slug: "login" },
 ];
-const user = ref(userdata || store.state.userdata.result?.user )
+const user = ref(store.state.userdata.result?.user || userdata  )
 const sidebarOpen = ref(false);
 function logOut() {
   localStorage.clear();
