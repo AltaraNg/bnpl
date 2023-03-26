@@ -53,7 +53,7 @@ import plus from "@/assets/svgs/plus.vue";
 import { useStore } from "vuex";
 
 const store = useStore()
-const user = ref(userdata || store.state.userdata.result?.user )
+const user = ref( store.state.userdata.result?.user|| userdata  )
 const fullname = computed(() => {
     return user?.value.full_name.split(" ");
 });
