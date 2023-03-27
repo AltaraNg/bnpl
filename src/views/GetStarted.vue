@@ -14,7 +14,7 @@
                     <div class="rounded-xl">
                         <template v-if="!(phone_number && !FilteredCustomer.length)">
                             <p class="text-3xl font-bold mb-2">Customers</p>
-                            <div class="hidden md:block">
+                            <div class="hidden mb-8 md:block">
                                 <TableVue>
                                     <template #columns v-if="Customers?.length !== 0">
                                         <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
