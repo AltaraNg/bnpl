@@ -18,7 +18,8 @@
                     <p class="font-semibold text-primary mt-0.5">{{ Customer.telephone }}</p>
                 </div>
                 <div>
-                    <p class="font-semibold mt-0.5">{{ Customer.area_address }}</p>
+                    <p class="font-semibold ">{{ Customer.area_address }}</p>
+                    <p class="font-semibold my-0.5">{{Customer.city + ", "+ Customer.state+ " State" || currentOrder.branch.name  }}</p>
                     <p class="font-semibold text-primary mt-0.5">Joined {{ Customer?.date_of_registration?.split(" ")[0] }}</p>
                 </div>
                 <button
