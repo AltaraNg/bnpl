@@ -1,6 +1,6 @@
 <template>
     <App>
-        <div class="overflow-hidden bg-white relative px-4 lg:px-8">
+        <div class="overflow-hidden bg-white relative px-4 lg:px-8" v-if="!store.state.loader.showLoading">
             <div class="mx-auto max-w-xl">
                 <div>
                     <div class="w-full absolute left-0">

@@ -43,7 +43,7 @@
                                 >
                                     <option value="" disabled>Select Repayment Duration</option>
                                     <option class="text-sm" v-for="duration in repayment_duration" :key="duration.slug" :value="duration.id">
-                                        {{ duration.name }}
+                                        {{ splitText(duration.name) }}
                                     </option>
                                 </app-select-input>
                             </div>
@@ -247,7 +247,9 @@ const OrderResult = ref({
     actualDownpayment: null,
     rePayment: null,
 });
-
+function splitText(text){
+    return text.split("_").join(" ");
+}
 
 function Calculate() {
     try {
