@@ -207,6 +207,7 @@ import { useStore } from "vuex";
 import { calculate } from "@/utilities/calculator";
 import { useRoute } from "vue-router";
 import Apis from "@/services/ApiCalls";
+import {splitText} from "@/utilities/GlobalFunctions"
 import { CreateOrderSchema } from "@/shemas/CreateOrderSchema";
 const store = useStore();
 const route = useRoute();
@@ -247,9 +248,7 @@ const OrderResult = ref({
     actualDownpayment: null,
     rePayment: null,
 });
-function splitText(text){
-    return text.split("_").join(" ");
-}
+
 
 function Calculate() {
     try {

@@ -55,7 +55,7 @@
                                                         autocomplete="full_name"
                                                         disabled
                                                         class="block w-full min-w-0 flex-grow rounded-none rounded-r-md border-gray-300 focus:border-sky-500 focus:ring-sky-500 sm:text-sm"
-                                                        :value="userdata.full_name"
+                                                        :value="user.full_name"
                                                     />
                                                 </div>
                                             </div>
@@ -70,7 +70,7 @@
                                                         autocomplete="email"
                                                         disabled
                                                         class="block w-full min-w-0 flex-grow rounded-none rounded-r-md border-gray-300 focus:border-sky-500 focus:ring-sky-500 sm:text-sm"
-                                                        :value="userdata.email"
+                                                        :value="user.email"
                                                     />
                                                 </div>
                                             </div>
@@ -96,7 +96,7 @@
                                                 id="phone-number"
                                                 autocomplete="phone-number"
                                                 disabled
-                                                v-model="userdata.phone_number"
+                                                v-model="user.phone_number"
                                                 class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm"
                                             />
                                         </div>
@@ -108,7 +108,7 @@
                                                 name="vendor-id"
                                                 id="vendor-id"
                                                 autocomplete="vendor-ide"
-                                                v-model="userdata.staff_id"
+                                                v-model="user.staff_id"
                                                 class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm"
                                                 disabled
                                             />
@@ -131,7 +131,7 @@
                                                 name="address"
                                                 id="address"
                                                 autocomplete="address"
-                                                v-model="userdata.address"
+                                                v-model="user.address"
                                                 class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm"
                                                 disabled
                                             />
@@ -150,10 +150,14 @@
 <script setup>
 import { Disclosure } from "@headlessui/vue";
 import App from "@/layouts/App.vue";
+import { ref,  } from "vue";
 import { userdata } from "../utilities/GlobalFunctions";
 import {computed } from "vue";
+import { useStore } from "vuex";
 
+const store = useStore();
+const user = ref( store.state.userdata.result?.user|| userdata  )
 const fullname = computed(() => {
-    return userdata.full_name.split(" ");
+    return user.value?.full_name.split(" ");
 });
 </script>

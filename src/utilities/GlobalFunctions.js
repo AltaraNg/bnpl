@@ -16,4 +16,7 @@ export const  goBack=()=>{
 /**currency formatter**/
 const formatter = (new Intl.NumberFormat('en-NG', {style: 'currency', currency: 'NGN', minimumFractionDigits: 2}));
 export const formatCurrency = price => price ? formatter.format(price) : price;
+export const  splitText =(text)=> {
+    return text.split("_").join(" ");
+}
 

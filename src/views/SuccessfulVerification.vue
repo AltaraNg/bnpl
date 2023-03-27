@@ -31,7 +31,7 @@
                                         </p>
                                     </div>
                                 </div>
-                                <p class="text-gray-500 text-xl font-medium mt-4">for {{ duration }}</p>
+                                <p class="text-gray-500 text-xl font-medium mt-4">for {{ splitText(duration) }}</p>
                             </div>
                         </div>
                         <p class="text-gray-500 text-sm font-normal mt-8" v-if="route.params.OTPvalidate == 'false'">
@@ -75,7 +75,7 @@ import App from "@/layouts/App.vue";
 import { ArrowLeftIcon } from "@heroicons/vue/24/solid";
 import { useRoute, useRouter } from "vue-router";
 import Apis from "@/services/ApiCalls";
-import { formatCurrency } from "@/utilities/GlobalFunctions";
+import { formatCurrency,splitText } from "@/utilities/GlobalFunctions";
 import { calculate } from "@/utilities/calculator";
 import { useStore } from "vuex";
 import paystack from "vue3-paystack";
