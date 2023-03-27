@@ -84,7 +84,7 @@
                         </div>
                         <div>
                             <app-label label-title="State" label-for="state" />
-                            <div class="mt-1">
+                            <div class="mt-1" style="pointer-events: none;">
                                 <app-select-input name="state" :modelValue="customerData.state" @update:modelValue="onSelectChange">
                                     <option value="" disabled>Select State</option>
                                     <option class="text-sm" v-for="state in states" :key="state.value" :value="state.value">{{ state.name }}</option>
@@ -117,7 +117,7 @@
     </div>
 </template> 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import { Form } from "vee-validate";
 import AppInput from "@/components/AppInput.vue";
 import AppLabel from "@/components/AppLabel.vue";
@@ -135,8 +135,8 @@ const initialCreateCustomerStore = {
     home_address: "",
     telephone: "",
     date_of_birth: "",
-    state: "",
-    city: "",
+    state: "Oyo",
+    city: '',
 };
 
 const store = useStore();
@@ -222,13 +222,9 @@ const states = ref([
 watch(
     () => customerData.value.state,
     (newValue) => {
-        states.value.filter((element) => {
-            if (element.value == newValue) {
-                areas.value = element.areas;
-                return element;
-            }
-        });
-    }
+        setAreas(newValue)
+    },
+    
 );
 function onSelectChange(value, name) {
     customerData.value[name] = value;
@@ -237,4 +233,18 @@ function onSelectChange(value, name) {
 function onSubmit(value) {
     store.dispatch("CreateCustomer", value);
 }
+function setAreas(newValue){
+    states.value.filter((element) => {
+            if (element.value == newValue) {
+                areas.value = element.areas;
+                return element;
+            }
+        });
+}
+onMounted(() => {
+   setAreas('Oyo')
+});
+
+
+
 </script>
