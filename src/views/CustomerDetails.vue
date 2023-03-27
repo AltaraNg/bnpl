@@ -260,7 +260,7 @@
                                     >
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    {{currentOrder.vendor.address || currentOrder.branch.name  }}
+                                    {{Customer.city + ", "+ Customer.state+ " State" || currentOrder.branch.name  }}
                                 </td>
                             </tr>
                         </template>
