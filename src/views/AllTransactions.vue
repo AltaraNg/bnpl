@@ -3,7 +3,7 @@
         <div class="lg:pb-4">
              
        
-            <div class="lg:mt-8 mt-3" >
+            <div class="lg:mt-8 mt-3 mb-5" >
                 <div class="flex items-center ">
                       <div class=" p-1 block cursor-pointer lg:hidden block">
             <ArrowLeftIcon class="lg:h-10 w-10 h-6 text-indigo-600" aria-hidden="true" @click="$router.push({ name: 'Dashboard' })" />

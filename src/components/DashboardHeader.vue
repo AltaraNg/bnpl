@@ -24,10 +24,7 @@
                                     {{ user?.address }}
                                 </dd>
                                 <dt class="sr-only">Account status</dt>
-                                <dd class="mt-3 flex items-center text-sm font-medium capitalize text-gray-500 sm:mr-6 sm:mt-0">
-                                    <CheckCircleIcon class="mr-1.5 h-5 w-5 flex-shrink-0 text-green-400" aria-hidden="true" />
-                                    Verified account
-                                </dd>
+                                
                             </dl>
                         </div>
                     </div>
@@ -45,7 +42,7 @@
     </div>
 </template>
 <script setup>
-import { BuildingOfficeIcon, CheckCircleIcon } from "@heroicons/vue/20/solid";
+import { BuildingOfficeIcon } from "@heroicons/vue/20/solid";
 import { userdata } from "../utilities/GlobalFunctions";
 import { computed, ref } from "vue";
 import defaultButton from "../components/button.vue";
