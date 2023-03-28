@@ -6,8 +6,8 @@
                     <div class="w-full absolute left-0 md:hidden">
                         <RouterLink :to="{ name: 'GetStarted' }"><ArrowLeftIcon class="h-8 w-10 text-primary" aria-hidden="true" /></RouterLink>
                     </div>
-                    <div class="grid grid-cols-1 justify-items-center  pt-2 sm:mt-6">
-                        <p class="mb-2 text-xl text-gray-600 font-medium">Order Details</p>
+                    <div class="grid grid-cols-1 justify-items-center  pt-2 sm:mt-6 ">
+                        <p class="mb-2 text-xl text-gray-600 font-medium mt-8">Order Details</p>
                         <p class="text-sm text-gray-500">TOTAL <span>(product value)</span></p>
                         <p class="text-4xl text-gray-800 font-semibold mt-1">{{ formatCurrency(OrderResult.total) }}</p>
                         <div class="flex flex-col my-5 rounded-3xl bg-white shadow-xl ring-1 ring-black/10 lg:p-6 p-4 w-full mt-6">
@@ -31,7 +31,7 @@
                                         </p>
                                     </div>
                                 </div>
-                                <p class="text-gray-500 text-xl font-medium mt-4">for {{ splitText(duration) }}</p>
+                                <p class="text-gray-500 text-xl font-medium mt-4">for {{ Order.repayment_duration.value / 30 }} Months</p>
                             </div>
                         </div>
                         <p class="text-gray-500 text-sm font-normal mt-8" v-if="route.params.OTPvalidate == 'false'">
@@ -45,7 +45,7 @@
                             v-if="route.params.OTPvalidate == 'false'"
                             @click="RouteOTP"
                             type="button"
-                            class="inline-flex items-center rounded-md border border-transparent bg-primary px-3 py-4 text-base font-medium leading-4 text-white shadow-sm focus:outline-none focus:ring-0 min-w-[250px] justify-center mt-8 w-full"
+                            class=" mb-10 inline-flex items-center rounded-md border border-transparent bg-primary px-3 py-4 text-base font-medium leading-4 text-white shadow-sm focus:outline-none focus:ring-0 min-w-[250px] justify-center mt-8 w-full"
                         >
                             Continue
                         </button>
@@ -75,7 +75,7 @@ import App from "@/layouts/App.vue";
 import { ArrowLeftIcon } from "@heroicons/vue/24/solid";
 import { useRoute, useRouter } from "vue-router";
 import Apis from "@/services/ApiCalls";
-import { formatCurrency,splitText } from "@/utilities/GlobalFunctions";
+import { formatCurrency } from "@/utilities/GlobalFunctions";
 import { calculate } from "@/utilities/calculator";
 import { useStore } from "vuex";
 import paystack from "vue3-paystack";
@@ -182,23 +182,7 @@ onBeforeMount(async () => {
     await GetCalculation();
      Calculate();
 });
-const duration = computed(() => {
-    let duration = "";
-    switch (OrderResult.value.duration) {
-        case "three_months":
-            duration = "Three Months";
-            break;
-        case "six_months":
-            duration = "Six Months";
-            break;
-        case "Twelve_months":
-            duration = "Twelve Months";
-            break;
-        default:
-            duration = "";
-    }
-    return duration;
-});
+
 const reference = computed(() => {
     let text = "";
     let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

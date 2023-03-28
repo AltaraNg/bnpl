@@ -12,7 +12,7 @@
                         <!-- <div class="border border-gray-400 rounded flex items-center justify-center  w-[56px] h-[56px]">{{otp}}</div> -->
                         <v-otp-input
                             ref="otpInput"
-                            input-classes="border border-gray-400 text-center text-2xl font-bold rounded mx-1 flex items-center justify-center  w-[56px] h-[56px]"
+                            input-classes="border border-gray-400 text-center text-2xl font-bold rounded mx-1 flex items-center justify-center  w-[50px] h-[50px]"
                             separator=""
                             :num-inputs="6"
                             :should-auto-focus="true"
