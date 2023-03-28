@@ -3,7 +3,7 @@
 
         <div class="w-full  flex flex-col items-center justify-center">
             <div class="bg-gradient-to-t from-blue-500 via-primary to-primary h-[191px] absolute top-0 w-full" ></div>
-                     <div class="w-full  z-10 pl-2 pt-3">
+                     <div class="w-full  z-10 pl-2 pt-3 md:hidden">
                        <ArrowLeftIcon class="cursor-pointer h-8 w-10 text-white" @click="router.push({ name: 'Dashboard' })" />
                     </div>
             <Search @search="SearchPhoneNumber" />
@@ -40,24 +40,25 @@
                                                 <div class="text-gray-900">{{ item.area_address }}</div>
                                             </td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500" @click="SeeMore(item)">
-                                                <span
+                                                <span v-if="UserStatus(item) !== 'New'"
                                                     class="inline-flex rounded-full  px-2 text-xs font-semibold leading-5 "
                                                     :class="[UserStatus(item) === 'Active' ? 'bg-green-100 text-green-800': UserStatus(item) === 'Approved' ? 'bg-gray-100 text-gray-800' : 'bg-yellow-100 text-yellow-800']"
                                                     >{{ UserStatus(item) }}</span
                                                 >
-                                            </td>
-                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500" @click="SeeMore(item)">
-                                                {{ item.telephone }}
-                                            </td>
-                                            <td class="whitespace-nowrap py-4 text-sm text-gray-500">
-                                                <button
+                                                <span v-else class="inline-flex rounded-full  px-2 text-xs font-semibold leading-5 ">
+                                                    <button
                                                     @click="NewSale(item)"
                                                     class="border rounded bg-primary px-3 py-2 text-white"
                                                     :class="hideNewSale(item)"
                                                 >
                                                     New Sale
                                                 </button>
+                                                </span>
                                             </td>
+                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500" @click="SeeMore(item)">
+                                                {{ item.telephone }}
+                                            </td>
+                                            
                                         </tr>
                                     </template>
                                 </TableVue>
