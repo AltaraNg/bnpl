@@ -1,5 +1,6 @@
 <template>
-    <div class="lg:p-5 p-6 text-gray-800   min-h-screen bg-blue-50" v-if="!store.state.loader.showLoading">
+    <App>
+         <div class="lg:p-5 p-6 text-gray-800   min-h-screen bg-blue-50" v-if="!store.state.loader.showLoading">
         <div class="mb-2 w-full block cursor-pointer md:hidden">
             <ArrowLeftIcon class="h-10 w-10 text-indigo-600" aria-hidden="true" @click="router.push({ name: 'GetStarted' })" />
         </div>
@@ -310,6 +311,8 @@
             </div>
         </BaseModal>
     </div>
+    </App>
+   
 </template>
 
 <script setup>
@@ -324,6 +327,7 @@ import TableVue from "@/components/Table.vue";
 import zerostate from "@/assets/svgs/zerostate.vue";
 import { formatCurrency } from "@/utilities/GlobalFunctions";
 import Apis from "@/services/ApiCalls";
+import App from "@/layouts/App.vue"
 
 const store = useStore();
 const showModal = ref(false);
@@ -422,7 +426,7 @@ function orderStatus(history) {
 }
 function hideNewSale(customer) {
     const pending = customer.orders?.some((order) => order.status_id == 3);
-    return (customer?.latest_credit_checker_verifications?.status == "pending") || pending ? "hidden" : "block";
+    return (customer?.latest_credit_checker_verifications?.status ) || pending ? "hidden" : "block";
 }
 
 async function CustomerDetails() {
