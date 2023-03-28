@@ -3,12 +3,12 @@
         <div class="lg:pb-4">
              
        
-            <div class="lg:mt-8 mt-3 mb-5" >
+            <div class="lg:mt-8 mt-3 mb-3" >
                 <div class="flex items-center ">
                       <div class=" p-1 block cursor-pointer lg:hidden block">
             <ArrowLeftIcon class="lg:h-10 w-10 h-6 text-indigo-600" aria-hidden="true" @click="$router.push({ name: 'Dashboard' })" />
         </div>
-                <div class="w-full lg:pl-10 ">
+                <div class="w-full lg:pl-10 mt-12 mb-2">
                     <h2 class="text-lg font-semibold lg:text-2xl leading-6 lg:text-left text-center text-gray-900">All Transactions</h2>
                     
                 </div>
