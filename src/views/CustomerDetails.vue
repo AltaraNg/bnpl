@@ -1,6 +1,6 @@
 <template>
     <div class="lg:p-5 p-6 text-gray-800   min-h-screen bg-blue-50" v-if="!store.state.loader.showLoading">
-        <div class="mb-2 w-full block cursor-pointer">
+        <div class="mb-2 w-full block cursor-pointer lg:hidden">
             <ArrowLeftIcon class="h-10 w-10 text-indigo-600" aria-hidden="true" @click="router.push({ name: 'GetStarted' })" />
         </div>
         <div class="lg:px-8 py-4 lg:py-0 lg:mb-10">
@@ -19,7 +19,7 @@
                 </div>
                 <div>
                     <p class="font-semibold ">{{ Customer.area_address }}</p>
-                    <p class="font-semibold my-0.5">{{Customer.city + ", "+ Customer.state+ " State" || currentOrder.branch.name  }}</p>
+                    <p class="font-semibold my-0.5">{{splitText(Customer.city) + ", "+ Customer.state+ " State" || currentOrder.branch.name  }}</p>
                     <p class="font-semibold text-primary mt-0.5">Joined {{ Customer?.date_of_registration?.split(" ")[0] }}</p>
                 </div>
                 <button
@@ -268,7 +268,7 @@
                     </TableVue>
                 </div>
                 <div>
-                    <p class="text-lg mb-1 font-semibold mt-2 text-gray-800">Ammortizations</p>
+                    <p class="text-lg mb-1 font-semibold mt-2 text-gray-800">Amortizations</p>
                     <TableVue>
                         <template #columns>
                             <th scope="col" class="px-5 py-3.5 text-left text-sm font-semibold text-gray-900">Date</th>
