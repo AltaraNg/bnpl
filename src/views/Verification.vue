@@ -66,7 +66,7 @@ function VerifyCreditCheck() {
                 clearInterval(res.value);
             }
         });
-    }, 0.5 * 30 * 1000);
+    }, 5 * 60 * 1000);
 }
 function goBack(){
     router.push({name:'GetStarted'})

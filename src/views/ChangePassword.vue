@@ -1,6 +1,6 @@
 <template>
-    <div class="!p-0 min-h-[100vh] flex">
-        <img class="hidden lg:block h-screen w-1/2 max-w-2xl opacity-50" src="../assets/images/market.jpg" />
+   <div class="!p-0 min-h-[100vh] flex  bg-blue-50">
+        <img class="hidden lg:block h-screen py-8 pl-16 w-1/2 max-w-2xl " src="../assets/images/market.png" />
         <div class="flex items-center justify-center w-full">
             <div class="mx-auto w-full max-w-sm lg:w-96 space-y-8">
                 <router-link to="/">
