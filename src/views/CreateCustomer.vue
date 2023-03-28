@@ -127,13 +127,14 @@ import defaultButton from "@/components/button.vue";
 import App from "@/layouts/App.vue";
 import { useStore } from "vuex";
 import { CreateCustomerSchema } from "@/shemas/CreateCustomerSchema";
-
+import { useRoute } from "vue-router";
+const route = useRoute();
 const initialCreateCustomerStore = {
     first_name: "",
     last_name: "",
     email: "",
     home_address: "",
-    telephone: "",
+    telephone: route.params.telephone ||"",
     date_of_birth: "",
     state: "Oyo",
     city: '',

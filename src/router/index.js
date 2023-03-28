@@ -51,7 +51,7 @@ const router = createRouter({
         },
 
         {
-            path: "/create-customer",
+            path: "/:telephone/create-customer",
             name: "CreateCustomer",
             component: CreateCustomer,
         },
