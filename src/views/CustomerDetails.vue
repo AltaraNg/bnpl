@@ -74,7 +74,7 @@
                                     <p class="text-gray-500 text-sm font-medium mt-4">Downpayment:</p>
                                     <p class="text-gray-500 text-xl font-medium mt-4">
                                         {{ Customer.latest_credit_checker_verifications.down_payment_rate.percent || "" }}% -
-                                        {{ splitText(Customer.latest_credit_checker_verifications.repayment_duration.name) || "" }}
+                                        {{ Customer.latest_credit_checker_verifications.repayment_duration.value / 30 + ' Months'|| "" }}
                                     </p>
                                 </div>
                             </div>
@@ -108,7 +108,8 @@
                                 {{ Customer.latest_credit_checker_verifications.down_payment_rate.percent || "" }}%
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {{ splitText(Customer.latest_credit_checker_verifications.repayment_duration.name) || "" }}
+                                {{ Customer.latest_credit_checker_verifications.repayment_duration.value / 30 + ' Months'|| "" }}
+
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                 <span
@@ -124,9 +125,7 @@
                     </template>
                 </TableVue>
             </div>
-        </div>
-
-        <div v-if="Customer.orders.length > 0">
+            <div v-if="Customer.orders.length > 0">
             <div class="lg:hidden">
                 <div class="overflow-hidden px-4 lg:px-8 pb-6">
                     <div class="relative mx-auto max-w-xl">
@@ -220,6 +219,9 @@
                 </TableVue>
             </div>
         </div>
+        </div>
+
+        
         <div v-else class="flex items-center justify-center mt-6 lg:mt-16 flex-col" :class="hideNewSale(Customer)">
             <zerostate />
             <p class="text-gray-800 lg:text-2xl mb-0.5">This customer's has no sales</p>
