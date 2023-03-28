@@ -3,7 +3,7 @@
         <div class="overflow-hidden bg-white relative px-4 lg:px-8" v-if="!store.state.loader.showLoading">
             <div class="mx-auto max-w-xl">
                 <div>
-                    <div class="w-full absolute left-0">
+                    <div class="w-full absolute left-0 md:hidden">
                         <RouterLink :to="{ name: 'GetStarted' }"><ArrowLeftIcon class="h-8 w-10 text-primary" aria-hidden="true" /></RouterLink>
                     </div>
                     <div class="grid grid-cols-1 justify-items-center  pt-2 sm:mt-6">
