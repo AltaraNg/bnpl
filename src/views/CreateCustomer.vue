@@ -143,46 +143,7 @@ const store = useStore();
 const customerData = ref(initialCreateCustomerStore);
 const areas = ref([]);
 const states = ref([
-    {
-        value: "Kwara",
-        name: "Kwara State",
-        areas: [
-            {
-                value: "Yoruba_Road",
-                name: "Yoruba Road, Ilorin",
-            },
-            {
-                value: "Gambari",
-                name: "Gambari, Ilorin",
-            },
-            {
-                value: "Taiwo_Road",
-                name: "Taiwo Road, Ilorin",
-            },
-        ],
-    },
-    {
-        value: "Ogun",
-        name: "Ogun State",
-        areas: [
-            {
-                value: "Ijebu_Ode",
-                name: "Ijebu Ode",
-            },
-            {
-                value: "Sagamu",
-                name: "Sagamu",
-            },
-            {
-                value: "Abiola_Way",
-                name: "Abiola Way Showroom",
-            },
-            {
-                value: "Isale_Igbeyin",
-                name: "Isale Igbeyin Showroom",
-            },
-        ],
-    },
+
     {
         value: "Oyo",
         name: "Oyo State",
@@ -241,6 +202,7 @@ function setAreas(newValue){
             }
         });
 }
+
 onMounted(() => {
    setAreas('Oyo')
 });
