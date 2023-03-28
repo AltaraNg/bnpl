@@ -53,9 +53,8 @@ const router = useRouter();
 const verification_id = route.params.verification_id;
 const phone_number = route.params.phone_number;
 const res = ref();
-function VerifyCreditCheck() {
-    res.value = setInterval(() => {
-        Apis.verifycreditcheck(verification_id).then((verification_status) => {
+function CallCreditCheck(){
+    Apis.verifycreditcheck(verification_id).then((verification_status) => {
             const status = verification_status.data.result.status;
             if (status == "passed") {
                 router.push({ name: "SuccessfulVerification", params: { verification_id: verification_id, phone_number: phone_number, OTPvalidate:false } });
@@ -66,6 +65,10 @@ function VerifyCreditCheck() {
                 clearInterval(res.value);
             }
         });
+}
+function VerifyCreditCheck() {
+    res.value = setInterval(() => {
+        CallCreditCheck()
     }, 5 * 60 * 1000);
 }
 function goBack(){
@@ -73,6 +76,7 @@ function goBack(){
 }
 
 onMounted(() => {
+    CallCreditCheck();
     VerifyCreditCheck();
 });
 onUnmounted(() => clearInterval(res.value));

@@ -39,16 +39,16 @@
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500" @click="SeeMore(item)">
                                                 <div class="text-gray-900">{{ item.area_address }}</div>
                                             </td>
-                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500" @click="SeeMore(item)">
-                                                <span v-if="UserStatus(item) !== 'New'"
-                                                    class="inline-flex rounded-full  px-2 text-xs font-semibold leading-5 "
+                                            <td class="whitespace-nowrap  py-4 text-sm text-gray-500" @click="SeeMore(item)">
+                                                <span 
+                                                    class="inline-flex rounded-full captalize  px-2 text-xs font-semibold leading-5 "
                                                     :class="[UserStatus(item) === 'Active' ? 'bg-green-100 text-green-800': UserStatus(item) === 'Approved' ? 'bg-gray-100 text-gray-800' : 'bg-yellow-100 text-yellow-800']"
                                                     >{{ UserStatus(item) }}</span
                                                 >
-                                                <span v-else class="inline-flex rounded-full  px-2 text-xs font-semibold leading-5 ">
+                                                <span  class="inline-flex rounded-lg   text-xs font-semibold leading-2 ">
                                                     <button
                                                     @click="NewSale(item)"
-                                                    class="border rounded bg-primary px-3 py-2 text-white"
+                                                    class="border rounded-full bg-primary px-3 py-1 text-white"
                                                     :class="hideNewSale(item)"
                                                 >
                                                     New Sale
@@ -80,7 +80,7 @@
                                         <div class="flex flex-col items-end space-y-2">
                                              <span
                                              :class="hideNewSale(item) == 'block' ? 'hidden' : 'block'"
-                                                    class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800"
+                                                    class="inline-flex rounded-full capitaize bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800"
                                                     >{{ UserStatus(item) }}</span
                                                 >
                                              <button
@@ -147,24 +147,34 @@ const FindCustomer = async() => {
     return phone_number.value ? FilteredCustomer.value : Customers.value?.slice(0, 10);
 };
 function hideNewSale(customer){
-  const pending =  customer.orders.some((order)=> order.status_id == 3)
-  return  ((customer?.latest_credit_checker_verifications?.status == "pending") || pending ) ? "hidden": "block"
+    console.log(UserStatus(customer));
+  return  ( (UserStatus(customer) && UserStatus(customer) !== 'failed')  ) ? "hidden": "block"
 
 }
 function NewSale(item){
     store.dispatch('NewSale', item)
 }
+function OrderStatus(order){
+    let status = "";
+     switch (order) {
+        case 3:
+            status = "Active";
+            break;
+        case 5:
+            status = "Repossessed";
+            break;
+        case 6:
+            status = "Completed";
+            break;
+        default:
+            status = null;
+    }
+    return status
+}
 
  function UserStatus(customer) {
-  if(hideNewSale(customer) == "hidden"){
-    return 'Active'
-  }
-  if(hideNewSale(customer) == "block" && customer.orders.length==0 && !customer?.latest_credit_checker_verifications ){
-    return 'New'
-  }
-  if(hideNewSale(customer) == "block" && (customer.orders.length!==0 || customer?.latest_credit_checker_verifications == 'approved' )){
-    return 'Approved'
-  }
+    return  OrderStatus(customer?.orders[customer.orders.length -1]?.status_id) || customer?.latest_credit_checker_verifications?.status || ''
+  
 }
 const DisplayCustomer = computed(() => {
     return phone_number.value ? FilteredCustomer.value : Customers.value?.slice(0, 10);
