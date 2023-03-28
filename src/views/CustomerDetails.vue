@@ -1,6 +1,6 @@
 <template>
     <div class="lg:p-5 p-6 text-gray-800   min-h-screen bg-blue-50" v-if="!store.state.loader.showLoading">
-        <div class="mb-2 w-full block cursor-pointer lg:hidden">
+        <div class="mb-2 w-full block cursor-pointer md:hidden">
             <ArrowLeftIcon class="h-10 w-10 text-indigo-600" aria-hidden="true" @click="router.push({ name: 'GetStarted' })" />
         </div>
         <div class="lg:px-8 py-4 lg:py-0 lg:mb-10">

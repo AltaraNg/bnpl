@@ -4,7 +4,7 @@
             <!-- Page header -->
             <DashboardHeader />
        
-            <div class="mt-8" >
+            <div class="mt-8 pb-8" >
                 <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
                     <h2 class="text-lg font-medium leading-6 text-gray-900">Overview</h2>
                     <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-3 lg:grid-cols-4">
@@ -100,7 +100,7 @@
                 </div>
 
                 <!-- Activity table (small breakpoint and up) -->
-                <div class="hidden sm:block">
+                <div class="hidden sm:block ">
                       <div v-if="transactions?.length === 0" class="flex h-full  text-center items-center flex-col justify-center px-5">
                             <zerostate />
                             <p class="text-gray-800 lg:text-2xl mb-0.5">You have no transactions yet</p>
