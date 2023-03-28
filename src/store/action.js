@@ -2,6 +2,7 @@ import router from "../router";
 import Apis from "../services/ApiCalls.js";
 import { handleSuccess } from "../utilities/GlobalFunctions";
 import store from "../store";
+
 // import { loader } from "./loader";
 export const Login = ({ commit }, data) => {
     Apis.login(data)
@@ -37,7 +38,7 @@ export const CreateCustomer = ({ commit }, data) => {
         if (response) {
             commit("CREATE_CUSTOMER", response);
             handleSuccess("Success");
-            router.push({ name: "CreateOrder", params: { id: response?.result?.id } });
+            router.push({ name: "CreateOrder", params: { id: response?.result?.id, telephone:response?.result?.telephone} });
         }
     });
 };
@@ -52,13 +53,13 @@ export const VerifyCreditCheck = ({ commit }) => {
 };
 export const InitiateCreditCheck = ({ commit }, data) => {
     Apis.initiatecreditcheck(data).then((response) => {
-        handleSuccess("Success");
+        // handleSuccess("Success");
         commit("CREDIT_CHECK_VERIFICATION", response.result.credit_check_verification);
         router.push({
             name: "Verification",
             params: {
                 verification_id: response?.result?.credit_check_verification?.id,
-                phone_number: store.state.Customer?.telephone,
+                phone_number: router.currentRoute.value.params.telephone,
                 verification_status: "pending",
             },
         });
@@ -69,5 +70,5 @@ export const SaveResult = ({ commit }, data) => {
 };
 export const NewSale = ({ commit }, item) => {
     commit("SAVECUSTOMER", item);
-    router.push({ name: "CreateOrder", params: { id: item.id } });
+    router.push({ name: "CreateOrder", params: { id: item.id, telephone: item.telephone } });
 };
