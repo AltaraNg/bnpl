@@ -147,7 +147,6 @@ const FindCustomer = async() => {
     return phone_number.value ? FilteredCustomer.value : Customers.value?.slice(0, 10);
 };
 function hideNewSale(customer){
-    console.log(UserStatus(customer));
   return  ( (UserStatus(customer) && UserStatus(customer) !== 'failed')  ) ? "hidden": "block"
 
 }
