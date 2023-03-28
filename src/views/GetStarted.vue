@@ -102,7 +102,7 @@
                             <zerostate />
                             <p class="text-gray-800 lg:text-2xl mb-0.5">This customer's phone number does not exist</p>
                             <p class="text-gray-500 text-xs lg:text-normal mb-6">You can create an acount by clicking below</p>
-                            <RouterLink :to="{ name: 'CreateCustomer' }">
+                            <RouterLink :to="{ name: 'CreateCustomer', params:{telephone: phone_number} }">
                                 <defaultButton name=" Create Account">
                                     <template v-slot:icon>
                                         <plus />
