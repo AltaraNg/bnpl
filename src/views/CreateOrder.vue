@@ -43,7 +43,7 @@
                                 >
                                     <option value="" disabled>Select Repayment Duration</option>
                                     <option class="text-sm" v-for="duration in repayment_duration" :key="duration.slug" :value="duration.id">
-                                        {{ splitText(duration.name) }}
+                                        {{ duration.value / 30 }} Months
                                     </option>
                                 </app-select-input>
                             </div>
@@ -207,7 +207,6 @@ import { useStore } from "vuex";
 import { calculate } from "@/utilities/calculator";
 import { useRoute } from "vue-router";
 import Apis from "@/services/ApiCalls";
-import {splitText} from "@/utilities/GlobalFunctions"
 import { CreateOrderSchema } from "@/shemas/CreateOrderSchema";
 const store = useStore();
 const route = useRoute();
