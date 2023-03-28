@@ -27,11 +27,11 @@
         <p class="mt-4 flex text-lg font-semibold text-gray-800">
             {{ formatCurrency(props.orderDetails?.amortizations[0]?.expected_amount) }}<span class="text-sm font-semibold leading-8 tracking-normal text-gray-500">/ {{ findRepayment(props.orderDetails.repayment_cycle_id, repayment_cycle ) }}</span>
         </p>
-        <p class="text-gray-500 text-xl font-medium mt-4"> for {{ findRepayment(props.orderDetails.repayment_duration_id, repayment_duration )  }}</p>
+        <p class="text-gray-500 text-xl font-medium mt-4"> for {{ findRepaymentDuration(props.orderDetails.repayment_duration_id, repayment_duration )  }}</p>
     </div>
 </template>
 
 <script setup>
 import {formatCurrency} from "@/utilities/GlobalFunctions"
-const props = defineProps(["orderDetails","ColorStatus","orderStatus","findRepayment", "repayment_cycle", "repayment_duration",]);
+const props = defineProps(["orderDetails","ColorStatus","orderStatus","findRepayment", "findRepaymentDuration", "repayment_cycle", "repayment_duration",]);
 </script>

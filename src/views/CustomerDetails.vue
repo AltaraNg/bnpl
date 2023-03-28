@@ -172,6 +172,7 @@
                                 :repayment_duration="repayment_duration"
                                 :repayment_cycle="repayment_cycle"
                                 :findRepayment="findRepayment"
+                                :findRepaymentDuration="findRepaymentDuration"
                                 @click="ShowAmmortization(item)"
                             />
                         </div>
@@ -185,7 +186,7 @@
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Product Price</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Downpayment</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Repayment</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Duration</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Duration/Cycle</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Status</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Date</th>
                     </template>
@@ -203,7 +204,7 @@
                                 {{ formatCurrency(history.amortizations[0].expected_amount) }}
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">
-                                {{ findRepayment(history.repayment_duration_id, repayment_duration) }}/
+                                {{ findRepaymentDuration(history.repayment_duration_id, repayment_duration) }}/
                                 {{ findRepayment(history.repayment_cycle_id, repayment_cycle) }}
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
@@ -439,6 +440,12 @@ function findRepayment(customerData, array) {
         return data.id == customerData;
     });
     return result?.name?.replace(/_/g, " ") ?? "";
+}
+function findRepaymentDuration(customerData, array) {
+    const result = array.find((data) => {
+        return data.id == customerData;
+    });
+    return `${result.value / 30} Months`
 }
 function splitText(text){
     return text.split("_").join(" ");
