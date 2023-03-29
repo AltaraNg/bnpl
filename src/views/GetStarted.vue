@@ -1,11 +1,10 @@
 <template>
     <div class="bg-gray-100 min-h-screen">
-
-        <div class="w-full  flex flex-col items-center justify-center">
-            <div class="bg-gradient-to-t from-blue-500 via-primary to-primary h-[191px] absolute top-0 w-full" ></div>
-                     <div class="w-full  z-10 pl-2 pt-3 md:hidden">
-                       <ArrowLeftIcon class="cursor-pointer h-8 w-10 text-white" @click="router.push({ name: 'Dashboard' })" />
-                    </div>
+        <div class="w-full flex flex-col items-center justify-center">
+            <div class="bg-gradient-to-t from-blue-500 via-primary to-primary h-[191px] absolute top-0 w-full"></div>
+            <div class="w-full z-10 pl-2 pt-3 md:hidden">
+                <ArrowLeftIcon class="cursor-pointer h-8 w-10 text-white" @click="router.push({ name: 'Dashboard' })" />
+            </div>
             <Search @search="SearchPhoneNumber" />
         </div>
         <div class="m-auto mt-20 w-full md:max-w-[742px] lg:max-w-[1008px]">
@@ -28,7 +27,7 @@
                                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6" @click="SeeMore(item)">
                                                 <div class="flex items-center">
                                                     <div class="h-10 w-10 flex-shrink-0 bg-purple-300 rounded-full flex items-center justify-center">
-                                                        <p class=" font-bold  ">{{ item.first_name.charAt(0)+""+item.last_name.charAt(0) }}</p>
+                                                        <p class="font-bold">{{ item.first_name.charAt(0) + "" + item.last_name.charAt(0) }}</p>
                                                     </div>
                                                     <div class="ml-4">
                                                         <div class="font-medium text-gray-900">{{ item.first_name + " " + item.last_name }}</div>
@@ -39,26 +38,31 @@
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500" @click="SeeMore(item)">
                                                 <div class="text-gray-900">{{ item.area_address }}</div>
                                             </td>
-                                            <td class="whitespace-nowrap  py-4 text-sm text-gray-500" @click="SeeMore(item)">
-                                                <span 
-                                                    class="inline-flex rounded-full captalize  px-2 text-xs font-semibold leading-5 "
-                                                    :class="[UserStatus(item) === 'Active' ? 'bg-green-100 text-green-800': UserStatus(item) === 'Approved' ? 'bg-gray-100 text-gray-800' : 'bg-yellow-100 text-yellow-800']"
+                                            <td class="whitespace-nowrap py-4 text-sm text-gray-500">
+                                                <span
+                                                    @click="SeeMore(item)"
+                                                    class="inline-flex rounded-full captalize px-2 text-xs font-semibold leading-5"
+                                                    :class="[
+                                                        UserStatus(item) === 'Active'
+                                                            ? 'bg-green-100 text-green-800'
+                                                            : UserStatus(item) === 'Approved'
+                                                            ? 'bg-gray-100 text-gray-800'
+                                                            : 'bg-yellow-100 text-yellow-800',
+                                                    ]"
                                                     >{{ UserStatus(item) }}</span
                                                 >
-                                                <span  class="inline-flex rounded-lg   text-xs font-semibold leading-2 ">
-                                                    <button
+
+                                                <button
                                                     @click="NewSale(item)"
                                                     class="border rounded-full bg-primary px-3 py-1 text-white"
                                                     :class="hideNewSale(item)"
                                                 >
                                                     New Sale
                                                 </button>
-                                                </span>
                                             </td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500" @click="SeeMore(item)">
                                                 {{ item.telephone }}
                                             </td>
-                                            
                                         </tr>
                                     </template>
                                 </TableVue>
@@ -69,40 +73,42 @@
                                     :key="item.email"
                                     class="rounded-lg bg-white p-4 flex items-center gap-2 shadow-lg"
                                 >
-                                  <div class="h-10 w-10 flex-shrink-0 bg-purple-300 rounded-full flex items-center justify-center">
-                                                        <p class=" font-bold  ">{{ item.first_name.charAt(0)+""+item.last_name.charAt(0) }}</p>
-                                                    </div>
+                                    <div class="h-10 w-10 flex-shrink-0 bg-purple-300 rounded-full flex items-center justify-center">
+                                        <p class="font-bold">{{ item.first_name.charAt(0) + "" + item.last_name.charAt(0) }}</p>
+                                    </div>
                                     <div class="items-center flex justify-between w-full">
                                         <div class="flex-1" @click="SeeMore(item)">
                                             <p class="text-lg font-semibold">{{ item.first_name }} {{ item.last_name }}</p>
                                             <p class="text-sm">{{ item.telephone }}</p>
                                         </div>
                                         <div class="flex flex-col items-end space-y-2">
-                                             <span
-                                             :class="hideNewSale(item) == 'block' ? 'hidden' : 'block'"
-                                                    class="inline-flex rounded-full capitaize bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800"
-                                                    >{{ UserStatus(item) }}</span
-                                                >
-                                             <button
-                                            @click="NewSale(item)"
-                                            class="border text-xs rounded bg-primary px-3 py-2 text-white"
-                                            :class="hideNewSale(item)"
-                                        >
-                                            New Sale
-                                        </button>
+                                            <span
+                                                :class="hideNewSale(item) == 'block' ? 'hidden' : 'block'"
+                                                class="inline-flex rounded-full capitaize bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800"
+                                                >{{ UserStatus(item) }}</span
+                                            >
+                                            <button
+                                                @click="NewSale(item)"
+                                                class="border text-xs rounded bg-primary px-3 py-2 text-white"
+                                                :class="hideNewSale(item)"
+                                            >
+                                                New Sale
+                                            </button>
                                         </div>
-                                       
                                     </div>
 
                                     <!-- <SideModal v-if="sidebarOpen" @close="sidebarOpen = false" class=" lg:hidden"> hello </SideModal> -->
                                 </div>
                             </div>
                         </template>
-                        <div v-if="(phone_number && !FilteredCustomer?.length || Customers?.length === 0)" class="flex text-center items-center flex-col justify-center px-5">
+                        <div
+                            v-if="(phone_number && !FilteredCustomer?.length) || Customers?.length === 0"
+                            class="flex text-center items-center flex-col justify-center px-5"
+                        >
                             <zerostate />
                             <p class="text-gray-800 lg:text-2xl mb-0.5">This customer's phone number does not exist</p>
                             <p class="text-gray-500 text-xs lg:text-normal mb-6">You can create an acount by clicking below</p>
-                            <RouterLink :to="{ name: 'CreateCustomer', params:{telephone: phone_number} }">
+                            <RouterLink :to="{ name: 'CreateCustomer', params: { telephone: phone_number } }">
                                 <defaultButton name=" Create Account">
                                     <template v-slot:icon>
                                         <plus />
@@ -123,39 +129,38 @@ import TableVue from "@/components/Table";
 import defaultButton from "@/components/button.vue";
 import zerostate from "@/assets/svgs/zerostate.vue";
 import plus from "@/assets/svgs/plus.vue";
-import { ref, onBeforeMount, computed,   } from "vue";
+import { ref, onBeforeMount, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import Apis from "@/services/ApiCalls";
 const router = useRouter();
-const store = useStore()
+const store = useStore();
 const Customers = ref(undefined);
 const phone_number = ref();
 const FilteredCustomer = ref();
 
 const SeeMore = (item) => {
-    store.state.CustomerPhoneNumber = item.telephone
+    store.state.CustomerPhoneNumber = item.telephone;
     router.push({ name: "CustomerDetails", params: { phone_number: item.telephone } });
 };
 function SearchPhoneNumber(phoneNumber) {
-     phone_number.value = phoneNumber;
+    phone_number.value = phoneNumber;
     FindCustomer();
 }
-const FindCustomer = async() => {
+const FindCustomer = async () => {
     const result = await Apis.searchcustomer(phone_number.value);
-    FilteredCustomer.value = result.data.result.customers.data
+    FilteredCustomer.value = result.data.result.customers.data;
     return phone_number.value ? FilteredCustomer.value : Customers.value?.slice(0, 10);
 };
-function hideNewSale(customer){
-  return  ( (UserStatus(customer) && UserStatus(customer) !== 'failed')  ) ? "hidden": "block"
-
+function hideNewSale(customer) {
+    return UserStatus(customer) && UserStatus(customer) !== "failed" ? "hidden" : "block";
 }
-function NewSale(item){
-    store.dispatch('NewSale', item)
+function NewSale(item) {
+    store.dispatch("NewSale", item);
 }
-function OrderStatus(order){
+function OrderStatus(order) {
     let status = "";
-     switch (order) {
+    switch (order) {
         case 3:
             status = "Active";
             break;
@@ -168,22 +173,20 @@ function OrderStatus(order){
         default:
             status = null;
     }
-    return status
+    return status;
 }
 
- function UserStatus(customer) {
-    return  OrderStatus(customer?.orders[customer.orders.length -1]?.status_id) || customer?.latest_credit_checker_verifications?.status || ''
-  
+function UserStatus(customer) {
+    return OrderStatus(customer?.orders[customer.orders.length - 1]?.status_id) || customer?.latest_credit_checker_verifications?.status || "";
 }
 const DisplayCustomer = computed(() => {
     return phone_number.value ? FilteredCustomer.value : Customers.value?.slice(0, 10);
 });
-    async function AllCustomers() {
+async function AllCustomers() {
     let result = await Apis.allcustomers();
-    Customers.value = result?.data.result.customers.data
-
+    Customers.value = result?.data.result.customers.data;
 }
-  onBeforeMount(() => {
-    AllCustomers()
+onBeforeMount(() => {
+    AllCustomers();
 });
 </script>
