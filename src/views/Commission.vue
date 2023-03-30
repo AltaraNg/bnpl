@@ -1,49 +1,19 @@
 <template>
     <App>
-        <div class="pb-4">
-            <!-- Page header -->
-            <DashboardHeader />
+        <div class="lg:pb-4">
+             
        
-            <div class="mt-8 pb-8" >
-                <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-                    <h2 class="text-lg font-medium leading-6 text-gray-900">Overview</h2>
-                    <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-3 lg:grid-cols-4">
-                        <!-- Card -->
-                        <div
-                            v-for="card in cards"
-                            :key="card.name"
-                            class="overflow-hidden rounded-lg cursor-pointer bg-white shadow"
-                            @click=" card.name == 'Commission' ? router.push({name:'Commission'}) : router.push({name:'AllTransactions'})"
-                        >
-                            <div class="p-5">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0">
-                                        <component :is="card.icon" class="h-6 w-6 text-gray-400" aria-hidden="true" />
-                                    </div>
-                                    <div class="ml-5 w-0 flex-1">
-                                        <dl>
-                                            <dt class="truncate text-sm font-medium text-gray-500">
-                                                {{ card.name }}
-                                            </dt>
-                                            <dd>
-                                                <div class="text-lg font-medium text-gray-900">
-                                                    {{ card.amount }}
-                                                </div>
-                                            </dd>
-                                        </dl>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="bg-gray-50 px-5 py-3">
-                                <div class="text-sm">
-                                    <a :href="card.href" class="font-medium text-cyan-700 hover:text-cyan-900">View all</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class=" mt-3 mb-3" >
+                <div class="flex items-center ">
+                      <div class=" p-1 block cursor-pointer lg:hidden block">
+            <ArrowLeftIcon class="lg:h-10 w-10 h-6 text-indigo-600" aria-hidden="true" @click="$router.push({ name: 'Dashboard' })" />
+        </div>
+                <div class="w-full lg:pl-10 mt-12 mb-2">
+                    <h2 class="text-lg font-semibold lg:text-2xl leading-6 lg:text-left text-center text-gray-900">Commission</h2>
+                    
                 </div>
-
-                <h2 class="mx-auto mt-8 max-w-6xl px-4 text-lg font-medium leading-6 text-gray-900 sm:px-6 lg:px-8">Recent activities</h2>
+                </div>
+                 
 
                 <!-- Activity list (smallest breakpoint only) -->
                 <div class="shadow sm:hidden">
@@ -76,13 +46,13 @@
                                             <time :datetime="transaction.datetime">{{ transaction.order_date }}</time>
                                         </span>
                                     </span>
-                                    <ChevronRightIcon class="h-5 w-5 flex-shrink-0 text-gray-400 hidden" aria-hidden="true" />
+                                    <ChevronRightIcon class="h-5 w-5 hidden flex-shrink-0 text-gray-400" aria-hidden="true" />
                                 </span>
                             </a>
                         </li>
                     </ul>
 
-                    <nav class="flex items-center justify-between border-t border-gray-200 hidden bg-white px-4 py-3" aria-label="Pagination">
+                    <nav class="flex items-center justify-between border-t border-gray-200  bg-white px-4 py-3" aria-label="Pagination">
                         <div class="flex flex-1 justify-between">
                             <a
                                 href="#"
@@ -99,7 +69,7 @@
                 </div>
 
                 <!-- Activity table (small breakpoint and up) -->
-                <div class="hidden sm:block ">
+                <div class="hidden sm:block">
                       <div v-if="transactions?.length === 0" class="flex h-full  text-center items-center flex-col justify-center px-5">
                             <zerostate />
                             <p class="text-gray-800 lg:text-2xl mb-0.5">You have no transactions yet</p>
@@ -129,7 +99,7 @@
                                                 class="hidden bg-gray-50 px-4 py-3 text-left text-sm font-semibold text-gray-900 md:block"
                                                 scope="col"
                                             >
-                                                Customer Name
+                                                Commission
                                             </th>
                                             <th class="bg-gray-50 px-4 py-3 text-center text-sm font-semibold text-gray-900" scope="col">Date</th>
                                         </tr>
@@ -161,7 +131,7 @@
                                             </td>
                                             <td class="hidden whitespace-nowrap px-6 py-4 text-sm text-gray-500 md:block">
                                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-gray-700  font-semibold capitalize">
-                                                    {{ transaction.customer.first_name + " " + transaction.customer.last_name }}
+                                                    {{ formatCurrency(transaction.repayment/20) }}
                                                 </span>
                                             </td>
                                             <td class="whitespace-nowrap px-6 py-4 text-right text-sm text-gray-500">
@@ -175,35 +145,26 @@
                     </div>
                 </div>
             </div>
-            
+          
         </div>
     </App>
 </template>
 
 <script setup>
+import { ArrowLeftIcon } from "@heroicons/vue/24/solid";
 import App from "@/layouts/App.vue";
 import defaultButton from '@/components/button.vue'
 import zerostate from "@/assets/svgs/zerostate.vue";
-import DashboardHeader from "@/components/DashboardHeader.vue";
-import {  ChartBarIcon,  ReceiptPercentIcon } from "@heroicons/vue/24/outline";
 import { BanknotesIcon, ChevronRightIcon } from "@heroicons/vue/20/solid";
 import { ref, onBeforeMount } from "vue";
 import Apis from "@/services/ApiCalls";
-import { useRouter } from "vue-router";
 import plus from "@/assets/svgs/plus.vue";
 import {formatCurrency} from "@/utilities/GlobalFunctions"
 
-const router = useRouter();
-const cards = ref([]);
+
 const transactions =ref(undefined);
 async function FetchDashboard() {
     await Apis.dashboarddata().then((res) => {
-        const summary = [
-            { name: "No of Sales", href: "#", icon: BanknotesIcon, amount: res?.data?.result?.total_number_of_sales || 0 },
-            { name: "Total Revenue", href: "#", icon: ChartBarIcon, amount: formatCurrency(res?.data?.result?.total_revenue) || 0 },
-            { name: "Commission", href: "#", icon: ReceiptPercentIcon, amount: "Coming soon" },
-        ];
-        cards.value.push(...summary);
         transactions.value = []
         transactions.value.push(...res.data.result.recent_activities);
 

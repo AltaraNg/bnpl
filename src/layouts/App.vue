@@ -130,7 +130,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref,watch } from "vue";
 import { userdata } from "../utilities/GlobalFunctions";
 import router from "@/router";
 import { computed } from "vue";
@@ -149,10 +149,14 @@ import {
   UserGroupIcon,
   XMarkIcon,
   ArrowLeftOnRectangleIcon,
-  ArrowsRightLeftIcon
+  ArrowsRightLeftIcon,
+  ReceiptPercentIcon
 } from "@heroicons/vue/24/outline";
 import { useStore } from "vuex";
+import { useRoute,  } from "vue-router";
 
+
+const route = useRoute();
 const store = useStore()
 const navigation = [
   { name: "Dashboard", icon: HomeIcon, current: false, slug: "Dashboard" },
@@ -161,6 +165,7 @@ const navigation = [
   { name: "Transactions", icon: ArrowsRightLeftIcon, current: false, slug: "AllTransactions" },
    { name: "All Customers", icon: UserGroupIcon, current: false, slug: "GetStarted" },
    { name: "Log Out", icon: ArrowLeftOnRectangleIcon, current: false, slug: "login" },
+    { name: "Commission", icon: ReceiptPercentIcon, current: false, slug: "Commission" }
 ];
 const user = ref(store.state.userdata.result?.user || userdata  )
 const sidebarOpen = ref(false);
@@ -168,7 +173,20 @@ function logOut() {
   localStorage.clear();
   router.push({ name: "login" });
 }
+function  checkRoute() {
+      navigation.map((route) => {
+        this.$route.name == route.slug ? (route.current = true) : (route.current = false);
+        console.log(this.$route.name);
+      });
+    }
 const fullname = computed(() => {
     return user.value.full_name.split(" ");
 });
+watch( route,
+    (newValue) => {
+      console.log(route);
+         checkRoute(newValue)
+    },
+    
+);
 </script>

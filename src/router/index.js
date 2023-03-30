@@ -9,6 +9,7 @@ import CustomerDetails from "@/views/CustomerDetails.vue";
 import Verification from "@/views/Verification.vue";
 import AllOrders from "@/views/AllOrders.vue";
 import AllTransactions from "../views/AllTransactions.vue"
+import Commission from "../views/Commission.vue";
 import CreateCustomer from "../views/CreateCustomer.vue";
 import CreateOrder from '../views/CreateOrder.vue'
 import SuccessfulVerification from "@/views/SuccessfulVerification.vue";
@@ -107,6 +108,11 @@ const router = createRouter({
             path: "/all-transactions",
             name: "AllTransactions",
             component: AllTransactions,
+        },
+        {
+            path: "/commission",
+            name: "Commission",
+            component: Commission,
         },
         {
             path: "/:id/:telephone/create-order",
