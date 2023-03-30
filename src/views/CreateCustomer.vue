@@ -166,7 +166,7 @@ const states = ref([
                 name: "Bodija, Ibadan",
             },
             {
-                value: "Iwo",
+                value: "Iwo Road",
                 name: "Iwo Road, Ibadan",
             },
             {

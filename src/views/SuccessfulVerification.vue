@@ -31,7 +31,10 @@
                                         </p>
                                     </div>
                                 </div>
-                                <p class="text-gray-500 text-xl font-medium mt-4">for {{ Order.repayment_duration.value / 30 }} Months</p>
+                                <div>
+                                        <p class="text-gray-500 text-sm font-medium mt-4">Duration:</p>
+                                        <p class="text-gray-900 text-2xl font-bold">{{ Order.repayment_duration.value / 30 }} Months</p>
+                                    </div>
                             </div>
                         </div>
                         <p class="text-gray-500 text-sm font-normal mt-8" v-if="route.params.OTPvalidate == 'false'">
