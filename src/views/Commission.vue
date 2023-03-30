@@ -141,6 +141,20 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <nav v-if="transactions?.length == 10" class="flex items-center justify-between border-t border-gray-200  bg-white px-4 py-3" aria-label="Pagination">
+                        <div class="flex flex-1 justify-between">
+                            <a
+                                href="#"
+                                class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-500"
+                                >Previous</a
+                            >
+                            <a
+                                href="#"
+                                class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-500"
+                                >Next</a
+                            >
+                        </div>
+                    </nav>
                         </div>
                     </div>
                 </div>

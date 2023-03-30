@@ -452,7 +452,7 @@ function findRepaymentDuration(customerData, array) {
     return `${result.value / 30} Months`
 }
 function splitText(text){
-    return text.split("_").join(" ");
+    return text?.split("_").join(" ");
 }
 
 onBeforeMount(async () => {

@@ -83,7 +83,7 @@
             <router-link :to="{ name: item.slug }" v-for="item in navigation" :key="item.name">
               <a @click="item.slug == 'login' ? logOut() : ''" :class="[
                 item.current ? 'bg-primary text-white mb-1' : 'text-white mb-1 hover:bg-gray-400 hover:text-white',
-                'group flex items-center px-2 py-2 text-sm font-medium rounded-md', item.slug == 'login' ?'absolute bottom-0 right-0 px-0 flex-1 w-full':''
+                'group flex items-center px-2 py-2 text-sm font-medium rounded-md', item.slug == 'login' ?'absolute bottom-0 pl-2 right-0 px-0 flex-1 w-full':''
               ]">
 
                 <component :is="item.icon"
@@ -130,9 +130,8 @@
 </template>
 
 <script setup>
-import { ref,watch } from "vue";
+import { ref, } from "vue";
 import { userdata } from "../utilities/GlobalFunctions";
-import router from "@/router";
 import { computed } from "vue";
 import Footer from "@/components/Footer"
 import {
@@ -153,9 +152,9 @@ import {
   ReceiptPercentIcon
 } from "@heroicons/vue/24/outline";
 import { useStore } from "vuex";
-import { useRoute,  } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
-
+const router = useRouter();
 const route = useRoute();
 const store = useStore()
 const navigation = [
@@ -174,19 +173,13 @@ function logOut() {
   router.push({ name: "login" });
 }
 function  checkRoute() {
-      navigation.map((route) => {
-        this.$route.name == route.slug ? (route.current = true) : (route.current = false);
-        console.log(this.$route.name);
+      navigation.map((link) => {
+       route.name == link.slug ? (link.current = true) : (link.current = false);
       });
     }
 const fullname = computed(() => {
     return user.value.full_name.split(" ");
 });
-watch( route,
-    (newValue) => {
-      console.log(route);
-         checkRoute(newValue)
-    },
-    
-);
+checkRoute()
+
 </script>
