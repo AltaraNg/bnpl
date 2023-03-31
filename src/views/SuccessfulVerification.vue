@@ -13,7 +13,7 @@
                         <div class="flex flex-col my-5 rounded-3xl bg-white shadow-xl ring-1 ring-black/10 lg:p-6 p-4 w-full mt-6">
                             <div class="flex items-center justify-between">
                                 <p class="text-base font-semibold leading-8 tracking-tight text-primary">Payment Details</p>
-                                <img src="@/assets/images/orderCompleted.gif" v-if="route.params.OTPvalidate == 'order_created'" />
+                                <img src="@/assets/images/orderCompleted.gif" v-if="route.params.OTPvalidate == 'validated'" />
                             </div>
 
                             <div class="mt-3">

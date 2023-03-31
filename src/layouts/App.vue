@@ -174,7 +174,7 @@ function logOut() {
 }
 function  checkRoute() {
       navigation.map((link) => {
-       route.name == link.slug ? (link.current = true) : (link.current = false);
+       link.current = route.name == link.slug;
       });
     }
 const fullname = computed(() => {
