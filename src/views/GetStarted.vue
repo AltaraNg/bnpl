@@ -102,7 +102,7 @@
                             </div>
                         </template>
                         <div
-                            v-if="(phone_number && !FilteredCustomer?.length) || Customers?.length === 0"
+                            v-if="(phone_number && !FilteredCustomer?.length) || Customers.length == 0"
                             class="flex text-center items-center flex-col justify-center px-5"
                         >
                             <zerostate />
@@ -136,7 +136,7 @@ import Apis from "@/services/ApiCalls";
 const router = useRouter();
 const store = useStore();
 const Customers = ref(undefined);
-const phone_number = ref();
+const phone_number = ref(0);
 const FilteredCustomer = ref();
 
 const SeeMore = (item) => {
@@ -188,5 +188,6 @@ async function AllCustomers() {
 }
 onBeforeMount(() => {
     AllCustomers();
+    
 });
 </script>

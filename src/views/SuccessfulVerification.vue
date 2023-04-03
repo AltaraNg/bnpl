@@ -31,10 +31,17 @@
                                         </p>
                                     </div>
                                 </div>
-                                <div>
+                                 <div class="flex items-center justify-between">
+                                      <div>
                                         <p class="text-gray-500 text-sm font-medium mt-4">Duration:</p>
                                         <p class="text-gray-900 text-2xl font-bold">{{ Order.repayment_duration.value / 30 }} Months</p>
                                     </div>
+                                      <div>
+                                        <p class="text-gray-500 text-sm font-medium mt-4">2% Commission:</p>
+                                        <p class="text-gray-900 text-2xl font-bold">{{ formatCurrency(OrderResult.total * 0.02) }}</p>
+                                    </div>
+                                 </div>
+                              
                             </div>
                         </div>
                         <p class="text-gray-500 text-sm font-normal mt-8" v-if="route.params.OTPvalidate == 'false'">

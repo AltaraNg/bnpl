@@ -121,7 +121,7 @@
           <Bars3Icon class="h-6 w-6" aria-hidden="true" />
         </button>
       </div>
-      <main class="flex-1 bg-gray-50 mb-20">
+      <main class="flex-1 bg-gray-50 mb-20 lg:mb-0">
         <slot></slot>
       </main>
     </div>

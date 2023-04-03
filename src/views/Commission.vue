@@ -25,8 +25,8 @@
                             </defaultButton>
                         </RouterLink>
                     </div>
-                    <ul v-else role="list" class="mt-2 divide-y divide-gray-200 overflow-hidden shadow sm:hidden">
-                        <li v-for="transaction in transactions" :key="transaction.id">
+                    <div v-else role="list" class="mt-2   overflow-hidden shadow sm:hidden">
+                        <div v-for="transaction in transactions" :key="transaction.id">
                             <div class="flex flex-col m-5 rounded-3xl bg-white shadow-xl ring-1 ring-black/10 lg:p-6 p-4 mt-2">
                                 <div class="flex items-center justify-between">
                                     <p class="text-base font-semibold mb-3 tracking-tight text-primary">Transaction Details</p>
@@ -58,10 +58,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
 
-                    <nav class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3" aria-label="Pagination">
+                    <nav v-if="transactions?.length == 10" class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3" aria-label="Pagination">
                         <div class="flex flex-1 justify-between">
                             <a
                                 href="#"
@@ -111,14 +111,14 @@
                                                 Commission Amount
                                             </th>
                                             <th class="bg-gray-50 px-4 py-3 text-center text-sm font-semibold text-gray-900" scope="col">
-                                                Commission %
+                                                Commission Percentage
                                             </th>
                                             <th class="bg-gray-50 px-4 py-3 text-center text-sm font-semibold text-gray-900" scope="col">Date</th>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-gray-200 bg-white">
                                         <tr v-for="transaction in transactions" :key="transaction.id" class="bg-white">
-                                            <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
+                                            <td class="whitespace-nowrap px-4 py-4 text-sm text-gray-900">
                                                 <div class="flex">
                                                     <a :href="transaction.href" class="group inline-flex space-x-2 truncate text-sm">
                                                         <BanknotesIcon
@@ -131,27 +131,27 @@
                                                     </a>
                                                 </div>
                                             </td>
-                                            <td class="w-full max-w-0 whitespace-nowrap px-6 py-4 text-sm text-gray-500">
+                                            <td class="w-full max-w-0 whitespace-nowrap px-4 py-4 text-sm text-gray-500">
                                                 <div>
                                                     <p class="truncate text-gray-700 group-hover:text-gray-900 font-semibold">
                                                         {{ transaction.bnpl_product.name }}
                                                     </p>
                                                 </div>
                                             </td>
-                                            <td class="whitespace-nowrap px-6 py-4 text-left text-sm text-gray-500">
+                                            <td class="whitespace-nowrap px-4 py-4 text-left text-sm text-gray-500">
                                                 <span class="font-medium text-gray-900">{{ formatCurrency(transaction.product_price) }}</span>
                                             </td>
-                                            <td class="hidden whitespace-nowrap px-6 py-4 text-sm text-gray-500 md:block">
+                                            <td class="hidden whitespace-nowrap px-4 py-4 text-sm text-gray-500 md:block">
                                                 <span
                                                     class="inline-flex items-center px-2.5 py-0.5 rounded-full text-gray-700 font-semibold capitalize"
                                                 >
                                                     {{ formatCurrency(transaction.repayment / 20) }}
                                                 </span>
                                             </td>
-                                            <td class="whitespace-nowrap px-6 py-4 text-left text-sm text-gray-500">
+                                            <td class="whitespace-nowrap px-4 py-4 text-left text-sm text-gray-500">
                                                 <span class="font-medium text-gray-900">2%</span>
                                             </td>
-                                            <td class="whitespace-nowrap px-6 py-4 text-right text-sm text-gray-500">
+                                            <td class="whitespace-nowrap px-4 py-4 text-right text-sm text-gray-500">
                                                 <time :datetime="transaction.datetime">{{ transaction.order_date }}</time>
                                             </td>
                                         </tr>
