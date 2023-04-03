@@ -27,19 +27,19 @@
                     </div>
                     <ul v-else role="list" class="mt-2 divide-y divide-gray-200 overflow-hidden shadow sm:hidden">
                         <li v-for="transaction in transactions" :key="transaction.id">
-                            <div class="flex flex-col my-5 rounded-3xl bg-white shadow-xl ring-1 ring-black/10 lg:p-6 p-4 w-full mt-6">
+                            <div class="flex flex-col m-5 rounded-3xl bg-white shadow-xl ring-1 ring-black/10 lg:p-6 p-4 mt-2">
                                 <div class="flex items-center justify-between">
+                                    <p class="text-base font-semibold mb-3 tracking-tight text-primary">Transaction Details</p>
+
                                     <div>
-                                        <p class="text-base font-semibold mb-3  tracking-tight text-primary">Transaction Details</p>
                                         <p class="text-lg font-semibold text-gray-600">{{ transaction.bnpl_product.name }}</p>
-                                    <span class="text-xs font-semibold leading- tracking-normal text-gray-500">{{ transaction.order_number }}</span>
+                                        <span class="text-xs font-semibold leading- tracking-normal text-gray-500">{{
+                                            transaction.order_number
+                                        }}</span>
                                     </div>
-                                    
-                                    <BanknotesIcon class="h-10 w-10 flex-shrink-0 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
                                 </div>
 
                                 <div class="mt-3">
-                                    
                                     <div class="flex items-center justify-between">
                                         <div>
                                             <p class="text-gray-500 text-sm font-medium mt-4">Total Product Value:</p>
