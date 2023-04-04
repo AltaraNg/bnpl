@@ -61,7 +61,7 @@
                         </div>
                     </div>
 
-                   <Pagination :response="response" :FetchList="FetchDashboard" :current_page="current_page"/>
+                   <Pagination :response="response" :FetchList="FetchDashboard" />
                 </div>
 
                 <!-- Activity table (small breakpoint and up) -->
@@ -146,7 +146,7 @@
                                 </table>
                             </div>
                            
-                            <Pagination :response="response" :FetchList="FetchDashboard" :current_page="current_page"/>
+                            <Pagination :response="response" :FetchList="FetchDashboard"/>
 
                         </div>
                     </div>

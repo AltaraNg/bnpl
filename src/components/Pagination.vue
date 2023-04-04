@@ -28,5 +28,5 @@
 <script setup>
 import { ref } from "vue";
 const current_page = ref(1);
-const props = defineProps(["response", "FetchList", "current_page"]);
+const props = defineProps(["response", "FetchList", ]);
 </script>
