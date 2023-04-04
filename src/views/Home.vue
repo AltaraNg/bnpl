@@ -187,7 +187,7 @@ async function FetchDashboard() {
         const summary = [
             { name: "No of Sales", href: "#", icon: BanknotesIcon, amount: res?.data?.result?.total_number_of_sales || 0 },
             { name: "Total Revenue", href: "#", icon: ChartBarIcon, amount: formatCurrency(res?.data?.result?.total_revenue) || 0 },
-            { name: "Commission", href: "#", icon: ReceiptPercentIcon, amount: formatCurrency(res?.data?.result?.total_revenue* 0.02) || 0 },
+            { name: "Commission", href: "#", icon: ReceiptPercentIcon, amount: formatCurrency(res?.data?.result?.total_commission) || 0 },
         ];
         cards.value.push(...summary);
         transactions.value = []

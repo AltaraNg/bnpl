@@ -61,20 +61,7 @@
                         </div>
                     </div>
 
-                    <nav v-if="commissions?.length == 10" class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3" aria-label="Pagination">
-                        <div class="flex flex-1 justify-between">
-                            <a
-                                href="#"
-                                class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-500"
-                                >Previous</a
-                            >
-                            <a
-                                href="#"
-                                class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-500"
-                                >Next</a
-                            >
-                        </div>
-                    </nav>
+                   <Pagination :response="response" :FetchList="FetchDashboard" :current_page="current_page"/>
                 </div>
 
                 <!-- Activity table (small breakpoint and up) -->
@@ -158,24 +145,9 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <nav
-                                v-if="commissions?.length == 10"
-                                class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3"
-                                aria-label="Pagination"
-                            >
-                                <div class="flex flex-1 justify-between">
-                                    <a
-                                        href="#"
-                                        class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-500"
-                                        >Previous</a
-                                    >
-                                    <a
-                                        href="#"
-                                        class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-500"
-                                        >Next</a
-                                    >
-                                </div>
-                            </nav>
+                           
+                            <Pagination :response="response" :FetchList="FetchDashboard" :current_page="current_page"/>
+
                         </div>
                     </div>
                 </div>
@@ -187,6 +159,7 @@
 <script setup>
 import { ArrowLeftIcon } from "@heroicons/vue/24/solid";
 import App from "@/layouts/App.vue";
+import Pagination from "@/components/Pagination.vue"
 import defaultButton from "@/components/button.vue";
 import zerostate from "@/assets/svgs/zerostate.vue";
 import { BanknotesIcon } from "@heroicons/vue/20/solid";
@@ -196,12 +169,15 @@ import plus from "@/assets/svgs/plus.vue";
 import { formatCurrency } from "@/utilities/GlobalFunctions";
 
 const commissions = ref([]);
-async function FetchDashboard() {
-    await Apis.commission().then((res) => {
-        commissions.value = res.data.result.commissions.data;
+const response = ref(null)
+async function FetchDashboard(number) {
+    await Apis.commission(number).then((res) => {
+        commissions.value = res?.data?.result?.commissions?.data;
+        response.value = res?.data?.result.commissions
     });
 }
 onBeforeMount(async () => {
     await FetchDashboard();
+   
 });
 </script>
