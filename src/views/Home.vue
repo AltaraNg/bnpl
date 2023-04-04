@@ -12,9 +12,8 @@
                         <div
                             v-for="card in cards"
                             :key="card.name"
-                            :class="card.name == 'Commission' ? 'opacity-60':''"
                             class="overflow-hidden rounded-lg cursor-pointer bg-white shadow"
-                            @click=" card.name == 'Commission' ? showModal = true : router.push({name:'AllTransactions'})"
+                            @click=" card.name == 'Commission' ? router.push({name:'Commission'}) : router.push({name:'AllTransactions'})"
                         >
                             <div class="p-5">
                                 <div class="flex items-center">
@@ -61,7 +60,7 @@
                             </RouterLink>
                         </div>
                     <ul v-else role="list" class="mt-2 divide-y divide-gray-200 overflow-hidden shadow sm:hidden">
-                        <li v-for="transaction in transactions" :key="transaction.id">
+                        <li v-for="transaction in transactions?.slice(0, 10)" :key="transaction.id">
                             <a  class="block bg-white px-4 py-4 hover:bg-gray-50">
                                 <span class="flex items-center space-x-4">
                                     <span class="flex flex-1 space-x-2 truncate">
@@ -83,20 +82,6 @@
                         </li>
                     </ul>
 
-                    <nav class="flex items-center justify-between border-t border-gray-200 hidden bg-white px-4 py-3" aria-label="Pagination">
-                        <div class="flex flex-1 justify-between">
-                            <a
-                                href="#"
-                                class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-500"
-                                >Previous</a
-                            >
-                            <a
-                                href="#"
-                                class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-500"
-                                >Next</a
-                            >
-                        </div>
-                    </nav>
                 </div>
 
                 <!-- Activity table (small breakpoint and up) -->
@@ -136,8 +121,8 @@
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-gray-200 bg-white">
-                                        <tr v-for="transaction in transactions" :key="transaction.id" class="bg-white">
-                                            <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
+                                        <tr v-for="transaction in transactions?.slice(0, 10)" :key="transaction.id" class="bg-white">
+                                            <td class="whitespace-nowrap px-4 py-4 text-sm text-gray-900">
                                                 <div class="flex">
                                                     <a :href="transaction.href" class="group inline-flex space-x-2 truncate text-sm">
                                                         <BanknotesIcon
@@ -150,22 +135,22 @@
                                                     </a>
                                                 </div>
                                             </td>
-                                            <td class="w-full max-w-0 whitespace-nowrap px-6 py-4 text-sm text-gray-500">
+                                            <td class="w-full max-w-0 whitespace-nowrap px-4 py-4 text-sm text-gray-500">
                                                 <div>
                                                     <p class="truncate text-gray-700 group-hover:text-gray-900 font-semibold">
                                                         {{ transaction.bnpl_product.name }}
                                                     </p>
                                                 </div>
                                             </td>
-                                            <td class="whitespace-nowrap px-6 py-4 text-left text-sm text-gray-500">
+                                            <td class="whitespace-nowrap px-4 py-4 text-left text-sm text-gray-500">
                                                 <span class="font-medium text-gray-900">{{ formatCurrency(transaction.product_price) }}</span>
                                             </td>
-                                            <td class="hidden whitespace-nowrap px-6 py-4 text-sm text-gray-500 md:block">
+                                            <td class="hidden whitespace-nowrap px-4 py-4 text-sm text-gray-500 md:block">
                                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-gray-700  font-semibold capitalize">
                                                     {{ transaction.customer.first_name + " " + transaction.customer.last_name }}
                                                 </span>
                                             </td>
-                                            <td class="whitespace-nowrap px-6 py-4 text-right text-sm text-gray-500">
+                                            <td class="whitespace-nowrap px-4 py-4 text-right text-sm text-gray-500">
                                                 <time :datetime="transaction.datetime">{{ transaction.order_date }}</time>
                                             </td>
                                         </tr>
@@ -176,28 +161,7 @@
                     </div>
                 </div>
             </div>
-            <BaseModal @close="showModal = false" v-if="showModal">
-                <div>
-                    <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-                        <CheckIcon class="h-6 w-6 text-green-600" aria-hidden="true" />
-                    </div>
-                    <div class="mt-3 text-center sm:mt-5">
-                        <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900">Coming soon</DialogTitle>
-                        <div class="mt-2">
-                            <p class="text-sm text-gray-500">This page is in progress</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-5 sm:mt-6">
-                    <button
-                        type="button"
-                        class="inline-flex w-full justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-base font-medium text-white shadow-sm focus:outline-none focus:ring-0 sm:text-sm"
-                        @click="showModal = false"
-                    >
-                        Go back to dashboard
-                    </button>
-                </div>
-            </BaseModal>
+            
         </div>
     </App>
 </template>
@@ -209,7 +173,6 @@ import zerostate from "@/assets/svgs/zerostate.vue";
 import DashboardHeader from "@/components/DashboardHeader.vue";
 import {  ChartBarIcon,  ReceiptPercentIcon } from "@heroicons/vue/24/outline";
 import { BanknotesIcon, ChevronRightIcon } from "@heroicons/vue/20/solid";
-import BaseModal from "@/components/BaseModal.vue";
 import { ref, onBeforeMount } from "vue";
 import Apis from "@/services/ApiCalls";
 import { useRouter } from "vue-router";
@@ -217,7 +180,6 @@ import plus from "@/assets/svgs/plus.vue";
 import {formatCurrency} from "@/utilities/GlobalFunctions"
 
 const router = useRouter();
-const showModal = ref(false);
 const cards = ref([]);
 const transactions =ref(undefined);
 async function FetchDashboard() {
@@ -225,7 +187,7 @@ async function FetchDashboard() {
         const summary = [
             { name: "No of Sales", href: "#", icon: BanknotesIcon, amount: res?.data?.result?.total_number_of_sales || 0 },
             { name: "Total Revenue", href: "#", icon: ChartBarIcon, amount: formatCurrency(res?.data?.result?.total_revenue) || 0 },
-            { name: "Commission", href: "#", icon: ReceiptPercentIcon, amount: "Coming soon" },
+            { name: "Commission", href: "#", icon: ReceiptPercentIcon, amount: formatCurrency(res?.data?.result?.total_revenue* 0.02) || 0 },
         ];
         cards.value.push(...summary);
         transactions.value = []

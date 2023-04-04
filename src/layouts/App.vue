@@ -83,7 +83,7 @@
             <router-link :to="{ name: item.slug }" v-for="item in navigation" :key="item.name">
               <a @click="item.slug == 'login' ? logOut() : ''" :class="[
                 item.current ? 'bg-primary text-white mb-1' : 'text-white mb-1 hover:bg-gray-400 hover:text-white',
-                'group flex items-center px-2 py-2 text-sm font-medium rounded-md', item.slug == 'login' ?'absolute bottom-0 right-0 px-0 flex-1 w-full':''
+                'group flex items-center px-2 py-2 text-sm font-medium rounded-md', item.slug == 'login' ?'absolute bottom-0 pl-2 right-0 px-0 flex-1 w-full':''
               ]">
 
                 <component :is="item.icon"
@@ -121,7 +121,7 @@
           <Bars3Icon class="h-6 w-6" aria-hidden="true" />
         </button>
       </div>
-      <main class="flex-1 bg-gray-50 mb-20">
+      <main class="flex-1 bg-gray-50 mb-20 lg:mb-0">
         <slot></slot>
       </main>
     </div>
@@ -130,9 +130,8 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, } from "vue";
 import { userdata } from "../utilities/GlobalFunctions";
-import router from "@/router";
 import { computed } from "vue";
 import Footer from "@/components/Footer"
 import {
@@ -149,10 +148,14 @@ import {
   UserGroupIcon,
   XMarkIcon,
   ArrowLeftOnRectangleIcon,
-  ArrowsRightLeftIcon
+  ArrowsRightLeftIcon,
+  ReceiptPercentIcon
 } from "@heroicons/vue/24/outline";
 import { useStore } from "vuex";
+import { useRoute, useRouter } from "vue-router";
 
+const router = useRouter();
+const route = useRoute();
 const store = useStore()
 const navigation = [
   { name: "Dashboard", icon: HomeIcon, current: false, slug: "Dashboard" },
@@ -161,6 +164,7 @@ const navigation = [
   { name: "Transactions", icon: ArrowsRightLeftIcon, current: false, slug: "AllTransactions" },
    { name: "All Customers", icon: UserGroupIcon, current: false, slug: "GetStarted" },
    { name: "Log Out", icon: ArrowLeftOnRectangleIcon, current: false, slug: "login" },
+    { name: "Commission", icon: ReceiptPercentIcon, current: false, slug: "Commission" }
 ];
 const user = ref(store.state.userdata.result?.user || userdata  )
 const sidebarOpen = ref(false);
@@ -168,7 +172,14 @@ function logOut() {
   localStorage.clear();
   router.push({ name: "login" });
 }
+function  checkRoute() {
+      navigation.map((link) => {
+       link.current = route.name == link.slug;
+      });
+    }
 const fullname = computed(() => {
     return user.value.full_name.split(" ");
 });
+checkRoute()
+
 </script>

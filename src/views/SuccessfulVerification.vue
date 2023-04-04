@@ -13,7 +13,7 @@
                         <div class="flex flex-col my-5 rounded-3xl bg-white shadow-xl ring-1 ring-black/10 lg:p-6 p-4 w-full mt-6">
                             <div class="flex items-center justify-between">
                                 <p class="text-base font-semibold leading-8 tracking-tight text-primary">Payment Details</p>
-                                <img src="@/assets/images/orderCompleted.gif" v-if="route.params.OTPvalidate == 'order_created'" />
+                                <img src="@/assets/images/orderCompleted.gif" v-if="route.params.OTPvalidate == 'validated'" />
                             </div>
 
                             <div class="mt-3">
@@ -31,10 +31,17 @@
                                         </p>
                                     </div>
                                 </div>
-                                <div>
+                                 <div class="flex items-center justify-between">
+                                      <div>
                                         <p class="text-gray-500 text-sm font-medium mt-4">Duration:</p>
                                         <p class="text-gray-900 text-2xl font-bold">{{ Order.repayment_duration.value / 30 }} Months</p>
                                     </div>
+                                      <div>
+                                        <p class="text-gray-500 text-sm font-medium mt-4">2% Commission:</p>
+                                        <p class="text-gray-900 text-2xl font-bold">{{ formatCurrency(OrderResult.total * 0.02) }}</p>
+                                    </div>
+                                 </div>
+                              
                             </div>
                         </div>
                         <p class="text-gray-500 text-sm font-normal mt-8" v-if="route.params.OTPvalidate == 'false'">

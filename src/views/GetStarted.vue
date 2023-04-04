@@ -101,21 +101,18 @@
                                 </div>
                             </div>
                         </template>
-                        <div
-                            v-if="(phone_number && !FilteredCustomer?.length) || Customers?.length === 0"
-                            class="flex text-center items-center flex-col justify-center px-5"
-                        >
-                            <zerostate />
-                            <p class="text-gray-800 lg:text-2xl mb-0.5">This customer's phone number does not exist</p>
-                            <p class="text-gray-500 text-xs lg:text-normal mb-6">You can create an acount by clicking below</p>
-                            <RouterLink :to="{ name: 'CreateCustomer', params: { telephone: phone_number } }">
+                        <div v-if="  Customers?.length == 0 || (!FilteredCustomer?.length && phone_number )" class="flex items-center flex-col justify-center">
+                            <ZeroState :response="(phone_number && !FilteredCustomer?.length) ? 'This customers phone number does not exist':'You have no transactions yet'" suggestion="you can create an acount by clicking below"></ZeroState>
+                                  <RouterLink :to="{ name: 'CreateCustomer', params: { telephone: phone_number } }">
                                 <defaultButton name=" Create Account">
                                     <template v-slot:icon>
-                                        <plus />
+                                        <plus />  
                                     </template>
                                 </defaultButton>
                             </RouterLink>
                         </div>
+                        
+                        
                     </div>
                 </div>
             </div>
@@ -126,17 +123,17 @@
 import { ArrowLeftIcon } from "@heroicons/vue/24/solid";
 import Search from "@/components/Search";
 import TableVue from "@/components/Table";
-import defaultButton from "@/components/button.vue";
-import zerostate from "@/assets/svgs/zerostate.vue";
-import plus from "@/assets/svgs/plus.vue";
 import { ref, onBeforeMount, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
+import defaultButton from "@/components/button.vue"
+import plus from "@/assets/svgs/plus.vue";
+import ZeroState from "@/components/ZeroState.vue";
 import Apis from "@/services/ApiCalls";
 const router = useRouter();
 const store = useStore();
 const Customers = ref(undefined);
-const phone_number = ref();
+const phone_number = ref(0);
 const FilteredCustomer = ref();
 
 const SeeMore = (item) => {
@@ -188,5 +185,6 @@ async function AllCustomers() {
 }
 onBeforeMount(() => {
     AllCustomers();
+    
 });
 </script>
