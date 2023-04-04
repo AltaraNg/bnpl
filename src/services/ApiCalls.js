@@ -52,6 +52,7 @@ export default {
      dashboarddata() {
       return new Apiservice().get("get/dashboard/data");
     },
-   
-    
+     commission() {
+        return new Apiservice().get("fetch/merchant/commissions");
+    },	    
 };

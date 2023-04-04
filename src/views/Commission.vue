@@ -13,9 +13,9 @@
 
                 <!-- Activity list (smallest breakpoint only) -->
                 <div class="shadow sm:hidden">
-                    <div v-if="transactions?.length === 0" class="flex h-full text-center items-center flex-col justify-center px-5">
+                    <div v-if="commissions?.length === 0" class="flex h-full text-center items-center flex-col justify-center px-5">
                         <zerostate />
-                        <p class="text-gray-800 lg:text-2xl mb-0.5">You have no transactions yet</p>
+                        <p class="text-gray-800 lg:text-2xl mb-0.5">You have no commissions yet</p>
                         <p class="text-gray-500 text-xs lg:text-normal mb-6">Click here to get started</p>
                         <RouterLink :to="{ name: 'GetStarted' }">
                             <defaultButton name=" Get Started">
@@ -26,16 +26,16 @@
                         </RouterLink>
                     </div>
                     <div v-else role="list" class="mt-2   overflow-hidden shadow sm:hidden">
-                        <div v-for="transaction in transactions" :key="transaction.id">
+                        <div v-for="transaction in commissions" :key="transaction.id">
                             <div class="flex flex-col m-5 rounded-3xl bg-white shadow-xl ring-1 ring-black/10 lg:p-6 p-4 mt-2">
                                 <div class="flex items-center justify-between">
                                     <p class="text-base font-semibold mb-3 tracking-tight text-primary">Transaction Details</p>
 
                                     <div>
-                                        <p class="text-lg font-semibold text-gray-600">{{ transaction.bnpl_product.name }}</p>
-                                        <span class="text-xs font-semibold leading- tracking-normal text-gray-500">{{
+                                        <p class="text-lg font-semibold text-gray-600">{{ transaction.product.name }}</p>
+                                        <span class="text-xs font-semibold leading- tracking-normal text-gray-500">
                                             transaction.order_number
-                                        }}</span>
+                                        </span>
                                     </div>
                                 </div>
 
@@ -43,25 +43,25 @@
                                     <div class="flex items-center justify-between">
                                         <div>
                                             <p class="text-gray-500 text-sm font-medium mt-4">Total Product Value:</p>
-                                            <p class="text-gray-900 text-lg font-bold">{{ formatCurrency(transaction.product_price) }}</p>
+                                            <p class="text-gray-900 text-lg font-bold">{{ formatCurrency(transaction.product.price) }}</p>
                                         </div>
                                         <div>
-                                            <p class="text-gray-500 text-sm font-medium mt-4">2% Commission value</p>
+                                            <p class="text-gray-500 text-sm font-medium mt-4">{{transaction.commission.value}}% Commission value</p>
                                             <p class="flex items-baseline text-lg font-bold tracking-tight text-gray-900">
-                                                {{ formatCurrency(transaction.repayment / 20) }}
+                                                {{ formatCurrency(transaction.product.price * (transaction.commission.value/100))}} 
                                             </p>
                                         </div>
                                     </div>
                                     <div>
                                         <p class="text-gray-500 text-sm font-medium mt-4">Date:</p>
-                                        <p class="text-gray-900 text-lg font-bold">{{ transaction.order_date }}</p>
+                                        <p class="text-gray-900 text-lg font-bold">{{ new Date(transaction.product.created_at).toLocaleDateString() }}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <nav v-if="transactions?.length == 10" class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3" aria-label="Pagination">
+                    <nav v-if="commissions?.length == 10" class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3" aria-label="Pagination">
                         <div class="flex flex-1 justify-between">
                             <a
                                 href="#"
@@ -79,9 +79,9 @@
 
                 <!-- Activity table (small breakpoint and up) -->
                 <div class="hidden sm:block">
-                    <div v-if="transactions?.length === 0" class="flex h-full text-center items-center flex-col justify-center px-5">
+                    <div v-if="commissions?.length === 0" class="flex h-full text-center items-center flex-col justify-center px-5">
                         <zerostate />
-                        <p class="text-gray-800 lg:text-2xl mb-0.5">You have no transactions yet</p>
+                        <p class="text-gray-800 lg:text-2xl mb-0.5">You have no commissions yet</p>
                         <p class="text-gray-500 text-xs lg:text-normal mb-6">Click here to get started</p>
                         <RouterLink :to="{ name: 'GetStarted' }">
                             <defaultButton name=" Get Started">
@@ -117,7 +117,7 @@
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-gray-200 bg-white">
-                                        <tr v-for="transaction in transactions" :key="transaction.id" class="bg-white">
+                                        <tr v-for="transaction in commissions" :key="transaction.id" class="bg-white">
                                             <td class="whitespace-nowrap px-4 py-4 text-sm text-gray-900">
                                                 <div class="flex">
                                                     <a :href="transaction.href" class="group inline-flex space-x-2 truncate text-sm">
@@ -126,7 +126,7 @@
                                                             aria-hidden="true"
                                                         />
                                                         <p class="truncate text-gray-500 group-hover:text-gray-900">
-                                                            {{ transaction.order_number }}
+                                                             transaction.order_number 
                                                         </p>
                                                     </a>
                                                 </div>
@@ -134,32 +134,32 @@
                                             <td class="w-full max-w-0 whitespace-nowrap px-4 py-4 text-sm text-gray-500">
                                                 <div>
                                                     <p class="truncate text-gray-700 group-hover:text-gray-900 font-semibold">
-                                                        {{ transaction.bnpl_product.name }}
+                                                        {{ transaction.product.name }}
                                                     </p>
                                                 </div>
                                             </td>
                                             <td class="whitespace-nowrap px-4 py-4 text-left text-sm text-gray-500">
-                                                <span class="font-medium text-gray-900">{{ formatCurrency(transaction.product_price) }}</span>
+                                                <span class="font-medium text-gray-900">{{ formatCurrency(transaction.product.price) }}</span>
                                             </td>
                                             <td class="hidden whitespace-nowrap px-4 py-4 text-sm text-gray-500 md:block">
                                                 <span
                                                     class="inline-flex items-center px-2.5 py-0.5 rounded-full text-gray-700 font-semibold capitalize"
                                                 >
-                                                    {{ formatCurrency(transaction.repayment / 20) }}
+                                                    {{ formatCurrency(transaction.product.price * (transaction.commission.value/100))}}
                                                 </span>
                                             </td>
                                             <td class="whitespace-nowrap px-4 py-4 text-left text-sm text-gray-500">
-                                                <span class="font-medium text-gray-900">2%</span>
+                                                <span class="font-medium text-gray-900">{{transaction.commission.value}}%</span>
                                             </td>
                                             <td class="whitespace-nowrap px-4 py-4 text-right text-sm text-gray-500">
-                                                <time :datetime="transaction.datetime">{{ transaction.order_date }}</time>
+                                                <time :datetime="transaction.datetime">{{ new Date(transaction.product.created_at).toLocaleDateString() }}</time>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <nav
-                                v-if="transactions?.length == 10"
+                                v-if="commissions?.length == 10"
                                 class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3"
                                 aria-label="Pagination"
                             >
@@ -195,11 +195,10 @@ import Apis from "@/services/ApiCalls";
 import plus from "@/assets/svgs/plus.vue";
 import { formatCurrency } from "@/utilities/GlobalFunctions";
 
-const transactions = ref(undefined);
+const commissions = ref([]);
 async function FetchDashboard() {
-    await Apis.dashboarddata().then((res) => {
-        transactions.value = [];
-        transactions.value.push(...res.data.result.recent_activities);
+    await Apis.commission().then((res) => {
+        commissions.value = res.data.result.commissions.data;
     });
 }
 onBeforeMount(async () => {
