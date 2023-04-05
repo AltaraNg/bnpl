@@ -34,7 +34,7 @@
                                     <div>
                                         <p class="text-lg font-semibold text-gray-600">{{ transaction.product.name }}</p>
                                         <span class="text-xs font-semibold leading- tracking-normal text-gray-500">
-                                            transaction.order_number
+                                            {{transaction?.order?.order_number}}
                                         </span>
                                     </div>
                                 </div>
@@ -48,7 +48,7 @@
                                         <div>
                                             <p class="text-gray-500 text-sm font-medium mt-4">{{transaction.commission.value}}% Commission value</p>
                                             <p class="flex items-baseline text-lg font-bold tracking-tight text-gray-900">
-                                                {{ formatCurrency(transaction.product.price * (transaction.commission.value/100))}} 
+                                                {{ formatCurrency(transaction?.amount) ||  '₦0.00'}} 
                                             </p>
                                         </div>
                                     </div>
@@ -112,34 +112,34 @@
                                                             class="h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                                                             aria-hidden="true"
                                                         />
-                                                        <p class="truncate text-gray-500 group-hover:text-gray-900">
-                                                             transaction.order_number 
+                                                        <p  class="font-medium text-gray-900">
+                                                             {{transaction?.order?.order_number }}
                                                         </p>
                                                     </a>
                                                 </div>
                                             </td>
                                             <td class="w-full max-w-0 whitespace-nowrap px-4 py-4 text-sm text-gray-500">
                                                 <div>
-                                                    <p class="truncate text-gray-700 group-hover:text-gray-900 font-semibold">
+                                                    <p  class="font-medium text-gray-900">
                                                         {{ transaction.product.name }}
                                                     </p>
                                                 </div>
                                             </td>
                                             <td class="whitespace-nowrap px-4 py-4 text-left text-sm text-gray-500">
-                                                <span class="font-medium text-gray-900">{{ formatCurrency(transaction.product.price) }}</span>
+                                                <span  class="font-medium text-gray-900">{{ formatCurrency(transaction.product.price) }}</span>
                                             </td>
                                             <td class="hidden whitespace-nowrap px-4 py-4 text-sm text-gray-500 md:block">
                                                 <span
-                                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-gray-700 font-semibold capitalize"
+                                                     class="font-medium text-gray-900"
                                                 >
-                                                    {{ formatCurrency(transaction.product.price * (transaction.commission.value/100))}}
+                                                    {{ formatCurrency(transaction?.amount) ||  '₦0.00'}}
                                                 </span>
                                             </td>
                                             <td class="whitespace-nowrap px-4 py-4 text-left text-sm text-gray-500">
-                                                <span class="font-medium text-gray-900">{{transaction.commission.value}}%</span>
+                                                <span  class="font-medium text-gray-900">{{transaction.commission.value}}%</span>
                                             </td>
-                                            <td class="whitespace-nowrap px-4 py-4 text-right text-sm text-gray-500">
-                                                <time :datetime="transaction.datetime">{{ new Date(transaction.product.created_at).toLocaleDateString() }}</time>
+                                            <td class="whitespace-nowrap px-4 py-4 ">
+                                                <time :datetime="transaction.datetime"  class="font-medium text-gray-900">{{ new Date(transaction.product.created_at).toLocaleDateString() }}</time>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -168,7 +168,7 @@ import Apis from "@/services/ApiCalls";
 import plus from "@/assets/svgs/plus.vue";
 import { formatCurrency } from "@/utilities/GlobalFunctions";
 
-const commissions = ref([]);
+const commissions = ref(undefined);
 const response = ref(null)
 async function FetchDashboard(number) {
     await Apis.commission(number).then((res) => {

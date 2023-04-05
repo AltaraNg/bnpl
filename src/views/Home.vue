@@ -185,9 +185,9 @@ const transactions =ref(undefined);
 async function FetchDashboard() {
     await Apis.dashboarddata().then((res) => {
         const summary = [
-            { name: "No of Sales", href: "#", icon: BanknotesIcon, amount: res?.data?.result?.total_number_of_sales || 0 },
-            { name: "Total Revenue", href: "#", icon: ChartBarIcon, amount: formatCurrency(res?.data?.result?.total_revenue) || 0 },
-            { name: "Commission", href: "#", icon: ReceiptPercentIcon, amount: formatCurrency(res?.data?.result?.total_commission) || 0 },
+            { name: "No of Sales", href: "#", icon: BanknotesIcon, amount: res?.data?.result?.total_number_of_sales ||'₦0.00' },
+            { name: "Total Revenue", href: "#", icon: ChartBarIcon, amount: formatCurrency(res?.data?.result?.total_revenue) || '₦0.00' },
+            { name: "Commission", href: "#", icon: ReceiptPercentIcon, amount: formatCurrency(res?.data?.result?.total_commission) || '₦0.00' },
         ];
         cards.value.push(...summary);
         transactions.value = []

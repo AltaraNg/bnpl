@@ -19,11 +19,11 @@
                             <div class="mt-3">
                                 <p class="text-lg font-semibold text-gray-600">{{ OrderResult.product_name }}</p>
                                 <div class="flex items-center justify-between">
-                                    <div>
+                                    <div class="w-1/3">
                                         <p class="text-gray-500 text-sm font-medium mt-4">Downpayment:</p>
                                         <p class="text-gray-900 text-2xl font-bold">{{ formatCurrency(OrderResult.actualDownpayment) }}</p>
                                     </div>
-                                    <div>
+                                    <div class="w-1/3">
                                         <p class="text-gray-500 text-sm font-medium mt-4">{{ OrderResult.repayment_cycle }} Repayment:</p>
                                         <p class="flex items-baseline text-2xl font-bold tracking-tight text-gray-900">
                                             {{ formatCurrency(ComputedRepayment) || '0' }}
@@ -32,11 +32,11 @@
                                     </div>
                                 </div>
                                  <div class="flex items-center justify-between">
-                                      <div>
+                                      <div class="w-1/3">
                                         <p class="text-gray-500 text-sm font-medium mt-4">Duration:</p>
                                         <p class="text-gray-900 text-2xl font-bold">{{ Order.repayment_duration.value / 30 }} Months</p>
                                     </div>
-                                      <div>
+                                      <div class="w-1/3">
                                         <p class="text-gray-500 text-sm font-medium mt-4">2% Commission:</p>
                                         <p class="text-gray-900 text-2xl font-bold">{{ formatCurrency(OrderResult.total * 0.02) }}</p>
                                     </div>
