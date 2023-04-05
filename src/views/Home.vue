@@ -191,7 +191,7 @@ async function FetchDashboard() {
         ];
         cards.value.push(...summary);
         transactions.value = []
-        transactions.value.push(...res.data.result.recent_activities);
+        transactions.value.push(...res.data.result.recent_activities.data);
 
     });
 }

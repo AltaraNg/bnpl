@@ -141,6 +141,7 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <Pagination :response="response" :FetchList="FetchDashboard" />
                             
                         </div>
                     </div>
@@ -183,14 +184,16 @@ import { ref, onBeforeMount } from "vue";
 import Apis from "@/services/ApiCalls";
 import plus from "@/assets/svgs/plus.vue";
 import {formatCurrency} from "@/utilities/GlobalFunctions"
+import Pagination from "@/components/Pagination.vue"
 
-
+const response = ref(null)
 const showModal = ref(false);
 const transactions =ref(undefined);
-async function FetchDashboard() {
-    await Apis.dashboarddata().then((res) => {
+async function FetchDashboard(number) {
+    await Apis.dashboarddata(number).then((res) => {
         transactions.value = []
-        transactions.value.push(...res.data.result.recent_activities);
+        transactions.value.push(...res.data.result.recent_activities.data);
+        response.value = res.data.result.recent_activities
 
     });
 }

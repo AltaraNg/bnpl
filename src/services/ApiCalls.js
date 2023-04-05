@@ -49,10 +49,10 @@ export default {
     storeOrder(data) {
         return new Apiservice().post("store/order", data);
     },
-     dashboarddata() {
-      return new Apiservice().get("get/dashboard/data");
+     dashboarddata(number) {
+      return new Apiservice().get(`get/dashboard/data?page=${number}&per_page=${10}`);
     },
      commission(number) {
-        return new Apiservice().get(`fetch/merchant/commissions?page=${number}&per_page=${5}`);
+        return new Apiservice().get(`fetch/merchant/commissions?page=${number}&per_page=${10}`);
     },	    
 };

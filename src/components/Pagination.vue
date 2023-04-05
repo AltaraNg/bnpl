@@ -12,15 +12,9 @@
             <input
                 type="number"
                 v-model="current_page"
-                @click="props.FetchList(current_page > props.response?.last_page ? props.response?.last_page : current_page)"
+                @input="props.FetchList(current_page > props.response?.last_page ? props.response?.last_page : current_page)"
                 class="cursor-pointer w-12 rounded-md border border-gray-300 bg-white p-0 pl-2 py-1 text-sm font-medium text-gray-700 hover:text-gray-500"
             />
-            <!-- <a
-                
-                @click="props.FetchList(current_page)"
-                class=" cursor-pointer items-center rounded-md border border-gray-300 bg-primary px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-500"
-                >Enter</a
-            > -->
         </div>
         <div class="flex md:space-x-4 space-x-0 space-y-0 md:space-y-0 flex-wrap w-1/3 md:w-auto ">
             <a
