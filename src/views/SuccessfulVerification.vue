@@ -147,7 +147,6 @@ function close() {}
             repayment_duration_id: Order.value.repayment_duration,
             payment_type_id: payment_type_id,
         };
-        console.log(Data.amount);
         const params = get_calculations.value.find((x) => {
             return (
                 x.business_type_id === business_type?.value?.id &&
