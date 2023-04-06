@@ -185,6 +185,6 @@ async function FetchDashboard(number) {
     });
 }
 onBeforeMount(async () => {
-    await FetchDashboard();
+    await FetchDashboard(1);
 });
 </script>
