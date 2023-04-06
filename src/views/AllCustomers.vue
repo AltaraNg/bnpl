@@ -1,12 +1,12 @@
 <template>
     <App>
-        <div class="bg-gray-100 ">
+        <div class="bg-gray-100 min-h-screen ">
             <div class="m-auto w-full md:max-w-[742px] lg:max-w-[1008px]">
-                <div class="px-6 mt-8 md:px-0 flex flex-col">
-                    <div v-if="Customers?.length !== 0">
+                <div class="px-6 pt-8 md:px-0 flex flex-col">
+                    <div >
                         <p class="text-3xl font-bold mb-2">Customers</p>
 
-                        <div class="hidden mb-8 md:block">
+                        <div class="hidden mb-8 md:block" v-if="Customers?.length !== 0">
                             <TableVue>
                                 <template #columns>
                                     <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
@@ -61,7 +61,7 @@
                             </TableVue>
                             <Pagination :response="response" :FetchList="AllCustomers"/>
                         </div>
-                        <div class="block md:hidden space-y-2">
+                        <div class="block md:hidden space-y-2" v-if="Customers?.length !== 0">
                             <div v-for="item in Customers" :key="item.email" class="rounded-lg bg-white p-4 flex items-center gap-2 shadow-lg">
                                 <div class="h-10 w-10 flex-shrink-0 bg-purple-300 rounded-full flex items-center justify-center">
                                     <p class="font-bold">{{ item.first_name.charAt(0) + "" + item.last_name.charAt(0) }}</p>
@@ -90,8 +90,8 @@
                             <Pagination :response="response" :FetchList="AllCustomers"/>
                         </div>
                     </div>
-                    <div v-if="Customers?.length == 0" class="flex items-center flex-col justify-center">
-                        <ZeroState response="You have no transactions yet" suggestion="you can create an acount by clicking below"></ZeroState>
+                    <div v-if="Customers?.length == 0" class="flex items-center  flex-col justify-center">
+                        <ZeroState response="You have no customers yet" suggestion="you can create an acount by clicking below"></ZeroState>
                         <RouterLink :to="{ name: 'CreateCustomer', params: { telephone: phone_number } }">
                             <defaultButton name=" Create Account">
                                 <template v-slot:icon>
@@ -156,11 +156,11 @@ function UserStatus(customer) {
 }
 
 async function AllCustomers(number) {
-    let result = await Apis.AllCustomers(number,0);
+    let result = await Apis.allcustomers(number);
     Customers.value = result?.data.result.customers.data;
     response.value= result?.data.result.customers
 }
 onBeforeMount(() => {
-    AllCustomers();
+    AllCustomers(1);
 });
 </script>

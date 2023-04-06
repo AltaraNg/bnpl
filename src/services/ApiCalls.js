@@ -31,17 +31,14 @@ export default {
     verifycreditcheck(verification_id) {
         return new Apiservice().getWithoutLoader(`verify/credit/check/${verification_id}`);
     },
-    allcustomers() {
-        return new Apiservice().get("customers");
+    allcustomers(number) {
+        return new Apiservice().get(`customers?page=${number}&per_page=${10}`);
     },
     customerdetails(phone_number) {
         return new Apiservice().get(`customers/${phone_number}`);
     },
     searchcustomer(phone_number) {
         return new Apiservice().get(`customers?telephone=${phone_number}&per_page=${10}`);
-    },
-    AllCustomers(number,phone_number) {
-        return new Apiservice().get(`customers?page=${number}&telephone=${phone_number}&per_page=${10}`);
     },
     generateOTP(data) {
         return new Apiservice().post("generate/otp", data);
