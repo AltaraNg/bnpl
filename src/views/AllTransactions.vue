@@ -173,6 +173,7 @@ import plus from "@/assets/svgs/plus.vue";
 import {formatCurrency} from "@/utilities/GlobalFunctions"
 import Pagination from "@/components/Pagination.vue"
 
+
 const response = ref(null)
 const showModal = ref(false);
 const transactions =ref(undefined);

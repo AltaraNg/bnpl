@@ -54,11 +54,15 @@
     </div>
 </template>
 <script setup>
-import { ref } from "vue";
-const current_page = ref(1);
-// const
+import { computed } from "vue";
+
 const props = defineProps(["response", "FetchList"]);
 function SetPage(event) {
     props.FetchList(event.target.value > props.response?.last_page ? props.response?.last_page : event.target.value);
+    
 }
+const current_page = computed(() => {
+    return props.response?.current_page;
+});
+
 </script>
