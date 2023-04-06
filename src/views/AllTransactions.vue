@@ -106,41 +106,42 @@
                                     </thead>
                                     <tbody class="divide-y divide-gray-200 bg-white">
                                         <tr v-for="transaction in transactions" :key="transaction.id" class="bg-white">
-                                            <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
+                                            <td class="whitespace-nowrap px-4 py-4 text-sm text-gray-900">
                                                 <div class="flex">
                                                     <a :href="transaction.href" class="group inline-flex space-x-2 truncate text-sm">
                                                         <BanknotesIcon
                                                             class="h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                                                             aria-hidden="true"
                                                         />
-                                                        <p class="truncate text-gray-500 group-hover:text-gray-900">
+                                                        <p  class="font-medium text-gray-900">
                                                             {{ transaction.order_number }}
                                                         </p>
                                                     </a>
                                                 </div>
                                             </td>
-                                            <td class="w-full max-w-0 whitespace-nowrap px-6 py-4 text-sm text-gray-500">
+                                            <td class="w-full max-w-0 whitespace-nowrap px-4 py-4 text-sm text-gray-500">
                                                 <div>
-                                                    <p class="truncate text-gray-700 group-hover:text-gray-900 font-semibold">
+                                                    <p  class="font-medium text-gray-900">
                                                         {{ transaction.bnpl_product.name }}
                                                     </p>
                                                 </div>
                                             </td>
-                                            <td class="whitespace-nowrap px-6 py-4 text-left text-sm text-gray-500">
+                                            <td class="whitespace-nowrap px-4 py-4 text-left text-sm text-gray-500">
                                                 <span class="font-medium text-gray-900">{{ formatCurrency(transaction.product_price) }}</span>
                                             </td>
-                                            <td class="hidden whitespace-nowrap px-6 py-4 text-sm text-gray-500 md:block">
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-gray-700  font-semibold capitalize">
+                                            <td class="hidden whitespace-nowrap px-4 py-4 text-sm text-gray-500 md:block">
+                                                <span  class="font-medium text-gray-900">
                                                     {{ transaction.customer.first_name + " " + transaction.customer.last_name }}
                                                 </span>
                                             </td>
-                                            <td class="whitespace-nowrap px-6 py-4 text-right text-sm text-gray-500">
-                                                <time :datetime="transaction.datetime">{{ transaction.order_date }}</time>
+                                            <td class="whitespace-nowrap px-4 py-4 ">
+                                                <time :datetime="transaction.datetime"  class="font-medium text-gray-900">{{ transaction.order_date }}</time>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
+                            <Pagination :response="response" :FetchList="FetchDashboard" />
                             
                         </div>
                     </div>
@@ -183,14 +184,16 @@ import { ref, onBeforeMount } from "vue";
 import Apis from "@/services/ApiCalls";
 import plus from "@/assets/svgs/plus.vue";
 import {formatCurrency} from "@/utilities/GlobalFunctions"
+import Pagination from "@/components/Pagination.vue"
 
-
+const response = ref(null)
 const showModal = ref(false);
 const transactions =ref(undefined);
-async function FetchDashboard() {
-    await Apis.dashboarddata().then((res) => {
+async function FetchDashboard(number) {
+    await Apis.dashboarddata(number).then((res) => {
         transactions.value = []
-        transactions.value.push(...res.data.result.recent_activities);
+        transactions.value.push(...res.data.result.recent_activities.data);
+        response.value = res.data.result.recent_activities
 
     });
 }
