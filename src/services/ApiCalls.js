@@ -4,7 +4,7 @@ export default {
     resetpassword(data) {
         return new Apiservice().post("reset/password", data, false);
     },
-    login(data) { 
+    login(data) {
         return new Apiservice().post("auth/login", data);
     },
     createcustomer(data) {
@@ -38,7 +38,10 @@ export default {
         return new Apiservice().get(`customers/${phone_number}`);
     },
     searchcustomer(phone_number) {
-        return new Apiservice().get(`customers?telephone=${phone_number}`);
+        return new Apiservice().get(`customers?telephone=${phone_number}&per_page=${10}`);
+    },
+    AllCustomers(number,phone_number) {
+        return new Apiservice().get(`customers?page=${number}&telephone=${phone_number}&per_page=${10}`);
     },
     generateOTP(data) {
         return new Apiservice().post("generate/otp", data);
@@ -49,10 +52,10 @@ export default {
     storeOrder(data) {
         return new Apiservice().post("store/order", data);
     },
-     dashboarddata(number) {
-      return new Apiservice().get(`get/dashboard/data?page=${number}&per_page=${10}`);
+    dashboarddata(number) {
+        return new Apiservice().get(`get/dashboard/data?page=${number}&per_page=${10}`);
     },
-     commission(number) {
+    commission(number) {
         return new Apiservice().get(`fetch/merchant/commissions?page=${number}&per_page=${10}`);
-    },	    
+    },
 };

@@ -34,11 +34,11 @@
                                  <div class="flex items-center justify-between">
                                       <div class="w-1/3">
                                         <p class="text-gray-500 text-sm font-medium mt-4">Duration:</p>
-                                        <p class="text-gray-900 text-2xl font-bold">{{ Order.repayment_duration.value / 30 }} Months</p>
+                                        <p class="text-gray-900 text-2xl font-bold">{{ Order?.repayment_duration?.value / 30 }} Months</p>
                                     </div>
                                       <div class="w-1/3">
                                         <p class="text-gray-500 text-sm font-medium mt-4">2% Commission:</p>
-                                        <p class="text-gray-900 text-2xl font-bold">{{ formatCurrency(OrderResult.total * 0.02) }}</p>
+                                        <p class="text-gray-900 text-2xl font-bold">{{ formatCurrency(Order?.product?.price * 0.02) }}</p>
                                     </div>
                                  </div>
                               
@@ -128,6 +128,7 @@ async function processPayment() {
         repayment_cycle_id: Order.value.repayment_cycle_id,
         repayment_duration_id: Order.value.repayment_duration_id,
         product_name: Order.value.product.name,
+        cost_price: Order.value.product.price
     }).then(() => {
         route.params.OTPvalidate = "order_created"
         router.push({
@@ -146,6 +147,7 @@ function close() {}
             repayment_duration_id: Order.value.repayment_duration,
             payment_type_id: payment_type_id,
         };
+        console.log(Data.amount);
         const params = get_calculations.value.find((x) => {
             return (
                 x.business_type_id === business_type?.value?.id &&
