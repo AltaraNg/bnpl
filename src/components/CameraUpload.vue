@@ -22,7 +22,7 @@
 </template>
 <script setup>
 import{ref} from 'vue'
-const disable = ref(true)
+const disable = ref(false)
 const cameraStream = ref(null);
 
   let constraints = { audio: false, video: true }
