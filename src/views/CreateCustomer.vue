@@ -102,6 +102,7 @@
                             </div>
                             <span class="invalid-feedback">{{ errors?.city }}</span>
                         </div>
+                        <CameraUpload/>
 
                         <div class="text-right mt-8 lg:flex lg:justify-center sm:col-span-2">
                             <defaultButton name="Create Account" class="lg:w-1/3">
@@ -117,6 +118,7 @@
     </div>
 </template> 
 <script setup>
+import CameraUpload from '../components/CameraUpload.vue'
 import { ref, watch, onMounted } from "vue";
 import { Form } from "vee-validate";
 import AppInput from "@/components/AppInput.vue";
