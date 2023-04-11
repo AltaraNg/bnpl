@@ -178,22 +178,12 @@
                                 <span class="invalid-feedback">{{ errors?.second_guarantor_home_address }}</span>
                             </div>
                         </div>
+
                         <div>
-                            <p class="mb-2 text-gray-800 font-bold">Additional Documents</p>
-                            <p class="text-sm text-gray-800 leading-2 mb-2">
-                                Please feel free to upload relevant documents to enable your verifications process. eg passport, drivers license
-                            </p>
-                            <div v-if="!uploadFile" class="text-white cursor-pointer bg-primary text-center w-1/3 text-sm px-3 py-1 rounded" @click="uploadFile = true">
-                                Upload documents
-                            </div>
-                            <div v-else class="text-white cursor-pointer bg-primary text-center w-1/3 text-sm px-3 py-1 rounded" @click="AddDocuments">
-                                Add Documents
+                            <div class="relative">
+                                <FileUploads @fileSelected="UploadFile" />
                             </div>
                         </div>
-                        <div v-if="uploadFile">
-                             <FileUploads  v-for="(document, index) in Documents" :key="index"/>
-                        </div>
-                       
 
                         <div class="text-right mt-8 lg:flex lg:justify-center sm:col-span-2">
                             <defaultButton name=" New Sale" class="lg:w-1/3">
@@ -219,7 +209,7 @@ import { ref, reactive, onMounted } from "vue";
 import CurrencyInput from "@/components/CurrencyInput.vue";
 import plus from "@/assets/svgs/plus.vue";
 import App from "@/layouts/App.vue";
-
+import AWSS3UploadAshClient from "aws-s3-upload-ash";
 import { useStore } from "vuex";
 import { calculate } from "@/utilities/calculator";
 import { useRoute } from "vue-router";
@@ -227,13 +217,14 @@ import Apis from "@/services/ApiCalls";
 import { CreateOrderSchema } from "@/shemas/CreateOrderSchema";
 const store = useStore();
 const route = useRoute();
-const uploadFile = ref();
-const Documents = ref([
-    {
-        filename: "",
-        fileURL: "",
-    },
-]);
+const config = {
+    bucketName: process.env.VUE_APP_AWS_BUCKET,
+    dirName: "cv-upload",
+    region: process.env.VUE_APP_AWS_REGION,
+    accessKeyId: process.env.VUE_APP_AWS_ACCESS_KEY,
+    secretAccessKey: process.env.VUE_APP_AWS_SECRET_KEY,
+    s3Url: process.env.VUE_APP_AWS_URL,
+};
 const repayment_duration = ref();
 const repayment_cycle = ref([
     {
@@ -249,6 +240,7 @@ const repayment_cycle = ref([
         value: 14,
     },
 ]);
+const fileSelected = ref();
 const get_calculations = ref([]);
 const Order = reactive({
     product: "",
@@ -272,9 +264,28 @@ const OrderResult = ref({
     rePayment: null,
 });
 
-function AddDocuments(){
-    Documents.value.push({...Documents.value})
+async function UploadFile(file) {
+    fileSelected.value = file;
+    console.log(fileSelected.value);
+    const fileURL = await handleSendFile();
+    alert(config.s3Url + "/" + encodeURIComponent(fileURL));
 }
+async function handleSendFile() {
+    try {
+        let S3CustomClient = new AWSS3UploadAshClient(config);
+        let result = await S3CustomClient.uploadFile(
+            fileSelected.value.path,
+            fileSelected.value.path.type,
+            undefined,
+            fileSelected.value.path.name,
+            undefined
+        );
+        return result.key;
+    } catch (error) {
+        alert(error.message);
+    }
+}
+
 function Calculate() {
     try {
         const Data = { ...Order, payment_type_id: payment_type_id };
@@ -295,9 +306,16 @@ function Calculate() {
     }
 }
 
-function createNewSale() {
+async function createNewSale() {
     Calculate();
     store.dispatch("InitiateCreditCheck", {
+        files: [
+            {
+                name: fileSelected.value.name,
+                file: await handleSendFile(),
+            },
+        ],
+
         customer_id: route.params.id,
         down_payment: OrderResult.value.actualDownpayment,
         down_payment_rate_id: payment_type_id.value.id,
