@@ -40,7 +40,7 @@
                                          
                                             <span class="truncate">{{ transaction.bnpl_product.name }}</span>
                                             <span
-                                                ><span class="font-medium text-gray-900">{{ formatCurrency(transaction.price) }}</span>
+                                                ><span class="font-medium text-gray-900">{{ formatCurrency(transaction.bnpl_product.price) }}</span>
                                                 {{ transaction.order_number }}</span
                                             >
                                             <time :datetime="transaction.datetime">{{ transaction.order_date }}</time>
@@ -114,7 +114,7 @@
                                                 </div>
                                             </td>
                                             <td class="whitespace-nowrap px-4 py-4 text-left text-sm text-gray-500">
-                                                <span class="font-medium text-gray-900">{{ formatCurrency(transaction.product_price) }}</span>
+                                                <span class="font-medium text-gray-900">{{ formatCurrency(transaction.bnpl_product.price) }}</span>
                                             </td>
                                             <td class="hidden whitespace-nowrap px-4 py-4 text-sm text-gray-500 md:block">
                                                 <span  class="font-medium text-gray-900">
