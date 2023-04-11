@@ -178,7 +178,23 @@
                                 <span class="invalid-feedback">{{ errors?.second_guarantor_home_address }}</span>
                             </div>
                         </div>
-                        
+                        <div>
+                            <p class="mb-2 text-gray-800 font-bold">Additional Documents</p>
+                            <p class="text-sm text-gray-800 leading-2 mb-2">
+                                Please feel free to upload relevant documents to enable your verifications process. eg passport, drivers license
+                            </p>
+                            <div v-if="!uploadFile" class="text-white cursor-pointer bg-primary text-center w-1/3 text-sm px-3 py-1 rounded" @click="uploadFile = true">
+                                Upload documents
+                            </div>
+                            <div v-else class="text-white cursor-pointer bg-primary text-center w-1/3 text-sm px-3 py-1 rounded" @click="AddDocuments">
+                                Add Documents
+                            </div>
+                        </div>
+                        <div v-if="uploadFile">
+                             <FileUploads  v-for="(document, index) in Documents" :key="index"/>
+                        </div>
+                       
+
                         <div class="text-right mt-8 lg:flex lg:justify-center sm:col-span-2">
                             <defaultButton name=" New Sale" class="lg:w-1/3">
                                 <template v-slot:icon>
@@ -198,6 +214,7 @@ import AppInput from "@/components/AppInput.vue";
 import AppLabel from "@/components/AppLabel.vue";
 import AppSelectInput from "@/components/AppSelectInput.vue";
 import defaultButton from "@/components/button.vue";
+import FileUploads from "@/components/FileUploads.vue";
 import { ref, reactive, onMounted } from "vue";
 import CurrencyInput from "@/components/CurrencyInput.vue";
 import plus from "@/assets/svgs/plus.vue";
@@ -210,6 +227,13 @@ import Apis from "@/services/ApiCalls";
 import { CreateOrderSchema } from "@/shemas/CreateOrderSchema";
 const store = useStore();
 const route = useRoute();
+const uploadFile = ref();
+const Documents = ref([
+    {
+        filename: "",
+        fileURL: "",
+    },
+]);
 const repayment_duration = ref();
 const repayment_cycle = ref([
     {
@@ -248,7 +272,9 @@ const OrderResult = ref({
     rePayment: null,
 });
 
-
+function AddDocuments(){
+    Documents.value.push({...Documents.value})
+}
 function Calculate() {
     try {
         const Data = { ...Order, payment_type_id: payment_type_id };
