@@ -102,6 +102,7 @@
                             </div>
                             <span class="invalid-feedback">{{ errors?.city }}</span>
                         </div>
+                        <FileUploads/>
 
                         <div class="text-right mt-8 lg:flex lg:justify-center sm:col-span-2">
                             <defaultButton name="Create Account" class="lg:w-1/3">
@@ -126,6 +127,7 @@ import plus from "@/assets/svgs/plus.vue";
 import defaultButton from "@/components/button.vue";
 import App from "@/layouts/App.vue";
 import { useStore } from "vuex";
+import FileUploads from "@/components/FileUploads.vue"
 import { CreateCustomerSchema } from "@/shemas/CreateCustomerSchema";
 import { useRoute } from "vue-router";
 const route = useRoute();

@@ -178,7 +178,7 @@
                                 <span class="invalid-feedback">{{ errors?.second_guarantor_home_address }}</span>
                             </div>
                         </div>
-
+                        
                         <div class="text-right mt-8 lg:flex lg:justify-center sm:col-span-2">
                             <defaultButton name=" New Sale" class="lg:w-1/3">
                                 <template v-slot:icon>
@@ -202,7 +202,7 @@ import { ref, reactive, onMounted } from "vue";
 import CurrencyInput from "@/components/CurrencyInput.vue";
 import plus from "@/assets/svgs/plus.vue";
 import App from "@/layouts/App.vue";
-// import { handleError } from "../utilities/GlobalFunctions";
+
 import { useStore } from "vuex";
 import { calculate } from "@/utilities/calculator";
 import { useRoute } from "vue-router";
