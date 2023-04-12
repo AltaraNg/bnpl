@@ -178,13 +178,25 @@
                                 <span class="invalid-feedback">{{ errors?.second_guarantor_home_address }}</span>
                             </div>
                         </div>
-
                         <div>
+                            <p class="mb-2 text-gray-800 font-bold">Additional Documents</p>
+                            <p class="text-sm text-gray-800 leading-2 mb-2">
+                                Please feel free to upload relevant documents to enable your verifications process. eg passport, drivers license
+                            </p>
+                        </div>
+                        <div class="flex items-center justify-end" @click="addMore">
+                            <defaultButton name="Add More" class="lg:w-1/4">
+                                <template v-slot:icon>
+                                    <plus />
+                                </template>
+                            </defaultButton>
+                        </div>
+                        <div v-for="(document, index) in Documents" :key="index" >
                             <div class="relative">
-                                <FileUploads @fileSelected="UploadFile" />
+                                <FileUploads @fileSelected="UploadFile" :class="disableUploadFile ? 'pointer-events-none': ''" />
                             </div>
                         </div>
-
+                       
                         <div class="text-right mt-8 lg:flex lg:justify-center sm:col-span-2">
                             <defaultButton name=" New Sale" class="lg:w-1/3">
                                 <template v-slot:icon>
@@ -209,7 +221,7 @@ import { ref, reactive, onMounted } from "vue";
 import CurrencyInput from "@/components/CurrencyInput.vue";
 import plus from "@/assets/svgs/plus.vue";
 import App from "@/layouts/App.vue";
-import AWSS3UploadAshClient from "aws-s3-upload-ash";
+// import { handleSuccess } from "@/utilities/GlobalFunctions";
 import { useStore } from "vuex";
 import { calculate } from "@/utilities/calculator";
 import { useRoute } from "vue-router";
@@ -217,14 +229,6 @@ import Apis from "@/services/ApiCalls";
 import { CreateOrderSchema } from "@/shemas/CreateOrderSchema";
 const store = useStore();
 const route = useRoute();
-const config = {
-    bucketName: process.env.VUE_APP_AWS_BUCKET,
-    dirName: "cv-upload",
-    region: process.env.VUE_APP_AWS_REGION,
-    accessKeyId: process.env.VUE_APP_AWS_ACCESS_KEY,
-    secretAccessKey: process.env.VUE_APP_AWS_SECRET_KEY,
-    s3Url: process.env.VUE_APP_AWS_URL,
-};
 const repayment_duration = ref();
 const repayment_cycle = ref([
     {
@@ -241,6 +245,9 @@ const repayment_cycle = ref([
     },
 ]);
 const fileSelected = ref();
+const Documents = ref([
+    {file:""}
+])
 const get_calculations = ref([]);
 const Order = reactive({
     product: "",
@@ -256,6 +263,7 @@ const Order = reactive({
     second_guarantor_telephone: "",
     second_guarantor_home_address: "",
 });
+const disableUploadFile = ref(false)
 const business_type = ref();
 const payment_type_id = ref();
 const OrderResult = ref({
@@ -264,27 +272,15 @@ const OrderResult = ref({
     rePayment: null,
 });
 
+function addMore(){
+    Documents.value.push({...Documents.value})
+}
 async function UploadFile(file) {
     fileSelected.value = file;
     console.log(fileSelected.value);
-    const fileURL = await handleSendFile();
-    alert(config.s3Url + "/" + encodeURIComponent(fileURL));
+  
 }
-async function handleSendFile() {
-    try {
-        let S3CustomClient = new AWSS3UploadAshClient(config);
-        let result = await S3CustomClient.uploadFile(
-            fileSelected.value.path,
-            fileSelected.value.path.type,
-            undefined,
-            fileSelected.value.path.name,
-            undefined
-        );
-        return result.key;
-    } catch (error) {
-        alert(error.message);
-    }
-}
+
 
 function Calculate() {
     try {
@@ -312,7 +308,7 @@ async function createNewSale() {
         files: [
             {
                 name: fileSelected.value.name,
-                file: await handleSendFile(),
+                file:fileSelected.value.path,
             },
         ],
 
@@ -362,10 +358,7 @@ async function Downpayment() {
     payment_type_id.value = result?.data?.data?.data.find((downPayment) => downPayment.name == "twenty");
 }
 
-// async function RepaymentCycle() {
-//     const result = await Apis.repaymentcycle();
-//     repayment_cycle.value = result?.data?.data?.data;
-// }
+
 
 onMounted(() => {
     RepaymentDuration();
