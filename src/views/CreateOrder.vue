@@ -193,7 +193,7 @@
                         </div>
                         <div v-for="(document, index) in Documents" :key="index" >
                             <div class="relative ">
-                                <FileUploads @update:fileSelected="UploadFile" :index="index"  />
+                                <FileUploads  :index="index"  @fetch:currentDataURL="setDataURL" @input="setName" :image="DocumentUploads[index]?.path"  />
                             </div>
                         </div>
                        
@@ -247,8 +247,9 @@ const repayment_cycle = ref([
 const DocumentUploads= ref([])
 const fileSelected = ref();
 const Documents = ref([
-    {file:""}
+    {name:"", path:"", index:""}
 ])
+const MobileDataURL = ref("")
 const get_calculations = ref([]);
 const Order = reactive({
     product: "",
@@ -273,14 +274,28 @@ const OrderResult = ref({
 });
 
 function addMore(){
+    console.log(MobileDataURL.value);
     Documents.value.push({...Documents.value})
 }
- function UploadFile(file) {
-    fileSelected.value = file;
-    DocumentUploads.value[fileSelected.value.index] =  fileSelected.value
-    console.log(DocumentUploads.value);
-  
+function setDataURL(obj){
+    if(!DocumentUploads.value[obj.index]){
+        DocumentUploads.value.push({path: obj.path})
+    }else{
+        DocumentUploads.value[obj.index].path =  obj.path
+    }
+    
+    console.log( DocumentUploads.value);
 }
+function setName(obj){  
+    if(!DocumentUploads.value[obj.index]){
+        DocumentUploads.value.push({name:obj.name})
+    }else{
+         DocumentUploads.value[obj.index].name =  obj.name
+    }
+    console.log( DocumentUploads.value);
+   
+}
+
 
 
 function Calculate() {
