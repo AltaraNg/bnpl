@@ -180,20 +180,20 @@
                         </div>
                         <div>
                             <p class="mb-2 text-gray-800 font-bold">Additional Documents</p>
-                            <p class="text-sm text-gray-800 leading-2 mb-2">
+                            <p class="text-sm text-gray-800 leading-2">
                                 Please feel free to upload relevant documents to enable your verifications process. eg passport, drivers license
                             </p>
                         </div>
-                        <div class="flex items-center justify-end" @click="addMore">
-                            <defaultButton name="Add More" class="lg:w-1/4">
+                        <div class="flex items-center justify-end">
+                            <defaultButton name="Add More" class="lg:w-1/4"  @click="addMore">
                                 <template v-slot:icon>
                                     <plus />
                                 </template>
                             </defaultButton>
                         </div>
                         <div v-for="(document, index) in Documents" :key="index" >
-                            <div class="relative">
-                                <FileUploads @fileSelected="UploadFile" :class="disableUploadFile ? 'pointer-events-none': ''" />
+                            <div class="relative ">
+                                <FileUploads @update:fileSelected="UploadFile" :index="index"  />
                             </div>
                         </div>
                        
@@ -244,6 +244,7 @@ const repayment_cycle = ref([
         value: 14,
     },
 ]);
+const DocumentUploads= ref([])
 const fileSelected = ref();
 const Documents = ref([
     {file:""}
@@ -263,7 +264,6 @@ const Order = reactive({
     second_guarantor_telephone: "",
     second_guarantor_home_address: "",
 });
-const disableUploadFile = ref(false)
 const business_type = ref();
 const payment_type_id = ref();
 const OrderResult = ref({
@@ -275,9 +275,10 @@ const OrderResult = ref({
 function addMore(){
     Documents.value.push({...Documents.value})
 }
-async function UploadFile(file) {
+ function UploadFile(file) {
     fileSelected.value = file;
-    console.log(fileSelected.value);
+    DocumentUploads.value[fileSelected.value.index] =  fileSelected.value
+    console.log(DocumentUploads.value);
   
 }
 
