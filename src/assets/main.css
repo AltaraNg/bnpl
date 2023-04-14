@@ -5,3 +5,6 @@
 .invalid-feedback {
     @apply flex items-center font-medium tracking-wide text-red-500 text-sm mt-1 ml-1;
 }
+button:disabled{
+    background-color: rgba(135, 200, 236, 0.928);
+}

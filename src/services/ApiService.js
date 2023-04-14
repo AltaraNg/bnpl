@@ -38,7 +38,7 @@ export class Apiservice {
         }
     }
 
-    async post(url, data, isFormData) {
+    async post(url, data, isFormData, binary) {
         store.dispatch("loader/show", { root: true });
         // handle content type application/json
         let postData = data;
@@ -48,8 +48,10 @@ export class Apiservice {
             for (const key in data) {
                 postData.append(key, data[key]);
             }
-
             this.setRequestHeaders({ "Content-Type": "multipart/form-data" });
+        }
+        if(binary){       
+            this.setRequestHeaders({ "Content-Type": "text/html; charset=UTF-8" });
         }
 
         try {

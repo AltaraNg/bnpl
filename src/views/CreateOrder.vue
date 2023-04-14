@@ -185,18 +185,22 @@
                             </p>
                         </div>
                         <div class="flex items-center justify-end">
-                            <defaultButton name="Add More" class="lg:w-1/4"  @click="addMore">
-                                <template v-slot:icon>
-                                    <plus />
-                                </template>
-                            </defaultButton>
+                            <button class="px-3 py-2 rounded text-white bg-primary lg:w-1/4  font-normal" :disabled="disabled"  @click="addMore">
+                                Add More
+                            </button>
                         </div>
-                        <div v-for="(document, index) in Documents" :key="index" >
-                            <div class="relative ">
-                                <FileUploads  :index="index"  @fetch:currentDataURL="setDataURL" @input="setName" :image="DocumentUploads[index]?.path"  />
+                        <div v-for="(document, index) in Documents" :key="index">
+                            <div class="relative">
+                                <FileUploads
+                                    :index="index"
+                                    @fetch:currentDataURL="setDataURL"
+                                    @input="setName"
+                                    :image="DocumentUploads[index]?.file"
+                                />
                             </div>
                         </div>
-                       
+                        <button @click="sendUploads">submit</button>
+
                         <div class="text-right mt-8 lg:flex lg:justify-center sm:col-span-2">
                             <defaultButton name=" New Sale" class="lg:w-1/3">
                                 <template v-slot:icon>
@@ -217,7 +221,7 @@ import AppLabel from "@/components/AppLabel.vue";
 import AppSelectInput from "@/components/AppSelectInput.vue";
 import defaultButton from "@/components/button.vue";
 import FileUploads from "@/components/FileUploads.vue";
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive, onMounted, watch } from "vue";
 import CurrencyInput from "@/components/CurrencyInput.vue";
 import plus from "@/assets/svgs/plus.vue";
 import App from "@/layouts/App.vue";
@@ -244,12 +248,10 @@ const repayment_cycle = ref([
         value: 14,
     },
 ]);
-const DocumentUploads= ref([])
+const DocumentUploads = ref([]);
 const fileSelected = ref();
-const Documents = ref([
-    {name:"", path:"", index:""}
-])
-const MobileDataURL = ref("")
+const Documents = ref([{ name: "", file: "", index: "" }]);
+
 const get_calculations = ref([]);
 const Order = reactive({
     product: "",
@@ -266,6 +268,7 @@ const Order = reactive({
     second_guarantor_home_address: "",
 });
 const business_type = ref();
+const disabled = ref(true)
 const payment_type_id = ref();
 const OrderResult = ref({
     total: null,
@@ -273,30 +276,38 @@ const OrderResult = ref({
     rePayment: null,
 });
 
-function addMore(){
-    console.log(MobileDataURL.value);
-    Documents.value.push({...Documents.value})
-}
-function setDataURL(obj){
-    if(!DocumentUploads.value[obj.index]){
-        DocumentUploads.value.push({path: obj.path})
-    }else{
-        DocumentUploads.value[obj.index].path =  obj.path
-    }
-    
-    console.log( DocumentUploads.value);
-}
-function setName(obj){  
-    if(!DocumentUploads.value[obj.index]){
-        DocumentUploads.value.push({name:obj.name})
-    }else{
-         DocumentUploads.value[obj.index].name =  obj.name
-    }
-    console.log( DocumentUploads.value);
-   
-}
+async function sendUploads() {
+    //  const  postData = new FormData();
+    //     postData.append("name", "id")  
+    //  postData.append("file",DocumentUploads.value[0].file)
+    //  console.log(postData, "Postdata");
+    // console.log(DocumentUploads.value[0]);
+    DocumentUploads.value = DocumentUploads.value.map((doc) => {
+        if (doc.file) {
+            return { name: doc.name, file: doc.file.replace("data:", "").replace(/^.+,/, "") };
+        }
+    });
+ await Apis.uploadsingle(DocumentUploads.value[0]);
+    // console.log(DocumentUploads.value[0]);
 
-
+}
+function addMore() {
+    Documents.value.push({ ...Documents.value });
+}
+function setDataURL(obj) {
+    if (!DocumentUploads.value[obj.index]) {
+        DocumentUploads.value.push({ file: obj.file });
+    } else {
+        DocumentUploads.value[obj.index].file = obj.file;
+    }
+}
+ function setName(obj) {
+    if (!DocumentUploads.value[obj.index]) {
+        DocumentUploads.value.push({ name: obj.name });
+    } else {
+        DocumentUploads.value[obj.index].name = obj.name;
+    }
+}
 
 function Calculate() {
     try {
@@ -324,7 +335,7 @@ async function createNewSale() {
         files: [
             {
                 name: fileSelected.value.name,
-                file:fileSelected.value.path,
+                file: fileSelected.value.file,
             },
         ],
 
@@ -373,9 +384,19 @@ async function Downpayment() {
     const result = await Apis.downpayments();
     payment_type_id.value = result?.data?.data?.data.find((downPayment) => downPayment.name == "twenty");
 }
-
-
-
+ function watchDisable() {
+    DocumentUploads.value.map((doc)=>{
+        disabled.value = doc.file && doc.name ? false :true
+    })
+   
+}
+watch(
+    () => DocumentUploads.value,
+    (newValue) => {
+        watchDisable(newValue)
+    },
+    
+);
 onMounted(() => {
     RepaymentDuration();
     BusinessType();

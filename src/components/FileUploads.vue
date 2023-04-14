@@ -1,14 +1,14 @@
 <template>
-    <div>
+    <div class="mb-7">
         <div class="relative">
             <div class="mb-1">
-                <label for="name" class="block pt-8 text-sm font-medium text-gray-700">Name of Document</label>
+                <label for="name" class="block  pt-8 text-sm font-medium text-gray-700">Name of Document</label>
                 <input
                     type="type"
-                    class="block w-full border rounded-md border-gray-300 py-2 px-3 shadow-sm focus:border-0 :border-outline-none"
+                    class="block w-full border mb-2 rounded-md border-gray-300 py-2 px-3 shadow-sm focus:border-0 :border-outline-none"
                     name="name"
                     v-model="name"
-                    @input="emit('input', {name:name, index:index})"
+                    @input="emit('input', { name: name, index: index })"
                 />
 
                 <div class="absolute right-2 cursor-pointer bottom-3 lg:hidden block" @mouseover="PersistIndex">
@@ -17,28 +17,33 @@
                         ><img for="photo" class="text-indigo-500" src="@/assets/images/photo-camera-svgrepo-com.svg"
                     /></label>
                 </div>
-                <div class="absolute right-2 cursor-pointer bottom-3 hidden lg:block" @click="openCamera">
-                    <img for="photo" class="text-indigo-500" src="@/assets/images/photo-camera-svgrepo-com.svg" />
+                <div class="absolute right-2 cursor-pointer bottom-3 hidden lg:block" @click="openCamera"  >
+                    <img for="photo" class="text-indigo-500" src="@/assets/images/photo-camera-svgrepo-com.svg" v-if="!showVideo" />
                 </div>
-                <div class="" :class="showVideo ? 'block' : 'hidden'" @click="capture"><video ref="video" id="video" autoplay></video></div>
+                <div class="" :class="showVideo ? 'block' : 'hidden'" >
+                    <video ref="video" id="video" autoplay></video>
+                    <div class="flex items-center space-x-3 justify-end">
+                        <button class="px-3 py-1 rounded text-white bg-primary text-xs font-normal" @click="capture">Capture</button>
+                        <buuton class="px-3 py-1 rounded text-white bg-red-500 text-xs font-normal cursor-pointer" @click="closeCamera">Cancel</buuton>
+                    </div>
+                </div>
                 <canvas v-show="!showVideo" class="hidden lg:block absolute left-0 bttom-0" ref="canvas" id="canvas" width="180" height="60"></canvas>
                 <canvas v-show="!showVideo" class="hidden absolute left-0 bttom-0" ref="canvas2" id="canvas" width="640" height="480"></canvas>
-                <div class="absolute left-0">
+                <div class="absolute left-0" v-show="!showVideo">
                     <div class="imagePreviewWrapper block lg:hidden" :style="{ 'background-image': `url(${props.image})` }"></div>
                 </div>
 
-                <!-- <p class="absolute -bottom-4">{{ list?.path?.name }}</p> -->
+                <!-- <p class="absolute -bottom-4">{{ list?.file?.name }}</p> -->
             </div>
         </div>
     </div>
 </template>
 <script setup>
-import { ref, onUnmounted,  } from "vue";
+import { ref, onUnmounted } from "vue";
 const File = ref({
-    
-    path: "",
+    file: "",
 });
-const name = ref("")
+const name = ref("");
 
 const canvas = ref();
 const canvas2 = ref();
@@ -48,10 +53,10 @@ const tracks = ref();
 const showVideo = ref(false);
 const props = defineProps({
     index: Number,
-    image:HTMLImageElement
+    image: HTMLImageElement,
 });
 
-const emit = defineEmits([ "input", "fetch:currentDataURL"]);
+const emit = defineEmits(["input", "fetch:currentDataURL"]);
 
 function openCamera() {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -71,29 +76,31 @@ function closeCamera() {
             track.stop();
         }
     });
+    showVideo.value = false;
+    canvas.value.getContext('2d').clearRect(0, 0, 640,480)
 }
 function capture() {
     canvas.value.getContext("2d").drawImage(video.value, 0, 0, 640, 480);
     canvas2.value.getContext("2d").drawImage(video.value, 0, 0, 640, 480);
-    File.value.path = canvas2.value.toDataURL("image/jpeg").replace("data:", "").replace(/^.+,/, "");
-    emit("fetch:currentDataURL", { path: canvas2.value.toDataURL("image/jpeg"), index:props.index});
+    File.value.file = canvas2.value.toDataURL("image/jpeg").replace("data:", "").replace(/^.+,/, "");
+    emit("fetch:currentDataURL", { file: canvas2.value.toDataURL("image/jpeg"), index: props.index });
     showVideo.value = false;
+    closeCamera()
 }
 function PersistIndex() {
     localStorage.setItem("currentIndex", props.index);
 }
 function snapShot(event) {
-    File.value.path = event.target.files[0];
-    if (File.value.path) {
+    File.value.file = event.target.files[0];
+    if (File.value.file) {
         let reader = new FileReader();
         reader.onload = (e) => {
             previewImage.value = e.target.result;
-            File.value.path = previewImage.value.replace("data:", "").replace(/^.+,/, "");
-            const Index = localStorage.getItem("currentIndex")
-            // console.log(previewImage.value, Index)
-             emit("fetch:currentDataURL", { path: previewImage.value, index:Index});
+            File.value.file = previewImage.value.replace("data:", "").replace(/^.+,/, "");
+            const Index = localStorage.getItem("currentIndex");
+            emit("fetch:currentDataURL", { file: previewImage.value, index: Index });
         };
-        reader.readAsDataURL(File.value.path);
+        reader.readAsDataURL(File.value.file);
     }
 }
 
