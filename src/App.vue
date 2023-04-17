@@ -1,85 +1,61 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { reactive, onMounted } from "vue";
+import { RouterView } from "vue-router";
+import Notification from "@/components/Notification.vue";
+import Loader from "@/components/Loader.vue";
+import PwaPrompt from "@/components/PwaPrompt.vue";
+import { XMarkIcon } from "@heroicons/vue/20/solid";
+
+const state = reactive({
+    registration: null,
+    isRefresh: false,
+    refreshing: false,
+});
+
+onMounted(() => {
+    document.addEventListener("serviceWorkerUpdateEvent", appUpdateUI, { once: true });
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+        if (state.refreshing) return;
+        state.refreshing = true;
+        window.location.reload();
+    });
+});
+
+const appUpdateUI = (e) => {
+    state.registration = e.detail;
+    state.isRefresh = true;
+};
+const update = () => {
+    state.isRefresh = false;
+    if (state.registration || state.registration.waiting) {
+        state.registration.waiting.postMessage({ type: "SKIP_WAITING" });
+    }
+};
+const dismiss = () => {
+    state.isRefresh = false;
+};
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+    <PwaPrompt />
+    <div class="flex items-center w-full justify-center">
+        <RouterView :class="!$route.meta.noAuth ? 'w-full overflow-hidden' : 'w-full'" />
     </div>
-  </header>
-
-  <RouterView />
+    <Notification />
+    <Loader />
+    <div v-if="state.isRefresh" class="pointer-events-none fixed inset-x-0 bottom-0 sm:flex sm:justify-center sm:px-6 sm:pb-5 lg:px-8">
+        <div class="pointer-events-auto flex items-center justify-between gap-x-6 bg-gray-900 py-2.5 px-6 sm:rounded-xl sm:py-3 sm:pr-3.5 sm:pl-4">
+            <p class="text-sm leading-6 text-white">
+                <a href="#" @click.prevent="update">A new version is available, click to update&nbsp;<span aria-hidden="true">&rarr;</span></a>
+            </p>
+            <button @click="dismiss" type="button" class="-m-1.5 flex-none p-1.5">
+                <XMarkIcon class="h-5 w-5 text-white" aria-hidden="true" />
+            </button>
+        </div>
+    </div>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+<style>
+body {
+    font-family: "Outfit", sans-serif;
 }
 </style>

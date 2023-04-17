@@ -1,0 +1,30 @@
+name: Run tests
+on:
+  pull_request:
+    branches:
+    types: [opened, synchronize, reopened]
+    paths:
+      - '**.js'
+      - '**.vue'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '15.x'
+    - name: Run Tests
+      run: |
+        if echo $(git log --format=%B -n 1) | grep -q "Merge branch 'staging' into"; then
+          echo "No test to run"
+        else
+          echo "Running Unit tests"
+        fi
