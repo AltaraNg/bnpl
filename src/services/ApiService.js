@@ -50,12 +50,27 @@ export class Apiservice {
             }
             this.setRequestHeaders({ "Content-Type": "multipart/form-data" });
         }
-        if(binary){       
+        if (binary) {
             this.setRequestHeaders({ "Content-Type": "text/html; charset=UTF-8" });
         }
 
         try {
             let result = await this.api_connector.post(url, postData, this.requestConfig);
+            this.resetRequestConfig();
+            store.dispatch("loader/hide", { root: true });
+            return result.data;
+        } catch (error) {
+            store.dispatch("loader/hide", { root: true });
+            handleError(error.response.data.message);
+            this.resetRequestConfig();
+        }
+    }
+
+    async postFormData(url, data) {
+        this.setRequestHeaders({ "Content-Type": "multipart/form-data" });
+        try {
+            let result = await this.api_connector.post(url, data, this.requestConfig);
+            console.log(result);
             this.resetRequestConfig();
             store.dispatch("loader/hide", { root: true });
             return result.data;

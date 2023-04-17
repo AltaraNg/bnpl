@@ -185,7 +185,7 @@
                             </p>
                         </div>
                         <div class="flex items-center justify-end">
-                            <button class="px-3 py-2 rounded text-white bg-primary lg:w-1/4  font-normal" :disabled="disabled"  @click="addMore">
+                            <button class="px-3 py-2 rounded text-white bg-primary lg:w-1/4 font-normal" :disabled="disabled" @click="addMore">
                                 Add More
                             </button>
                         </div>
@@ -198,6 +198,9 @@
                                     :image="DocumentUploads[index]?.file"
                                 />
                             </div>
+                        </div>
+                        <div>
+                            <input type="file" class="form-control" v-on:change="onFileChange" />
                         </div>
                         <button @click="sendUploads">submit</button>
 
@@ -231,6 +234,7 @@ import { calculate } from "@/utilities/calculator";
 import { useRoute } from "vue-router";
 import Apis from "@/services/ApiCalls";
 import { CreateOrderSchema } from "@/shemas/CreateOrderSchema";
+import { Apiservice } from "@/services/ApiService";
 const store = useStore();
 const route = useRoute();
 const repayment_duration = ref();
@@ -268,7 +272,7 @@ const Order = reactive({
     second_guarantor_home_address: "",
 });
 const business_type = ref();
-const disabled = ref(true)
+const disabled = ref(true);
 const payment_type_id = ref();
 const OrderResult = ref({
     total: null,
@@ -276,9 +280,22 @@ const OrderResult = ref({
     rePayment: null,
 });
 
+async function onFileChange(e) {
+    console.log(e.target.files[0]);
+    e.preventDefault();
+
+    let formData = new FormData();
+    formData.append("file", e.target.files[0]);
+    formData.append("name", "James");
+
+    console.log(formData, "formData");
+    const apiService = new Apiservice();
+    await apiService.postFormData('upload/single/file', formData);
+
+}
 async function sendUploads() {
     //  const  postData = new FormData();
-    //     postData.append("name", "id")  
+    //     postData.append("name", "id")
     //  postData.append("file",DocumentUploads.value[0].file)
     //  console.log(postData, "Postdata");
     // console.log(DocumentUploads.value[0]);
@@ -287,9 +304,8 @@ async function sendUploads() {
             return { name: doc.name, file: doc.file.replace("data:", "").replace(/^.+,/, "") };
         }
     });
- await Apis.uploadsingle(DocumentUploads.value[0]);
+    await Apis.uploadsingle(DocumentUploads.value[0]);
     // console.log(DocumentUploads.value[0]);
-
 }
 function addMore() {
     Documents.value.push({ ...Documents.value });
@@ -301,7 +317,7 @@ function setDataURL(obj) {
         DocumentUploads.value[obj.index].file = obj.file;
     }
 }
- function setName(obj) {
+function setName(obj) {
     if (!DocumentUploads.value[obj.index]) {
         DocumentUploads.value.push({ name: obj.name });
     } else {
@@ -384,18 +400,16 @@ async function Downpayment() {
     const result = await Apis.downpayments();
     payment_type_id.value = result?.data?.data?.data.find((downPayment) => downPayment.name == "twenty");
 }
- function watchDisable() {
-    DocumentUploads.value.map((doc)=>{
-        disabled.value = doc.file && doc.name ? false :true
-    })
-   
+function watchDisable() {
+    DocumentUploads.value.map((doc) => {
+        disabled.value = doc.file && doc.name ? false : true;
+    });
 }
 watch(
     () => DocumentUploads.value,
     (newValue) => {
-        watchDisable(newValue)
-    },
-    
+        watchDisable(newValue);
+    }
 );
 onMounted(() => {
     RepaymentDuration();
