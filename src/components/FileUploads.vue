@@ -23,8 +23,8 @@
                 <div class="" :class="showVideo ? 'block' : 'hidden'" >
                     <video ref="video" id="video" autoplay></video>
                     <div class="flex items-center space-x-3 justify-end">
-                        <button class="px-3 py-1 rounded text-white bg-primary text-xs font-normal" @click="capture">Capture</button>
-                        <buuton class="px-3 py-1 rounded text-white bg-red-500 text-xs font-normal cursor-pointer" @click="closeCamera">Cancel</buuton>
+                        <button class="px-3 py-1 rounded text-white bg-primary text-xs font-normal" @click="capture($event)">Capture</button>
+                        <button class="px-3 py-1 rounded text-white bg-red-500 text-xs font-normal cursor-pointer" @click="closeCamera">Cancel</button>
                     </div>
                 </div>
                 <canvas v-show="!showVideo" class="hidden lg:block absolute left-0 bttom-0" ref="canvas" id="canvas" width="180" height="60"></canvas>
@@ -61,9 +61,7 @@ const emit = defineEmits(["input", "fetch:currentDataURL"]);
 function openCamera() {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         navigator.mediaDevices.getUserMedia({ video: true, audio: false }).then((stream) => {
-            // console.log(stream.getTracks());
             tracks.value = stream.getTracks();
-
             video.value.srcObject = stream;
             video.value.play();
         });
@@ -77,13 +75,14 @@ function closeCamera() {
         }
     });
     showVideo.value = false;
-    canvas.value.getContext('2d').clearRect(0, 0, 640,480)
+    // canvas.value.getContext('2d').clearRect(0, 0, 640,480)
 }
 function capture() {
     canvas.value.getContext("2d").drawImage(video.value, 0, 0, 640, 480);
     canvas2.value.getContext("2d").drawImage(video.value, 0, 0, 640, 480);
-    File.value.file = canvas2.value.toDataURL("image/jpeg").replace("data:", "").replace(/^.+,/, "");
-    emit("fetch:currentDataURL", { file: canvas2.value.toDataURL("image/jpeg"), index: props.index });
+    File.value = canvas2.value.toDataURL();
+     File.value = dataURItoBlob(File.value)
+    emit("fetch:currentDataURL", { display: canvas2.value.toDataURL("image/jpeg"), index: props.index, file: File.value});
     showVideo.value = false;
     closeCamera()
 }
@@ -98,10 +97,26 @@ function snapShot(event) {
             previewImage.value = e.target.result;
             File.value.file = previewImage.value.replace("data:", "").replace(/^.+,/, "");
             const Index = localStorage.getItem("currentIndex");
-            emit("fetch:currentDataURL", { file: previewImage.value, index: Index });
+            emit("fetch:currentDataURL", { display: previewImage.value, index: Index, file: event.target.files[0] });
         };
         reader.readAsDataURL(File.value.file);
     }
+}
+function dataURItoBlob(dataURI) {
+// convert base64/URLEncoded data component to raw binary data held in a string
+var byteString;
+if (dataURI.split(',')[0].indexOf('base64') >= 0)
+    byteString = atob(dataURI.split(',')[1]);
+else
+    byteString = unescape(dataURI.split(',')[1]);
+// separate out the mime component
+var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+// write the bytes of the string to a typed array
+var ia = new Uint8Array(byteString.length);
+for (var i = 0; i < byteString.length; i++) {
+    ia[i] = byteString.charCodeAt(i);
+}
+return new Blob([ia], {type:mimeString});
 }
 
 // });

@@ -56,6 +56,9 @@ export default {
         return new Apiservice().get(`fetch/merchant/commissions?page=${number}&per_page=${10}`);
     },
     async uploadsingle(data) {
-        return  await new Apiservice().post("upload/single/file", data, true, false);
+        return await new Apiservice().post("upload/single/file", data, true, false);
+    },
+    async uploadMultiple(data) {
+        return await new Apiservice().ArrayFormData("upload/multiple/files", data);
     },
 };

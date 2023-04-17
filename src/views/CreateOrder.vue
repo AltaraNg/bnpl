@@ -195,14 +195,12 @@
                                     :index="index"
                                     @fetch:currentDataURL="setDataURL"
                                     @input="setName"
-                                    :image="DocumentUploads[index]?.file"
+                                    :image="DocumentUploads[index]?.display"
                                 />
                             </div>
                         </div>
-                        <div>
-                            <input type="file" class="form-control" v-on:change="onFileChange" />
-                        </div>
-                        <button @click="sendUploads">submit</button>
+
+                        <button @click="SingleUpload">submit</button>
 
                         <div class="text-right mt-8 lg:flex lg:justify-center sm:col-span-2">
                             <defaultButton name=" New Sale" class="lg:w-1/3">
@@ -234,7 +232,6 @@ import { calculate } from "@/utilities/calculator";
 import { useRoute } from "vue-router";
 import Apis from "@/services/ApiCalls";
 import { CreateOrderSchema } from "@/shemas/CreateOrderSchema";
-import { Apiservice } from "@/services/ApiService";
 const store = useStore();
 const route = useRoute();
 const repayment_duration = ref();
@@ -280,41 +277,28 @@ const OrderResult = ref({
     rePayment: null,
 });
 
-async function onFileChange(e) {
-    console.log(e.target.files[0]);
-    e.preventDefault();
-
-    let formData = new FormData();
-    formData.append("file", e.target.files[0]);
-    formData.append("name", "James");
-
-    console.log(formData, "formData");
-    const apiService = new Apiservice();
-    await apiService.postFormData('upload/single/file', formData);
-
-}
-async function sendUploads() {
-    //  const  postData = new FormData();
-    //     postData.append("name", "id")
-    //  postData.append("file",DocumentUploads.value[0].file)
-    //  console.log(postData, "Postdata");
-    // console.log(DocumentUploads.value[0]);
+async function SingleUpload() {
     DocumentUploads.value = DocumentUploads.value.map((doc) => {
         if (doc.file) {
-            return { name: doc.name, file: doc.file.replace("data:", "").replace(/^.+,/, "") };
+            return { name: doc.name, file: doc.file };
         }
     });
-    await Apis.uploadsingle(DocumentUploads.value[0]);
-    // console.log(DocumentUploads.value[0]);
+    const document =
+        DocumentUploads.value.length == 1 ? await Apis.uploadsingle(DocumentUploads.value[0]) : await Apis.uploadMultiple(DocumentUploads.value);
+        console.log(document.result.file, document.result.files)
+    return DocumentUploads.value.length == 1 ? document.result.file : document.result.file;
 }
+
 function addMore() {
     Documents.value.push({ ...Documents.value });
+    disabled.value = true;
 }
 function setDataURL(obj) {
     if (!DocumentUploads.value[obj.index]) {
-        DocumentUploads.value.push({ file: obj.file });
+        DocumentUploads.value.push({ file: obj.file, display: obj.display });
     } else {
         DocumentUploads.value[obj.index].file = obj.file;
+        DocumentUploads.value[obj.index].display = obj.display;
     }
 }
 function setName(obj) {
@@ -400,16 +384,15 @@ async function Downpayment() {
     const result = await Apis.downpayments();
     payment_type_id.value = result?.data?.data?.data.find((downPayment) => downPayment.name == "twenty");
 }
-function watchDisable() {
-    DocumentUploads.value.map((doc) => {
-        disabled.value = doc.file && doc.name ? false : true;
-    });
-}
+
 watch(
-    () => DocumentUploads.value,
-    (newValue) => {
-        watchDisable(newValue);
-    }
+    () => [...DocumentUploads.value],
+    () => {
+        DocumentUploads.value.map((doc) => {
+            disabled.value = doc.file && doc.name ? false : true;
+        });
+    },
+    { deep: true }
 );
 onMounted(() => {
     RepaymentDuration();

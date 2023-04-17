@@ -66,11 +66,18 @@ export class Apiservice {
         }
     }
 
-    async postFormData(url, data) {
+    async ArrayFormData(url, data) {
+          let documents = {}; 
+          store.dispatch("loader/show", { root: true });
+          let postData = new FormData();
+          data.map((obj)=>{
+            const file = postData.append("file", obj.file);
+            return {name: obj.name, file }
+          })
+          documents = {"documents": data}
         this.setRequestHeaders({ "Content-Type": "multipart/form-data" });
         try {
-            let result = await this.api_connector.post(url, data, this.requestConfig);
-            console.log(result);
+            let result = await this.api_connector.post(url, documents, this.requestConfig);
             this.resetRequestConfig();
             store.dispatch("loader/hide", { root: true });
             return result.data;
