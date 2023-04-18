@@ -204,7 +204,7 @@
                         </div>
 
                         <div class="text-right mt-8 lg:flex lg:justify-center sm:col-span-2">
-                            <defaultButton name=" New Sale" class="lg:w-1/3" >
+                            <defaultButton name=" New Sale" class="lg:w-1/3">
                                 <template v-slot:icon>
                                     <plus />
                                 </template>
