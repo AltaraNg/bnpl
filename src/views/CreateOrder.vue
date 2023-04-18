@@ -6,7 +6,7 @@
                     <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">New Sale</h2>
                 </div>
 
-                <Form @submit="createNewSale" :validation-schema="CreateOrderSchema" v-slot="{ errors }">
+                <Form  :validation-schema="CreateOrderSchema" v-slot="{ errors }">
                     <div class="mt-9 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
                         <div>
                             <app-label label-title="Product" label-for="product" />
@@ -200,10 +200,8 @@
                             </div>
                         </div>
 
-                        <button @click="SingleUpload">submit</button>
-
                         <div class="text-right mt-8 lg:flex lg:justify-center sm:col-span-2">
-                            <defaultButton name=" New Sale" class="lg:w-1/3">
+                            <defaultButton name=" New Sale" class="lg:w-1/3" @click.prevent="createNewSale">
                                 <template v-slot:icon>
                                     <plus />
                                 </template>
@@ -250,7 +248,6 @@ const repayment_cycle = ref([
     },
 ]);
 const DocumentUploads = ref([]);
-const fileSelected = ref();
 const Documents = ref([{ name: "", file: "", index: "" }]);
 
 const get_calculations = ref([]);
@@ -277,7 +274,7 @@ const OrderResult = ref({
     rePayment: null,
 });
 
-async function SingleUpload() {
+async function Upload() {
     DocumentUploads.value = DocumentUploads.value.map((doc) => {
         if (doc.file) {
             return { name: doc.name, file: doc.file };
@@ -285,8 +282,9 @@ async function SingleUpload() {
     });
     const document =
         DocumentUploads.value.length == 1 ? await Apis.uploadsingle(DocumentUploads.value[0]) : await Apis.uploadMultiple(DocumentUploads.value);
-        console.log(document.result.file, document.result.files)
-    return DocumentUploads.value.length == 1 ? document.result.file : document.result.file;
+        // console.log(document.result.file, document.result.files)
+
+    return DocumentUploads.value.length == 1 ?  document.result.file : document.result.file;
 }
 
 function addMore() {
@@ -330,15 +328,9 @@ function Calculate() {
 }
 
 async function createNewSale() {
-    Calculate();
+   await Calculate();
     store.dispatch("InitiateCreditCheck", {
-        files: [
-            {
-                name: fileSelected.value.name,
-                file: fileSelected.value.file,
-            },
-        ],
-
+        documents: await Upload(),
         customer_id: route.params.id,
         down_payment: OrderResult.value.actualDownpayment,
         down_payment_rate_id: payment_type_id.value.id,

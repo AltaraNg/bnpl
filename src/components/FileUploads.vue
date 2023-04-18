@@ -23,7 +23,7 @@
                 <div class="" :class="showVideo ? 'block' : 'hidden'" >
                     <video ref="video" id="video" autoplay></video>
                     <div class="flex items-center space-x-3 justify-end">
-                        <button class="px-3 py-1 rounded text-white bg-primary text-xs font-normal" @click="capture($event)">Capture</button>
+                        <button class="px-3 py-1 rounded text-white bg-primary text-xs font-normal" @click.prevent="capture">Capture</button>
                         <button class="px-3 py-1 rounded text-white bg-red-500 text-xs font-normal cursor-pointer" @click="closeCamera">Cancel</button>
                     </div>
                 </div>
