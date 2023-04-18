@@ -1,8 +1,8 @@
 <template>
-    <div class="mb-7">
-        <div class="relative">
+    <div  :class="!canvas || !props.image ? 'mb-2' : 'mb-36'">
+        <div class="relative ">
             <div class="mb-1">
-                <label for="name" class="block  pt-8 text-sm font-medium text-gray-700">Name of Document</label>
+                <label for="name" class="block text-sm font-medium text-gray-700">Name of Document</label>
                 <input
                     type="type"
                     class="block w-full border mb-2 rounded-md border-gray-300 py-2 px-3 shadow-sm focus:border-0 :border-outline-none"
@@ -27,7 +27,7 @@
                         <button class="px-3 py-1 rounded text-white bg-red-500 text-xs font-normal cursor-pointer" @click="closeCamera">Cancel</button>
                     </div>
                 </div>
-                <canvas v-show="!showVideo" class="hidden lg:block absolute left-0 bttom-0" ref="canvas" id="canvas" width="180" height="60"></canvas>
+                <canvas v-show="!showVideo" class="hidden lg:block absolute left-0 bttom-0" ref="canvas" id="canvas" width="230" height="110"></canvas>
                 <canvas v-show="!showVideo" class="hidden absolute left-0 bttom-0" ref="canvas2" id="canvas" width="640" height="480"></canvas>
                 <div class="absolute left-0" v-show="!showVideo">
                     <div class="imagePreviewWrapper block lg:hidden" :style="{ 'background-image': `url(${props.image})` }"></div>
@@ -127,8 +127,8 @@ input[type="file"] {
     display: none;
 }
 .imagePreviewWrapper {
-    width: 180px;
-    height: 60px;
+    width: 230px;
+    height: 110px;
     display: block;
     cursor: pointer;
     margin: 0 auto 30px;

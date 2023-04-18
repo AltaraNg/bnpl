@@ -6,7 +6,7 @@
                     <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">New Sale</h2>
                 </div>
 
-                <Form  :validation-schema="CreateOrderSchema" v-slot="{ errors }">
+                <Form :validation-schema="CreateOrderSchema" v-slot="{ errors }" @submit="createNewSale">
                     <div class="mt-9 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
                         <div>
                             <app-label label-title="Product" label-for="product" />
@@ -184,11 +184,7 @@
                                 Please feel free to upload relevant documents to enable your verifications process. eg passport, drivers license
                             </p>
                         </div>
-                        <div class="flex items-center justify-end">
-                            <button class="px-3 py-2 rounded text-white bg-primary lg:w-1/4 font-normal" :disabled="disabled" @click="addMore">
-                                Add More
-                            </button>
-                        </div>
+                        <div></div>
                         <div v-for="(document, index) in Documents" :key="index">
                             <div class="relative">
                                 <FileUploads
@@ -199,9 +195,16 @@
                                 />
                             </div>
                         </div>
+                        <div></div>
+                        <div></div>
+                        <div class="text-right lg:flex lg:justify-end sm:col-span-2">
+                            <button class="px-3 py-2 rounded text-white bg-primary font-normal" :disabled="disabled" @click="addMore">
+                                Add More
+                            </button>
+                        </div>
 
                         <div class="text-right mt-8 lg:flex lg:justify-center sm:col-span-2">
-                            <defaultButton name=" New Sale" class="lg:w-1/3" @click.prevent="createNewSale">
+                            <defaultButton name=" New Sale" class="lg:w-1/3" >
                                 <template v-slot:icon>
                                     <plus />
                                 </template>
@@ -280,11 +283,11 @@ async function Upload() {
             return { name: doc.name, file: doc.file };
         }
     });
+    const arrayDoc = [];
     const document =
         DocumentUploads.value.length == 1 ? await Apis.uploadsingle(DocumentUploads.value[0]) : await Apis.uploadMultiple(DocumentUploads.value);
-        // console.log(document.result.file, document.result.files)
-
-    return DocumentUploads.value.length == 1 ?  document.result.file : document.result.file;
+    arrayDoc.push(document?.result?.file);
+    return DocumentUploads.value.length == 1 ? arrayDoc : document.result.files;
 }
 
 function addMore() {
@@ -328,13 +331,14 @@ function Calculate() {
 }
 
 async function createNewSale() {
-   await Calculate();
+    await Calculate();
     store.dispatch("InitiateCreditCheck", {
         documents: await Upload(),
         customer_id: route.params.id,
+        cost_price: Order.amount,
         down_payment: OrderResult.value.actualDownpayment,
         down_payment_rate_id: payment_type_id.value.id,
-        product_price: Order.amount,
+        product_price: OrderResult.value.total,
         repayment: OrderResult.value.rePayment,
         repayment_cycle_id: parseInt(Order.repayment_cycle_id),
         repayment_duration_id: parseInt(Order.repayment_duration_id),
