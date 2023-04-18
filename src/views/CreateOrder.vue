@@ -333,7 +333,7 @@ function Calculate() {
 async function createNewSale() {
     await Calculate();
     store.dispatch("InitiateCreditCheck", {
-        documents: DocumentUploads.value ? await Upload() : [],
+        documents: DocumentUploads.value.length ? await Upload() : [],
         customer_id: route.params.id,
         cost_price: Order.amount,
         down_payment: OrderResult.value.actualDownpayment,
