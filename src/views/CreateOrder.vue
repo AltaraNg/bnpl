@@ -185,12 +185,13 @@
                             </p>
                         </div>
                         <div></div>
-                        <div v-for="(document, index) in Documents" :key="index">
-                            <div class="relative">
+                        <div v-for="(document, index) in DocumentUploads" :key="index" :class="document?.status ? 'hidden': ''">
+                            <div class="relative" >
                                 <FileUploads
                                     :index="index"
                                     @fetch:currentDataURL="setDataURL"
                                     @input="setName"
+                                    @delete="deleteFileUpload"
                                     :image="DocumentUploads[index]?.display"
                                 />
                             </div>
@@ -250,8 +251,7 @@ const repayment_cycle = ref([
         value: 14,
     },
 ]);
-const DocumentUploads = ref([]);
-const Documents = ref([{ name: "", file: "", index: "" }]);
+const DocumentUploads = ref([{ name: "", file: "", index: "", display:"", status:"" }]);
 
 const get_calculations = ref([]);
 const Order = reactive({
@@ -276,12 +276,21 @@ const OrderResult = ref({
     actualDownpayment: null,
     rePayment: null,
 });
+function deleteFileUpload(payload) {
+    console.log(payload)
+    DocumentUploads.value = DocumentUploads.value.map((document, index)=>{
+        if(payload == index && payload !== 0){
+            return{...document, status:true}
+        }else{
+            return{...document}
+        }
+        
+    })
+}
 
 async function Upload() {
-    DocumentUploads.value = DocumentUploads.value.map((doc) => {
-        if (doc.file) {
-            return { name: doc.name, file: doc.file };
-        }
+    DocumentUploads.value = DocumentUploads.value.filter((doc) => {
+            return doc?.file &&  !doc?.status
     });
     const arrayDoc = [];
     const document =
@@ -291,7 +300,8 @@ async function Upload() {
 }
 
 function addMore() {
-    Documents.value.push({ ...Documents.value });
+    DocumentUploads.value.push( {} );
+    console.log(DocumentUploads.value);
     disabled.value = true;
 }
 function setDataURL(obj) {
@@ -385,7 +395,7 @@ watch(
     () => [...DocumentUploads.value],
     () => {
         DocumentUploads.value.map((doc) => {
-            disabled.value = doc.file && doc.name ? false : true;
+            disabled.value = doc?.file && doc?.name ? false : true;
         });
     },
     { deep: true }
