@@ -1,5 +1,5 @@
 <template>
-    <div class="flex text-center items-center  flex-col justify-center px-5">
+    <div class="flex text-center items-center   flex-col justify-center px-5">
         <zerostate />
         <div>
             <p class="text-gray-800 lg:text-2xl mb-0.5" >

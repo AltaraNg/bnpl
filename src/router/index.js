@@ -13,6 +13,7 @@ import Commission from "../views/Commission.vue";
 import CreateCustomer from "../views/CreateCustomer.vue";
 import CreateOrder from '../views/CreateOrder.vue'
 import SuccessfulVerification from "@/views/SuccessfulVerification.vue";
+import AllCustomers from "@/views/AllCustomers.vue"
 import FailedVerification from "@/components/FailedVerification.vue"
 import OTP from "@/views/OTP.vue"
 const router = createRouter({
@@ -109,6 +110,12 @@ const router = createRouter({
             name: "AllTransactions",
             component: AllTransactions,
         },
+         {
+            path: "/all-customers",
+            name: "AllCustomers",
+            component: AllCustomers,
+        },
+        
         {
             path: "/commission",
             name: "Commission",
