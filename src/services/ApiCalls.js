@@ -28,6 +28,9 @@ export default {
     initiatecreditcheck(data) {
         return new Apiservice().post("initiate/credit/check", data);
     },
+    re_initiatecreditcheck(data) {
+        return new Apiservice().post("re-initiate/credit/check", data);
+    },
     verifycreditcheck(verification_id) {
         return new Apiservice().getWithoutLoader(`verify/credit/check/${verification_id}`);
     },

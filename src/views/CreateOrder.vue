@@ -290,8 +290,9 @@ function deleteFileUpload(payload) {
 
 async function Upload() {
     DocumentUploads.value = DocumentUploads.value.filter((doc) => {
-            return doc?.file &&  !doc?.status
+            return (doc?.file || doc?.name) &&  !doc?.status
     });
+    console.log(DocumentUploads.value);
     const arrayDoc = [];
     const document =
         DocumentUploads.value.length == 1 ? await Apis.uploadsingle(DocumentUploads.value[0]) : await Apis.uploadMultiple(DocumentUploads.value);
@@ -342,8 +343,7 @@ function Calculate() {
 
 async function createNewSale() {
     await Calculate();
-    store.dispatch("InitiateCreditCheck", {
-        documents: DocumentUploads.value.length ? await Upload() : [],
+    const data ={
         customer_id: route.params.id,
         cost_price: Order.amount,
         down_payment: OrderResult.value.actualDownpayment,
@@ -367,7 +367,14 @@ async function createNewSale() {
                 home_address: Order.second_guarantor_home_address,
             },
         ],
-    });
+    }
+    DocumentUploads.value[0].file || DocumentUploads.value[0].name ?(
+        store.dispatch("InitiateCreditCheck", {
+          ...data, documents: await Upload()  
+        })
+    ):(
+       store.dispatch("InitiateCreditCheck", data) 
+    )
 }
 function onSelectChange(value, name) {
     Order[name] = value;

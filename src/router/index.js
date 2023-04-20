@@ -16,6 +16,7 @@ import SuccessfulVerification from "@/views/SuccessfulVerification.vue";
 import AllCustomers from "@/views/AllCustomers.vue"
 import FailedVerification from "@/components/FailedVerification.vue"
 import OTP from "@/views/OTP.vue"
+import AdditionalVerification from "@/views/AdditionalVerification"
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes: [
@@ -84,6 +85,11 @@ const router = createRouter({
             path: "/verification/:phone_number/:verification_id/failed",
             name: "FailedVerification",
             component: FailedVerification,
+        },
+        {
+            path: "/additional_verification/:phone_number/:verification_id/failed",
+            name: "AdditionalVerification",
+            component: AdditionalVerification,
         },
         {
             path: "/success/:phone_number/:verification_id/:OTPvalidate",
