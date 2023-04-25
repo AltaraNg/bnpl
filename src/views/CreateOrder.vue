@@ -290,8 +290,13 @@ function deleteFileUpload(payload) {
 async function Upload() {
     const arrayDoc = [];
     const document =
-        DocumentUploads.value.length == 1 ? await Apis.uploadsingle(DocumentUploads.value[0]) : await Apis.uploadMultiple(DocumentUploads.value);
+        DocumentUploads.value.length == 1 ? await Apis.uploadsingle(DocumentUploads.value[0]).catch((e)=>{
+            console.log(e, 'error for file')
+        }) : await Apis.uploadMultiple(DocumentUploads.value).catch((e)=>{
+            console.log(e, 'catching error')
+        });
     arrayDoc.push(document?.result?.file);
+    console.log(arrayDoc || document.result.files, '4');
     return DocumentUploads.value.length == 1 ? arrayDoc : document.result.files;
 }
 
@@ -337,6 +342,7 @@ function Calculate() {
 }
 
 async function createNewSale() {
+    console.log(JSON.stringify(DocumentUploads.value), '1');
     await Calculate();
     const data = {
         customer_id: route.params.id,
@@ -367,6 +373,7 @@ async function createNewSale() {
         DocumentUploads.value = DocumentUploads.value.filter((doc) => {
             return (doc?.file || doc?.name) && !doc?.status;
         });
+         console.log(JSON.stringify(DocumentUploads.value), 'filtered');
 
         const valid = DocumentUploads.value.every((item) => {
             return item?.file && item?.name;
