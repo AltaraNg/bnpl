@@ -16,7 +16,7 @@
                
 
                 <div class="absolute right-8 cursor-pointer bottom-4 lg:hidden block" @mouseover="PersistIndex">
-                    <input type="file" accept="image/*" capture="camera" id="photo" @change="snapShot($event)" />
+                    <input type="file" accept="image/*"  id="photo" @change="snapShot($event)" />
                     <label for="photo" class="cursor-pointer"
                         ><img for="photo" class="text-indigo-500" src="@/assets/images/photo-camera-svgrepo-com.svg"
                     /></label>
