@@ -113,7 +113,7 @@ function snapShot(event) {
             previewImage.value = e.target.result;
             File.value = previewImage.value.replace("data:", "").replace(/^.+,/, "");
             const Index = localStorage.getItem("currentIndex");
-            emit("fetch:currentDataURL", { display: previewImage.value, index: Index, file: dataURItoBlob(previewImage.value) });
+            emit("fetch:currentDataURL", { display: previewImage.value, index: Index, file: event.target.files[0] });
         };
         reader.readAsDataURL(File.value);
     }
