@@ -288,10 +288,6 @@ function deleteFileUpload(payload) {
 }
 
 async function Upload() {
-    DocumentUploads.value = DocumentUploads.value.filter((doc) => {
-        return (doc?.file || doc?.name) && !doc?.status;
-    });
-
     const arrayDoc = [];
     const document =
         DocumentUploads.value.length == 1 ? await Apis.uploadsingle(DocumentUploads.value[0]) : await Apis.uploadMultiple(DocumentUploads.value);
@@ -368,6 +364,10 @@ async function createNewSale() {
         ],
     };
     if (DocumentUploads.value[0].file || DocumentUploads.value[0].name) {
+        DocumentUploads.value = DocumentUploads.value.filter((doc) => {
+            return (doc?.file || doc?.name) && !doc?.status;
+        });
+
         const valid = DocumentUploads.value.every((item) => {
             return item?.file && item?.name;
         });
@@ -406,7 +406,6 @@ async function Downpayment() {
 watch(
     () => [...DocumentUploads.value],
     () => {
-        console.log("hello", DocumentUploads.value);
         DocumentUploads.value.map((doc) => {
             if (!doc?.status) {
                 disabled.value = doc?.file && doc?.name ? false : true;
