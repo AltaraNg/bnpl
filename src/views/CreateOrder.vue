@@ -290,10 +290,14 @@ function deleteFileUpload(payload) {
 async function Upload() {
     const arrayDoc = [];
     const document =
-        DocumentUploads.value.length == 1 ? await Apis.uploadsingle(DocumentUploads.value[0]).catch((e)=>{
+        DocumentUploads.value.length == 1 ? await Apis.uploadsingle(DocumentUploads.value[0]).then ((res)=>{
+            console.log(res)
+        }).catch((e)=>{
              console.log(DocumentUploads.value)
             console.log(e, 'error for file')
-        }) : await Apis.uploadMultiple(DocumentUploads.value).catch((e)=>{
+        }) : await Apis.uploadMultiple(DocumentUploads.value).then((res)=>{
+            console.log(res)
+        }).catch((e)=>{
             console.log(DocumentUploads.value)
             console.log(e, 'catching error')
         });
