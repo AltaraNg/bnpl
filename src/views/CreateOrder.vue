@@ -291,8 +291,10 @@ async function Upload() {
     const arrayDoc = [];
     const document =
         DocumentUploads.value.length == 1 ? await Apis.uploadsingle(DocumentUploads.value[0]).catch((e)=>{
+             console.log(DocumentUploads.value)
             console.log(e, 'error for file')
         }) : await Apis.uploadMultiple(DocumentUploads.value).catch((e)=>{
+            console.log(DocumentUploads.value)
             console.log(e, 'catching error')
         });
     arrayDoc.push(document?.result?.file);
@@ -342,7 +344,7 @@ function Calculate() {
 }
 
 async function createNewSale() {
-    console.log(JSON.stringify(DocumentUploads.value), '1');
+    console.log(DocumentUploads.value, '1');
     await Calculate();
     const data = {
         customer_id: route.params.id,
@@ -373,7 +375,7 @@ async function createNewSale() {
         DocumentUploads.value = DocumentUploads.value.filter((doc) => {
             return (doc?.file || doc?.name) && !doc?.status;
         });
-         console.log(JSON.stringify(DocumentUploads.value), 'filtered');
+         console.log(DocumentUploads.value, 'filtered');
 
         const valid = DocumentUploads.value.every((item) => {
             return item?.file && item?.name;
