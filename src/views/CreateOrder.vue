@@ -185,8 +185,8 @@
                             </p>
                         </div>
                         <div></div>
-                        <div v-for="(document, index) in DocumentUploads" :key="index" :class="document?.status ? 'hidden': ''">
-                            <div class="relative" >
+                        <div v-for="(document, index) in DocumentUploads" :key="index" :class="document?.status ? 'hidden' : ''">
+                            <div class="relative">
                                 <FileUploads
                                     :index="index"
                                     @fetch:currentDataURL="setDataURL"
@@ -228,7 +228,7 @@ import { ref, reactive, onMounted, watch } from "vue";
 import CurrencyInput from "@/components/CurrencyInput.vue";
 import plus from "@/assets/svgs/plus.vue";
 import App from "@/layouts/App.vue";
-// import { handleSuccess } from "@/utilities/GlobalFunctions";
+import { handleError } from "@/utilities/GlobalFunctions";
 import { useStore } from "vuex";
 import { calculate } from "@/utilities/calculator";
 import { useRoute } from "vue-router";
@@ -251,7 +251,7 @@ const repayment_cycle = ref([
         value: 14,
     },
 ]);
-const DocumentUploads = ref([{ name: "", file: "", index: "", display:"", status:"" }]);
+const DocumentUploads = ref([{ name: "", file: "", index: "", display: "", status: "" }]);
 
 const get_calculations = ref([]);
 const Order = reactive({
@@ -277,22 +277,21 @@ const OrderResult = ref({
     rePayment: null,
 });
 function deleteFileUpload(payload) {
-    console.log(payload)
-    DocumentUploads.value = DocumentUploads.value.map((document, index)=>{
-        if(payload == index && payload !== 0){
-            return{...document, status:true}
-        }else{
-            return{...document}
+    console.log(payload);
+    DocumentUploads.value = DocumentUploads.value.map((document, index) => {
+        if (payload == index && payload !== 0) {
+            return { ...document, status: true };
+        } else {
+            return { ...document };
         }
-        
-    })
+    });
 }
 
 async function Upload() {
     DocumentUploads.value = DocumentUploads.value.filter((doc) => {
-            return (doc?.file || doc?.name) &&  !doc?.status
+        return (doc?.file || doc?.name) && !doc?.status;
     });
-    console.log(DocumentUploads.value);
+
     const arrayDoc = [];
     const document =
         DocumentUploads.value.length == 1 ? await Apis.uploadsingle(DocumentUploads.value[0]) : await Apis.uploadMultiple(DocumentUploads.value);
@@ -301,7 +300,7 @@ async function Upload() {
 }
 
 function addMore() {
-    DocumentUploads.value.push( {} );
+    DocumentUploads.value.push({});
     console.log(DocumentUploads.value);
     disabled.value = true;
 }
@@ -343,7 +342,7 @@ function Calculate() {
 
 async function createNewSale() {
     await Calculate();
-    const data ={
+    const data = {
         customer_id: route.params.id,
         cost_price: Order.amount,
         down_payment: OrderResult.value.actualDownpayment,
@@ -367,14 +366,20 @@ async function createNewSale() {
                 home_address: Order.second_guarantor_home_address,
             },
         ],
+    };
+    if (DocumentUploads.value[0].file || DocumentUploads.value[0].name) {
+        const valid = DocumentUploads.value.every((item) => {
+            return item?.file && item?.name;
+        });
+        valid
+            ? store.dispatch("InitiateCreditCheck", {
+                  ...data,
+                  documents: await Upload(),
+              })
+            : handleError("Document name and image is required");
+    } else {
+        store.dispatch("InitiateCreditCheck", data);
     }
-    DocumentUploads.value[0].file || DocumentUploads.value[0].name ?(
-        store.dispatch("InitiateCreditCheck", {
-          ...data, documents: await Upload()  
-        })
-    ):(
-       store.dispatch("InitiateCreditCheck", data) 
-    )
 }
 function onSelectChange(value, name) {
     Order[name] = value;
@@ -401,8 +406,11 @@ async function Downpayment() {
 watch(
     () => [...DocumentUploads.value],
     () => {
+        console.log("hello", DocumentUploads.value);
         DocumentUploads.value.map((doc) => {
-            disabled.value = doc?.file && doc?.name ? false : true;
+            if (!doc?.status) {
+                disabled.value = doc?.file && doc?.name ? false : true;
+            }
         });
     },
     { deep: true }

@@ -128,7 +128,8 @@ async function processPayment() {
         repayment_cycle_id: Order.value.repayment_cycle_id,
         repayment_duration_id: Order.value.repayment_duration_id,
         product_name: Order.value.product.name,
-        cost_price: Order.value.product.price
+        cost_price: Order.value.product.price,
+        has_document: Customer.value.latest_credit_checker_verifications?.documents[0]?.document_url ? 'yes': 'no'
     }).then(() => {
         route.params.OTPvalidate = "order_created"
         router.push({

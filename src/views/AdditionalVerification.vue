@@ -105,7 +105,9 @@ watch(
     () => [...DocumentUploads.value],
     () => {
         DocumentUploads.value.map((doc) => {
-            disabled.value = doc?.file && doc?.name ? false : true;
+            if (!doc?.status) {
+                disabled.value = doc?.file && doc?.name ? false : true;
+            }
         });
     },
     { deep: true }
