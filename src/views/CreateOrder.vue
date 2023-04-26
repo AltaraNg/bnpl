@@ -287,13 +287,13 @@ function deleteFileUpload(payload) {
     });
 }
 
-// async function Upload() {
-//     const arrayDoc = [];
-//     const document =
-//         DocumentUploads.value.length == 1 ? await Apis.uploadsingle(DocumentUploads.value[0]) : await Apis.uploadMultiple(DocumentUploads.value);
-//     arrayDoc.push(document?.result?.file);
-//     return DocumentUploads.value.length == 1 ? arrayDoc : document.result.files;
-// }
+async function Upload() {
+    const arrayDoc = [];
+    const document =
+        DocumentUploads.value.length == 1 ? await Apis.uploadsingle(DocumentUploads.value[0]) : await Apis.uploadMultiple(DocumentUploads.value);
+    arrayDoc.push(document?.result?.file);
+    return DocumentUploads.value.length == 1 ? arrayDoc : document.result.files;
+}
 
 function addMore() {
     DocumentUploads.value.push({});
@@ -374,7 +374,7 @@ async function createNewSale() {
         valid
             ? store.dispatch("InitiateCreditCheck", {
                   ...data,
-                //   documents: await Upload(),
+                  documents: await Upload(),
               })
             : handleError("Document name and image is required");
     } else {
