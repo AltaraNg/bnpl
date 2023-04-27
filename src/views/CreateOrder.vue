@@ -277,7 +277,6 @@ const OrderResult = ref({
     rePayment: null,
 });
 function deleteFileUpload(payload) {
-    console.log(payload);
     DocumentUploads.value = DocumentUploads.value.map((document, index) => {
         if (payload == index && payload !== 0) {
             return { ...document, status: true };
@@ -297,17 +296,14 @@ async function Upload() {
 
 function addMore() {
     DocumentUploads.value.push({});
-    console.log(DocumentUploads.value);
     disabled.value = true;
 }
 function setDataURL(obj) {
     if (!DocumentUploads.value[obj.index]) {
         DocumentUploads.value.push({ file: obj.file, display: obj.display });
-        console.log(obj.file.size , 'filesize')
     } else {
         DocumentUploads.value[obj.index].file = obj.file;
         DocumentUploads.value[obj.index].display = obj.display;
-        console.log(obj.file.size , 'filesize')
     }
 }
 function setName(obj) {

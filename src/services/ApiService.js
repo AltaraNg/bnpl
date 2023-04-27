@@ -75,6 +75,7 @@ export class Apiservice {
             return {name: obj.name, file }
           })
           documents = {"documents": data}
+          console.log(documents, "datta from apiservice");
         this.setRequestHeaders({ "Content-Type": "multipart/form-data" });
         try {
             let result = await this.api_connector.post(url, documents, this.requestConfig);

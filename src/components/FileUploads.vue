@@ -113,8 +113,8 @@ function PersistIndex() {
             previewImage.value = e.target.result;
             File.value = previewImage.value.replace("data:", "").replace(/^.+,/, "");
             const Index = localStorage.getItem("currentIndex");
-            console.log(event.target.files[0].size, 'initial file size')
-          reduceFileSize(event.target.files[0], 700, 400, 0.5).then((res)=>{
+          reduceFileSize(event.target.files[0], 700, 400, 0.2).then((res)=>{
+            console.log(res)
               emit("fetch:currentDataURL", { display: previewImage.value, index: Index, file:res  });
           })
             
