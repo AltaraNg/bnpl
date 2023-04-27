@@ -303,9 +303,11 @@ function addMore() {
 function setDataURL(obj) {
     if (!DocumentUploads.value[obj.index]) {
         DocumentUploads.value.push({ file: obj.file, display: obj.display });
+        console.log(obj.file.size , 'filesize')
     } else {
         DocumentUploads.value[obj.index].file = obj.file;
         DocumentUploads.value[obj.index].display = obj.display;
+        console.log(obj.file.size , 'filesize')
     }
 }
 function setName(obj) {

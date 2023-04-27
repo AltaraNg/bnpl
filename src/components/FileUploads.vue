@@ -53,6 +53,7 @@
 import { ref, onUnmounted } from "vue";
 import trash from "@/assets/svgs/trash.vue";
 import cancel from "@/assets/svgs/cancel.vue";
+import pako from 'pako'
 const File = ref();
 const name = ref("");
 const canvas = ref();
@@ -105,7 +106,7 @@ function capture() {
 function PersistIndex() {
     localStorage.setItem("currentIndex", props.index);
 }
-function snapShot(event) {
+ function snapShot(event) {
     File.value = event.target.files[0];
     if (File.value) {
         let reader = new FileReader();
@@ -113,7 +114,11 @@ function snapShot(event) {
             previewImage.value = e.target.result;
             File.value = previewImage.value.replace("data:", "").replace(/^.+,/, "");
             const Index = localStorage.getItem("currentIndex");
-            emit("fetch:currentDataURL", { display: previewImage.value, index: Index, file: event.target.files[0] });
+            console.log(event.target.files[0].size, 'initial file size')
+          reduceFileSize(event.target.files[0], 700, 400, 0.5).then((res)=>{
+              emit("fetch:currentDataURL", { display: previewImage.value, index: Index, file:res  });
+          })
+            
         };
         reader.readAsDataURL(File.value);
     }
@@ -132,6 +137,53 @@ function dataURItoBlob(dataURI) {
     }
     return new Blob([ia], { type: mimeString });
 }
+function reduceFileSize(file, maxWidth, maxHeight, quality) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const image = new Image();
+      image.onload = () => {
+        const canvas = document.createElement("canvas");
+        let width = image.width;
+        let height = image.height;
+        if (width > height) {
+          if (width > maxWidth) {
+            height *= maxWidth / width;
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width *= maxHeight / height;
+            height = maxHeight;
+          }
+        }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(image, 0, 0, width, height);
+        canvas.toBlob(
+          (blob) => {
+            resolve(blob);
+          },
+          file.type,
+          quality
+        );
+      };
+      image.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+
+
+
+
+
+
+
+
+
 
 
 // });
