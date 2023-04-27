@@ -53,7 +53,6 @@
 import { ref, onUnmounted } from "vue";
 import trash from "@/assets/svgs/trash.vue";
 import cancel from "@/assets/svgs/cancel.vue";
-import pako from 'pako'
 const File = ref();
 const name = ref("");
 const canvas = ref();
@@ -138,7 +137,7 @@ function dataURItoBlob(dataURI) {
     return new Blob([ia], { type: mimeString });
 }
 function reduceFileSize(file, maxWidth, maxHeight, quality) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve,) => {
     const reader = new FileReader();
     reader.onload = () => {
       const image = new Image();
