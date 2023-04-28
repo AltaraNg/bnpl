@@ -115,7 +115,7 @@ function PersistIndex() {
             previewImage.value = e.target.result;
             File.value = previewImage.value.replace("data:", "").replace(/^.+,/, "");
             const Index = localStorage.getItem("currentIndex");
-          reduceImageSize(previewImage.value, 500, 200,).then((res)=>{
+          reduceImageSize(previewImage.value, 600, 300,).then((res)=>{
             console.log(res, 'res')
               emit("fetch:currentDataURL", { display: previewImage.value, index: Index, file:res  });
           })
@@ -169,7 +169,7 @@ function reduceImageSize(base64, maxWidth, maxHeight) {
       ctx.drawImage(img, 0, 0, width, height);
 
       // Get the new base64 string
-      let newBase64 = canvas.toDataURL('image/jpeg', 0.2);
+      let newBase64 = canvas.toDataURL('image/jpeg', 0.8);
 
       resolve(newBase64);
     };
