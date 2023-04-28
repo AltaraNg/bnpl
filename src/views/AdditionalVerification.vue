@@ -46,7 +46,6 @@ const DocumentUploads = ref([{ name: "", file: "", index: "", display: "", statu
 const disabled = ref(true);
 const Customer = ref({});
 function deleteFileUpload(payload) {
-    console.log(payload);
     DocumentUploads.value = DocumentUploads.value.map((document, index) => {
         if (payload == index && payload !== 0) {
             return { ...document, status: true };
@@ -60,7 +59,6 @@ async function Upload() {
     DocumentUploads.value = DocumentUploads.value.filter((doc) => {
         return (doc?.file || doc?.name) && !doc?.status;
     });
-    console.log(DocumentUploads.value);
     const arrayDoc = [];
     const document =
         DocumentUploads.value.length == 1 ? await Apis.uploadsingle(DocumentUploads.value[0]) : await Apis.uploadMultiple(DocumentUploads.value);
@@ -78,7 +76,6 @@ async function Re_initateCreditCheck(){
 
 function addMore() {
     DocumentUploads.value.push({});
-    console.log(DocumentUploads.value);
     disabled.value = true;
 }
 function setDataURL(obj) {
@@ -99,7 +96,6 @@ function setName(obj) {
 async function CustomerDetails() {
     const result = await Apis.customerdetails(route.params.phone_number);
     Customer.value = result?.data?.result;
-    console.log(Customer.value);
 }
 watch(
     () => [...DocumentUploads.value],

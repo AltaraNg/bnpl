@@ -43,8 +43,6 @@
                     <div class="imagePreviewWrapper " :style="{ 'background-image': `url(${props.image})` }"></div>
                     <div class="pl-2 cursor-pointer" @click="RemoveImage"  v-show="props.image"><cancel /></div>
                 </div>
-
-                <!-- <p class="absolute -bottom-4">{{ list?.file?.name }}</p> -->
             </div>
         </div>
     </div>
@@ -116,30 +114,14 @@ function PersistIndex() {
             File.value = previewImage.value.replace("data:", "").replace(/^.+,/, "");
             const Index = localStorage.getItem("currentIndex");
           reduceImageSize(previewImage.value, 600, 300,).then((res)=>{
-            console.log(res, 'res')
               emit("fetch:currentDataURL", { display: previewImage.value, index: Index, file:res  });
           })
-        //    emit("fetch:currentDataURL", { display: previewImage.value, index: Index, file:previewImage.value,   });
-        //    console.log(previewImage.value.size , 'size of the image')
             
         };
         reader.readAsDataURL(File.value);
     }
 }
-// function dataURItoBlob(dataURI) {
-//     // convert base64/URLEncoded data component to raw binary data held in a string
-//     var byteString;
-//     if (dataURI.split(",")[0].indexOf("base64") >= 0) byteString = atob(dataURI.split(",")[1]);
-//     else byteString = unescape(dataURI.split(",")[1]);
-//     // separate out the mime component
-//     var mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
-//     // write the bytes of the string to a typed array
-//     var ia = new Uint8Array(byteString.length);
-//     for (var i = 0; i < byteString.length; i++) {
-//         ia[i] = byteString.charCodeAt(i);
-//     }
-//     return new Blob([ia], { type: mimeString });
-// } 
+
 function reduceImageSize(base64, maxWidth, maxHeight) {
   return new Promise((resolve, reject) => {
     let img = new Image();

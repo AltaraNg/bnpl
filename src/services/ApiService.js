@@ -72,11 +72,9 @@ export class Apiservice {
           let newArr = data.map((obj) => {
             delete obj.display;
             delete obj.status
-            //   let { display,index, status, ...rest } = obj; // using destructuring to remove "bar" property
               return obj; // return the new object without "bar" property
           });                 
           documents = { documents: newArr };
-          console.log(documents, "datta from apiservice");
 
         this.setRequestHeaders({ "Content-Type": "multipart/form-data" });
         try {

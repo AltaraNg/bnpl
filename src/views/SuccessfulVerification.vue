@@ -169,7 +169,6 @@ async function CustomerDetails() {
     const result = await Apis.customerdetails(route.params.phone_number);
     Customer.value = result?.data?.result;
     Order.value = Customer.value?.latest_credit_checker_verifications;
-    console.log(Order.value);
 }
 async function GetCalculation() {
     const result = await Apis.getcalculations();
