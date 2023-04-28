@@ -97,7 +97,9 @@ function capture() {
     canvas.value.getContext("2d").drawImage(video.value, 0, 0, 640, 480);
     canvas2.value.getContext("2d").drawImage(video.value, 0, 0, 640, 480);
     File.value = canvas2.value.toDataURL();
-    File.value = dataURItoBlob(File.value);
+    // const file = File.value.replace("data:", "").replace(/^.+,/, "");
+    
+    // File.value = dataURItoBlob(File.value);
     emit("fetch:currentDataURL", { display: canvas2.value.toDataURL("image/jpeg"), index: props.index, file: File.value });
     showVideo.value = false;
     closeCamera();
@@ -113,79 +115,70 @@ function PersistIndex() {
             previewImage.value = e.target.result;
             File.value = previewImage.value.replace("data:", "").replace(/^.+,/, "");
             const Index = localStorage.getItem("currentIndex");
-          reduceFileSize(event.target.files[0], 700, 400, 0.2).then((res)=>{
-            console.log(res)
+          reduceImageSize(previewImage.value, 500, 200,).then((res)=>{
+            console.log(res, 'res')
               emit("fetch:currentDataURL", { display: previewImage.value, index: Index, file:res  });
           })
+        //    emit("fetch:currentDataURL", { display: previewImage.value, index: Index, file:previewImage.value,   });
+        //    console.log(previewImage.value.size , 'size of the image')
             
         };
         reader.readAsDataURL(File.value);
     }
 }
-function dataURItoBlob(dataURI) {
-    // convert base64/URLEncoded data component to raw binary data held in a string
-    var byteString;
-    if (dataURI.split(",")[0].indexOf("base64") >= 0) byteString = atob(dataURI.split(",")[1]);
-    else byteString = unescape(dataURI.split(",")[1]);
-    // separate out the mime component
-    var mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
-    // write the bytes of the string to a typed array
-    var ia = new Uint8Array(byteString.length);
-    for (var i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([ia], { type: mimeString });
-}
-function reduceFileSize(file, maxWidth, maxHeight, quality) {
-  return new Promise((resolve,) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const image = new Image();
-      image.onload = () => {
-        const canvas = document.createElement("canvas");
-        let width = image.width;
-        let height = image.height;
-        if (width > height) {
-          if (width > maxWidth) {
-            height *= maxWidth / width;
-            width = maxWidth;
-          }
-        } else {
-          if (height > maxHeight) {
-            width *= maxHeight / height;
-            height = maxHeight;
-          }
+// function dataURItoBlob(dataURI) {
+//     // convert base64/URLEncoded data component to raw binary data held in a string
+//     var byteString;
+//     if (dataURI.split(",")[0].indexOf("base64") >= 0) byteString = atob(dataURI.split(",")[1]);
+//     else byteString = unescape(dataURI.split(",")[1]);
+//     // separate out the mime component
+//     var mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
+//     // write the bytes of the string to a typed array
+//     var ia = new Uint8Array(byteString.length);
+//     for (var i = 0; i < byteString.length; i++) {
+//         ia[i] = byteString.charCodeAt(i);
+//     }
+//     return new Blob([ia], { type: mimeString });
+// } 
+function reduceImageSize(base64, maxWidth, maxHeight) {
+  return new Promise((resolve, reject) => {
+    let img = new Image();
+    img.src = base64;
+    img.onload = function() {
+      let canvas = document.createElement('canvas');
+      let width = img.width;
+      let height = img.height;
+
+      // Calculate the new dimensions
+      if (width > height) {
+        if (width > maxWidth) {
+          height *= maxWidth / width;
+          width = maxWidth;
         }
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(image, 0, 0, width, height);
-        canvas.toBlob(
-          (blob) => {
-            resolve(blob);
-          },
-          file.type,
-          quality
-        );
-      };
-      image.src = reader.result;
+      } else {
+        if (height > maxHeight) {
+          width *= maxHeight / height;
+          height = maxHeight;
+        }
+      }
+
+      // Resize the image
+      canvas.width = width;
+      canvas.height = height;
+      let ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+
+      // Get the new base64 string
+      let newBase64 = canvas.toDataURL('image/jpeg', 0.2);
+
+      resolve(newBase64);
     };
-    reader.readAsDataURL(file);
+    img.onerror = function() {
+      reject(new Error('Failed to load image'));
+    };
   });
 }
 
-
-
-
-
-
-
-
-
-
-
-
-// });
 onUnmounted(() => closeCamera());
 </script>
 <style scoped>

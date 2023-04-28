@@ -69,13 +69,15 @@ export class Apiservice {
     async ArrayFormData(url, data) {
           let documents = {}; 
           store.dispatch("loader/show", { root: true });
-          let postData = new FormData();
-          data.map((obj)=>{
-            const file = postData.append("file", obj.file);
-            return {name: obj.name, file }
-          })
-          documents = {"documents": data}
+          let newArr = data.map((obj) => {
+            delete obj.display;
+            delete obj.status
+            //   let { display,index, status, ...rest } = obj; // using destructuring to remove "bar" property
+              return obj; // return the new object without "bar" property
+          });                 
+          documents = { documents: newArr };
           console.log(documents, "datta from apiservice");
+
         this.setRequestHeaders({ "Content-Type": "multipart/form-data" });
         try {
             let result = await this.api_connector.post(url, documents, this.requestConfig);

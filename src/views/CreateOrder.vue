@@ -300,7 +300,7 @@ function addMore() {
 }
 function setDataURL(obj) {
     if (!DocumentUploads.value[obj.index]) {
-        DocumentUploads.value.push({ file: obj.file, display: obj.display });
+        DocumentUploads.value.push({ file: obj.file, display: obj.display,  });
     } else {
         DocumentUploads.value[obj.index].file = obj.file;
         DocumentUploads.value[obj.index].display = obj.display;
