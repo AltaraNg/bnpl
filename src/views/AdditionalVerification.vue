@@ -21,8 +21,6 @@
                     />
                 </div>
             </div>
-            <div></div>
-            <div></div>
             <div class="text-right lg:flex lg:justify-end sm:col-span-2">
                 <button class="px-3 py-2 rounded text-white bg-primary font-normal" :disabled="disabled" @click="addMore">Add More</button>
             </div>
