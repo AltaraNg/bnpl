@@ -1,6 +1,6 @@
 <template>
     <App>
-        <div class="grid grid-cols-1 justify-items-center bg-green-400p py-8">
+        <div class="grid grid-cols-1 justify-items-center bg-green-400p py-8" >
             <img src="/img/failed.png" alt="verification" class="max-w-[250px]" />
             <p class="text-3xl">Failed Verification</p>
             <p class="my-8 text-gray-600 text-center max-w-[90%]">
