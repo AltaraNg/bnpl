@@ -33,6 +33,7 @@
                                         </td>
                                         <td class="whitespace-nowrap py-4 text-sm text-gray-500">
                                             <span
+                                             v-if="UserStatus(item) !== 'failed'"
                                                 @click="SeeMore(item)"
                                                 class="inline-flex rounded-full captalize px-2 text-xs font-semibold leading-5"
                                                 :class="[

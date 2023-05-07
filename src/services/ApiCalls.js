@@ -28,6 +28,9 @@ export default {
     initiatecreditcheck(data) {
         return new Apiservice().post("initiate/credit/check", data);
     },
+    re_initiatecreditcheck(data) {
+        return new Apiservice().post("re-initiate/credit/check", data);
+    },
     verifycreditcheck(verification_id) {
         return new Apiservice().getWithoutLoader(`verify/credit/check/${verification_id}`);
     },
@@ -54,5 +57,11 @@ export default {
     },
     commission(number) {
         return new Apiservice().get(`fetch/merchant/commissions?page=${number}&per_page=${10}`);
+    },
+    async uploadsingle(data) {
+        return await new Apiservice().post("upload/single/file", data, false, false);
+    },
+    async uploadMultiple(data) {
+        return await new Apiservice().ArrayFormData("upload/multiple/files", data);
     },
 };

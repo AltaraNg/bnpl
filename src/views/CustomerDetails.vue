@@ -368,9 +368,14 @@ function VerificationStatus(customer) {
               name: "SuccessfulVerification",
               params: { verification_id: customer.latest_credit_checker_verifications.id, phone_number: customer.telephone, OTPvalidate: "false" },
           })
-        : customer.latest_credit_checker_verifications.status == "failed"
+        : customer.latest_credit_checker_verifications.status == "failed" && customer.latest_credit_checker_verifications?.documents[0]?.document_url
         ? router.push({
               name: "FailedVerification",
+              params: { verification_id: customer.latest_credit_checker_verifications.id, phone_number: customer.telephone },
+          })
+        : customer.latest_credit_checker_verifications.status == "failed" && !customer.latest_credit_checker_verifications?.documents[0]?.document_url
+        ? router.push({
+              name: "AdditionalVerification",
               params: { verification_id: customer.latest_credit_checker_verifications.id, phone_number: customer.telephone },
           })
         : router.push({

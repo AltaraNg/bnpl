@@ -102,7 +102,6 @@
                             </div>
                             <span class="invalid-feedback">{{ errors?.city }}</span>
                         </div>
-
                         <div class="text-right mt-8 lg:flex lg:justify-center sm:col-span-2">
                             <defaultButton name="Create Account" class="lg:w-1/3">
                                 <template v-slot:icon>
