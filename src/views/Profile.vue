@@ -2,10 +2,13 @@
     <App>
         <div class="beafy pt-0">
             <Disclosure as="div" class="relative overflow-hidden bg-sky-700 pb-32" v-slot="{ open }">
-                <div aria-hidden="true" :class="[
-                    open ? 'bottom-0' : 'inset-y-0',
-                    'absolute inset-x-0 left-1/2 w-full -translate-x-1/2 transform overflow-hidden lg:inset-y-0',
-                ]">
+                <div
+                    aria-hidden="true"
+                    :class="[
+                        open ? 'bottom-0' : 'inset-y-0',
+                        'absolute inset-x-0 left-1/2 w-full -translate-x-1/2 transform overflow-hidden lg:inset-y-0',
+                    ]"
+                >
                     <div class="absolute inset-0 flex">
                         <div class="h-full w-1/2" style="background-color: #0a527b" />
                         <div class="h-full w-1/2" style="background-color: #065d8c" />
@@ -43,89 +46,98 @@
                                     <div class="mt-6 flex flex-col lg:flex-row">
                                         <div class="flex-grow space-y-6">
                                             <div>
-                                                <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                                                <label for="full_name" class="block text-sm font-medium text-gray-700">Full Name</label>
                                                 <div class="mt-1 flex rounded-md shadow-sm">
-                                                    <span
-                                                        class="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm w-32">VT-2023-LT-</span>
-                                                    <input type="text" name="username" id="username" autocomplete="username" disabled
+                                                    <input
+                                                        type="text"
+                                                        name="full_name"
+                                                        id="full_name"
+                                                        autocomplete="full_name"
+                                                        disabled
                                                         class="block w-full min-w-0 flex-grow rounded-none rounded-r-md border-gray-300 focus:border-sky-500 focus:ring-sky-500 sm:text-sm"
-                                                        :value="user.id" />
+                                                        :value="user.full_name"
+                                                    />
                                                 </div>
                                             </div>
 
                                             <div>
-                                                <label for="about" class="block text-sm font-medium text-gray-700">About</label>
+                                                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
                                                 <div class="mt-1">
-                                                    <textarea id="about" name="about" rows="3"
-                                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm" />
+                                                    <input
+                                                        type="text"
+                                                        name="email"
+                                                        id="email"
+                                                        autocomplete="email"
+                                                        disabled
+                                                        class="block w-full min-w-0 flex-grow rounded-none rounded-r-md border-gray-300 focus:border-sky-500 focus:ring-sky-500 sm:text-sm"
+                                                        :value="user.email"
+                                                    />
                                                 </div>
-                                                <p class="mt-2 text-sm text-gray-500">Brief description for your profile. URLs are hyperlinked.</p>
                                             </div>
                                         </div>
 
-                                        <div class="mt-6 flex-grow lg:mt-0 lg:ml-6 lg:flex-shrink-0 lg:flex-grow-0">
-                                            <p class="text-sm font-medium text-gray-700" aria-hidden="true">Photo</p>
-                                            <div class="mt-1 lg:hidden">
-                                                <div class="flex items-center">
-                                                    <div class="inline-block h-12 w-12 flex-shrink-0 overflow-hidden rounded-full" aria-hidden="true">
-                                                        <img class="h-full w-full rounded-full" :src="user.imageUrl" alt="" />
-                                                    </div>
-                                                    <div class="ml-5 rounded-md shadow-sm">
-                                                        <div
-                                                            class="group relative flex items-center justify-center rounded-md border border-gray-300 py-2 px-3 focus-within:ring-2 focus-within:ring-sky-500 focus-within:ring-offset-2 hover:bg-gray-50">
-                                                            <label for="mobile-user-photo"
-                                                                class="pointer-events-none relative text-sm font-medium leading-4 text-gray-700">
-                                                                <span>Change</span>
-                                                                <span class="sr-only"> user photo</span>
-                                                            </label>
-                                                            <input id="mobile-user-photo" name="user-photo" type="file"
-                                                                class="absolute h-full w-full cursor-pointer rounded-md border-gray-300 opacity-0" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
+                                        <div class="mt-4 flex-grow lg:mt-0 lg:ml-6 lg:flex-shrink-0 lg:flex-grow-0">
                                             <div class="relative hidden overflow-hidden rounded-full lg:block">
-                                                <img class="relative h-40 w-40 rounded-full" :src="user.imageUrl" alt="" />
-                                                <label for="desktop-user-photo"
-                                                    class="absolute inset-0 flex h-full w-full items-center justify-center bg-black bg-opacity-75 text-sm font-medium text-white opacity-0 focus-within:opacity-100 hover:opacity-100">
-                                                    <span>Change</span>
-                                                    <span class="sr-only"> user photo</span>
-                                                    <input type="file" id="desktop-user-photo" name="user-photo"
-                                                        class="absolute inset-0 h-full w-full cursor-pointer rounded-md border-gray-300 opacity-0" />
-                                                </label>
+                                                <span class="inline-flex h-40 w-40 items-center justify-center rounded-full bg-primary">
+                                                    <span class="text-6xl font-medium leading-none text-white">{{
+                                                        fullname[0].charAt(0) + "" + fullname[1].charAt(0) 
+                                                    }}</span>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="mt-6 grid grid-cols-12 gap-6">
                                         <div class="col-span-12 sm:col-span-6">
-                                            <label for="first-name" class="block text-sm font-medium text-gray-700">First name</label>
-                                            <input type="text" name="first-name" id="first-name" autocomplete="given-name" v-model="form.firstname"
-                                                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm" />
+                                            <label for="phone_number" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                                            <input
+                                                type="text"
+                                                name="phone-number"
+                                                id="phone-number"
+                                                autocomplete="phone-number"
+                                                disabled
+                                                v-model="user.phone_number"
+                                                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm"
+                                            />
                                         </div>
 
                                         <div class="col-span-12 sm:col-span-6">
-                                            <label for="last-name" class="block text-sm font-medium text-gray-700">Last name</label>
-                                            <input type="text" name="last-name" id="last-name" autocomplete="family-name" v-model="form.lastname"
-                                                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm" />
+                                            <label for="vendor-id" class="block text-sm font-medium text-gray-700">Vendor ID</label>
+                                            <input
+                                                type="text"
+                                                name="vendor-id"
+                                                id="vendor-id"
+                                                autocomplete="vendor-ide"
+                                                v-model="user.staff_id"
+                                                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm"
+                                                disabled
+                                            />
                                         </div>
 
                                         <div class="col-span-12">
                                             <label for="url" class="block text-sm font-medium text-gray-700">URL</label>
-                                            <input type="text" name="url" id="url"
-                                                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm" />
+                                            <input
+                                                type="text"
+                                                name="url"
+                                                id="url"
+                                                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm"
+                                            />
                                         </div>
 
                                         <div class="col-span-12 sm:col-span-6">
-                                            <label for="company" class="block text-sm font-medium text-gray-700">Company</label>
-                                            <input type="text" name="company" id="company" autocomplete="organization" v-model="form.company"
-                                                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm" />
+                                            <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                                            <input
+                                                type="text"
+                                                name="address"
+                                                id="address"
+                                                autocomplete="address"
+                                                v-model="user.address"
+                                                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm"
+                                                disabled
+                                            />
                                         </div>
                                     </div>
                                 </div>
-
-                
                             </form>
                         </div>
                     </div>
@@ -133,24 +145,19 @@
             </main>
         </div>
     </App>
-        
-  
 </template>
 
 <script setup>
-import {  reactive } from "vue";
 import { Disclosure } from "@headlessui/vue";
 import App from "@/layouts/App.vue";
-const user = {
-    name: "Debbie Lewis",
-    id: "DEC4B",
-    email: "debbielewis@example.com",
-    imageUrl:
-        "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=320&h=320&q=80",
-};
-const form = reactive({
-    firstname: "Elon",
-    lastname: "Flinstone",
-    company: "Starlink Inc",
+import { ref,  } from "vue";
+import { userdata } from "../utilities/GlobalFunctions";
+import {computed } from "vue";
+import { useStore } from "vuex";
+
+const store = useStore();
+const user = ref( store.state.userdata.result?.user|| userdata  )
+const fullname = computed(() => {
+    return user.value?.full_name.split(" ");
 });
 </script>

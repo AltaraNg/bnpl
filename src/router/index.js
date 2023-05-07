@@ -9,9 +9,12 @@ import CustomerDetails from "@/views/CustomerDetails.vue";
 import Verification from "@/views/Verification.vue";
 import AllOrders from "@/views/AllOrders.vue";
 import AllTransactions from "../views/AllTransactions.vue"
+import Commission from "../views/Commission.vue";
 import CreateCustomer from "../views/CreateCustomer.vue";
 import CreateOrder from '../views/CreateOrder.vue'
 import SuccessfulVerification from "@/views/SuccessfulVerification.vue";
+import AllCustomers from "@/views/AllCustomers.vue"
+import FailedVerification from "@/components/FailedVerification.vue"
 import OTP from "@/views/OTP.vue"
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
@@ -50,7 +53,7 @@ const router = createRouter({
         },
 
         {
-            path: "/create-customer",
+            path: "/:telephone/create-customer",
             name: "CreateCustomer",
             component: CreateCustomer,
         },
@@ -73,9 +76,14 @@ const router = createRouter({
             },
         },
         {
-            path: "/verification/:phone_number/:verification_id/:verification_status",
+            path: "/verification/:phone_number/:verification_id/pending",
             name: "Verification",
             component: Verification,
+        },
+        {
+            path: "/verification/:phone_number/:verification_id/failed",
+            name: "FailedVerification",
+            component: FailedVerification,
         },
         {
             path: "/success/:phone_number/:verification_id/:OTPvalidate",
@@ -102,8 +110,19 @@ const router = createRouter({
             name: "AllTransactions",
             component: AllTransactions,
         },
+         {
+            path: "/all-customers",
+            name: "AllCustomers",
+            component: AllCustomers,
+        },
+        
         {
-            path: "/:id/create-order",
+            path: "/commission",
+            name: "Commission",
+            component: Commission,
+        },
+        {
+            path: "/:id/:telephone/create-order",
             name: "CreateOrder",
             component: CreateOrder,
         },

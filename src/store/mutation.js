@@ -3,10 +3,6 @@ export const LOGIN = (state, data) => {
   localStorage.setItem("vuex", JSON.stringify(data));
 };
 
-export const RESET_PASSWORD = (state, data) => {
-  state.userdata = data;
-  localStorage.setItem("vuex", JSON.stringify(data));
-};
 export const LOADING = (state, loadingState) => {
   state.status.loading = loadingState;
 };
@@ -17,7 +13,7 @@ export const CUSTOMER_DETAILS = (state, response) => {
     state.Customer = response;
 };
 export const CREATE_CUSTOMER = (state, response) => {
-    state.Customer = response;
+    state.Customer = response.result;
 };
 export const CREDIT_CHECK_VERIFICATION = (state, verification) => {
     state.verification = verification;
@@ -25,6 +21,9 @@ export const CREDIT_CHECK_VERIFICATION = (state, verification) => {
 };
 export const SAVERESULT = (state, result) => {
     state.result = result;
+};
+export const SAVECUSTOMER = (state, customer) => {
+    state.Customer = customer;
 };
 
 

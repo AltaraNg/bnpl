@@ -22,15 +22,18 @@
                   </button>
                 </div>
               </TransitionChild>
-              <div class="h-0 flex-1 overflow-y-auto pt-5 pb-4">
-                <div class="flex flex-shrink-0 items-center px-4">
-                  <img class="h-10 w-auto" src="../assets/images/logo.png" alt="Altara Credit" />
+              <div class="h-0 flex-1 h-full  relative overflow-y-auto pt-5 pb-4">
+                <div class="flex flex-shrink-0  items-center px-4">
+                  <RouterLink :to="{name:'Dashboard'}" >
+                    <img class="h-10 w-auto" src="../assets/images/logo.png" alt="Altara Credit" />
+                  </RouterLink>
+                  
                 </div>
-                <nav class="mt-5 space-y-1 px-2">
+                <nav class="mt-5 flex flex-col  h-auto   space-y-1 px-2">
                   <router-link :to="{ name: item.slug }" v-for="item in navigation" :key="item.name">
                     <a @click="item.slug == 'login' ? logOut() : ''" :class="[
                       item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                      'group flex items-center px-2 py-2 text-base font-medium rounded-md',
+                      'group flex items-center px-2 py-2 text-base font-medium rounded-md',item.slug == 'login' ?' absolute w-full bottom-0':''
                     ]">
                       <component :is="item.icon" :class="[
                         item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
@@ -45,14 +48,14 @@
               <div class="flex flex-shrink-0 bg-gray-700 p-4">
                 <a href="#" class="group block flex-shrink-0">
                   <div class="flex items-center">
-                    <div>
-                      <img class="inline-block h-10 w-10 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt="" />
-                    </div>
+                     <div class="h-10 flex w-10 flex-shrink-0 bg-purple-300 rounded-full flex items-center justify-center">
+                            <p class="font-bold ">{{ fullname[0].charAt(0) + "" + fullname[1].charAt(0) }}</p>
+                        </div>
                     <div class="ml-3">
-                      <p class="text-base font-medium text-white">Tofm Cook</p>
-                      <p class="text-sm font-medium text-gray-400 group-hover:text-gray-300">View profile</p>
+                     <RouterLink :to="{ name: 'Profile' }">
+                       <p class="text-sm font-medium text-gray-400 group-hover:text-gray-300">View profile</p>
+                    </RouterLink>
+                     
                     </div>
                   </div>
                 </a>
@@ -69,16 +72,18 @@
     <!-- Static sidebar for desktop -->
     <div class="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
       <!-- Sidebar component, swap this element with another sidebar if you like -->
-      <div class="flex min-h-0 flex-1 flex-col bg-gray-800">
+      <div class="flex min-h-0 flex-1 flex-col  bg-gray-800">
         <div class="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
           <div class="flex flex-shrink-0 items-center px-4">
-            <img class="h-10 w-auto" src="../assets/images/logo.png" alt="Altara Credit" />
+            <RouterLink :to="{name:'Dashboard'}">
+             <img class="h-10 w-auto" src="../assets/images/logo.png" alt="Altara Credit" /> </RouterLink>
+           
           </div>
-          <nav class="mt-12 flex-1  px-2">
+          <nav class="mt-12 flex-1  relative  px-2">
             <router-link :to="{ name: item.slug }" v-for="item in navigation" :key="item.name">
               <a @click="item.slug == 'login' ? logOut() : ''" :class="[
                 item.current ? 'bg-primary text-white mb-1' : 'text-white mb-1 hover:bg-gray-400 hover:text-white',
-                'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
+                'group flex items-center px-2 py-2 text-sm font-medium rounded-md', item.slug == 'login' ?'absolute bottom-0 pl-2 right-0 px-0 flex-1 w-full':''
               ]">
 
                 <component :is="item.icon"
@@ -93,11 +98,9 @@
         <div class="flex flex-shrink-0 bg-gray-700 p-4">
           <a href="#" class="group block w-full flex-shrink-0">
             <div class="flex items-center">
-              <div>
-                <img class="inline-block h-9 w-9 rounded-full"
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80"
-                  alt="" />
-              </div>
+                <div class="h-10 flex w-10 flex-shrink-0 bg-purple-300 rounded-full flex items-center justify-center">
+                            <p class="font-bold ">{{ fullname[0].charAt(0) + "" + fullname[1].charAt(0) }}</p>
+                        </div>
               <div class="ml-3">
                 <!-- <p class="text-sm font-medium text-white">Tom Cook</p> -->
                 <RouterLink :to="{ name: 'Profile' }">
@@ -118,17 +121,18 @@
           <Bars3Icon class="h-6 w-6" aria-hidden="true" />
         </button>
       </div>
-      <main class="flex-1 bg-gray-50">
+      <main class="flex-1 bg-gray-50 mb-20 lg:mb-0">
         <slot></slot>
       </main>
     </div>
-    <Footer />
+    <Footer class="fixed bottom-0 w-full "  />
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
-import router from "@/router";
+import { ref, } from "vue";
+import { userdata } from "../utilities/GlobalFunctions";
+import { computed } from "vue";
 import Footer from "@/components/Footer"
 import {
   Dialog,
@@ -138,23 +142,44 @@ import {
 } from "@headlessui/vue";
 import {
   Bars3Icon,
-  FolderIcon,
   HomeIcon,
+  CogIcon,
   UsersIcon,
+  UserGroupIcon,
   XMarkIcon,
   ArrowLeftOnRectangleIcon,
-  ArrowsRightLeftIcon
+  ArrowsRightLeftIcon,
+  ReceiptPercentIcon
 } from "@heroicons/vue/24/outline";
+import { useStore } from "vuex";
+import { useRoute, useRouter } from "vue-router";
+
+const router = useRouter();
+const route = useRoute();
+const store = useStore()
 const navigation = [
   { name: "Dashboard", icon: HomeIcon, current: false, slug: "Dashboard" },
   { name: "Profile", icon: UsersIcon, current: false, slug: "Profile" },
-  { name: "Settings", icon: FolderIcon, current: false, slug: "Settings" },
+  { name: "Settings", icon: CogIcon, current: false, slug: "Settings" },
   { name: "Transactions", icon: ArrowsRightLeftIcon, current: false, slug: "AllTransactions" },
-  { name: "Log Out", icon: ArrowLeftOnRectangleIcon, current: false, slug: "login" },
+   { name: "All Customers", icon: UserGroupIcon, current: false, slug: "AllCustomers" },
+   { name: "Log Out", icon: ArrowLeftOnRectangleIcon, current: false, slug: "login" },
+    { name: "Commission", icon: ReceiptPercentIcon, current: false, slug: "Commission" }
 ];
+const user = ref(store.state.userdata.result?.user || userdata  )
 const sidebarOpen = ref(false);
 function logOut() {
   localStorage.clear();
   router.push({ name: "login" });
 }
+function  checkRoute() {
+      navigation.map((link) => {
+       link.current = route.name == link.slug;
+      });
+    }
+const fullname = computed(() => {
+    return user.value.full_name.split(" ");
+});
+checkRoute()
+
 </script>

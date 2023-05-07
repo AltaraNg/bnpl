@@ -1,29 +1,29 @@
 <template>
     <App>
-        <div class="overflow-hidden bg-white relative px-4 lg:px-8">
+        <div class="overflow-hidden bg-white relative px-4 lg:px-8" v-if="!store.state.loader.showLoading">
             <div class="mx-auto max-w-xl">
                 <div>
-                    <div class="w-full absolute left-0">
+                    <div class="w-full absolute left-0 md:hidden">
                         <RouterLink :to="{ name: 'GetStarted' }"><ArrowLeftIcon class="h-8 w-10 text-primary" aria-hidden="true" /></RouterLink>
                     </div>
-                    <div class="grid grid-cols-1 justify-items-center  pt-2 sm:mt-6">
-                        <p class="mb-2 text-xl text-gray-600 font-medium">Order Details</p>
+                    <div class="grid grid-cols-1 justify-items-center  pt-2 sm:mt-6 ">
+                        <p class="mb-2 text-xl text-gray-600 font-medium mt-8">Order Details</p>
                         <p class="text-sm text-gray-500">TOTAL <span>(product value)</span></p>
                         <p class="text-4xl text-gray-800 font-semibold mt-1">{{ formatCurrency(OrderResult.total) }}</p>
                         <div class="flex flex-col my-5 rounded-3xl bg-white shadow-xl ring-1 ring-black/10 lg:p-6 p-4 w-full mt-6">
                             <div class="flex items-center justify-between">
                                 <p class="text-base font-semibold leading-8 tracking-tight text-primary">Payment Details</p>
-                                <img src="@/assets/images/orderCompleted.gif" v-if="route.params.OTPvalidate == 'order_created'" />
+                                <img src="@/assets/images/orderCompleted.gif" v-if="route.params.OTPvalidate == 'validated'" />
                             </div>
 
                             <div class="mt-3">
                                 <p class="text-lg font-semibold text-gray-600">{{ OrderResult.product_name }}</p>
                                 <div class="flex items-center justify-between">
-                                    <div>
+                                    <div class="w-1/3">
                                         <p class="text-gray-500 text-sm font-medium mt-4">Downpayment:</p>
                                         <p class="text-gray-900 text-2xl font-bold">{{ formatCurrency(OrderResult.actualDownpayment) }}</p>
                                     </div>
-                                    <div>
+                                    <div class="w-1/3">
                                         <p class="text-gray-500 text-sm font-medium mt-4">{{ OrderResult.repayment_cycle }} Repayment:</p>
                                         <p class="flex items-baseline text-2xl font-bold tracking-tight text-gray-900">
                                             {{ formatCurrency(ComputedRepayment) || '0' }}
@@ -31,7 +31,17 @@
                                         </p>
                                     </div>
                                 </div>
-                                <p class="text-gray-500 text-xl font-medium mt-4">for {{ duration }}</p>
+                                 <div class="flex items-center justify-between">
+                                      <div class="w-1/3">
+                                        <p class="text-gray-500 text-sm font-medium mt-4">Duration:</p>
+                                        <p class="text-gray-900 text-2xl font-bold">{{ Order?.repayment_duration?.value / 30 }} Months</p>
+                                    </div>
+                                      <div class="w-1/3">
+                                        <p class="text-gray-500 text-sm font-medium mt-4">2% Commission:</p>
+                                        <p class="text-gray-900 text-2xl font-bold">{{ formatCurrency(Order?.product?.price * 0.02) }}</p>
+                                    </div>
+                                 </div>
+                              
                             </div>
                         </div>
                         <p class="text-gray-500 text-sm font-normal mt-8" v-if="route.params.OTPvalidate == 'false'">
@@ -45,7 +55,7 @@
                             v-if="route.params.OTPvalidate == 'false'"
                             @click="RouteOTP"
                             type="button"
-                            class="inline-flex items-center rounded-md border border-transparent bg-primary px-3 py-4 text-base font-medium leading-4 text-white shadow-sm focus:outline-none focus:ring-0 min-w-[250px] justify-center mt-8 w-full"
+                            class=" mb-10 inline-flex items-center rounded-md border border-transparent bg-primary px-3 py-4 text-base font-medium leading-4 text-white shadow-sm focus:outline-none focus:ring-0 min-w-[250px] justify-center mt-8 w-full"
                         >
                             Continue
                         </button>
@@ -118,6 +128,7 @@ async function processPayment() {
         repayment_cycle_id: Order.value.repayment_cycle_id,
         repayment_duration_id: Order.value.repayment_duration_id,
         product_name: Order.value.product.name,
+        cost_price: Order.value.product.price
     }).then(() => {
         route.params.OTPvalidate = "order_created"
         router.push({
@@ -182,23 +193,7 @@ onBeforeMount(async () => {
     await GetCalculation();
      Calculate();
 });
-const duration = computed(() => {
-    let duration = "";
-    switch (OrderResult.value.duration) {
-        case "three_months":
-            duration = "Three Months";
-            break;
-        case "six_months":
-            duration = "Six Months";
-            break;
-        case "Twelve_months":
-            duration = "Twelve Months";
-            break;
-        default:
-            duration = "";
-    }
-    return duration;
-});
+
 const reference = computed(() => {
     let text = "";
     let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
