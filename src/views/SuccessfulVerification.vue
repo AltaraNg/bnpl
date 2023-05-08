@@ -86,12 +86,13 @@ import { ArrowLeftIcon } from "@heroicons/vue/24/solid";
 import { useRoute, useRouter } from "vue-router";
 import Apis from "@/services/ApiCalls";
 import { formatCurrency } from "@/utilities/GlobalFunctions";
-import { calculate } from "@/utilities/calculator";
+import { cashLoan } from "@/utilities/calculator";
 import { useStore } from "vuex";
 import paystack from "vue3-paystack";
 const store = useStore();
 const PUBLIC_KEY = ref(process.env.VUE_APP_PAYSTACK_PK || "");
 const route = useRoute();
+const Ammortization = ref()
 const router = useRouter();
 const Customer = ref(undefined);
 const Order = ref(null);
@@ -154,16 +155,41 @@ function close() {}
                 x.repayment_duration_id === Order.value.repayment_duration_id
             );
         });
-        const { total, actualDownpayment, rePayment } = calculate(Data.amount, Data, params, 0);
+        const { total, actualDownpayment, rePayment } = cashLoan(Data.amount, Data, params, 0);
         OrderResult.value.total = total;
         OrderResult.value.actualDownpayment = actualDownpayment;
         OrderResult.value.rePayment = rePayment;
         OrderResult.value.product_name = Order.value.product.name
         OrderResult.value.repayment_cycle = Order.value.repayment_cycle.name
         OrderResult.value.duration = Order.value?.repayment_duration?.name
+        PreviewAmmortization()
     } catch (e) {
       throw new Error(e)
     }
+}
+async function PreviewAmmortization() {
+    const result = await Apis.preview(
+        {
+        customer_id: Customer.value.id,
+        down_payment: OrderResult.value.actualDownpayment,
+        down_payment_rate_id: Order.value.down_payment_rate_id,
+        product_price: OrderResult.value.total,
+        repayment: OrderResult.value.rePayment,
+        repayment_cycle_id: 1,
+        repayment_duration_id: Order.value.repayment_duration_id,
+        product_name: Order.value.product.name,
+        bank_id:1,
+        business_type_id:15,
+        financed_by:"altara",
+        inventory_id:512,
+        owner_id:514,
+        payment_method_id:1,
+        sales_category_id:9
+        
+    }
+    );
+    Ammortization.value = result.data
+    console.log(result)
 }
 async function CustomerDetails() {
     const result = await Apis.customerdetails(route.params.phone_number);
@@ -176,7 +202,7 @@ async function GetCalculation() {
 }
 async function BusinessType() {
     const result = await Apis.businesstype();
-    business_type.value = result?.data?.data?.data.find((businesstype) => businesstype.slug == "ap_products");
+    business_type.value = result?.data?.data?.data.find((businesstype) => businesstype.slug == "ap_no_bs_new_non_verve");
 }
 async function Downpayment() {
     const result = await Apis.downpayments();

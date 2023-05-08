@@ -55,4 +55,7 @@ export default {
     commission(number) {
         return new Apiservice().get(`fetch/merchant/commissions?page=${number}&per_page=${10}`);
     },
+    preview(data) {
+        return new Apiservice().changeBaseURL(process.env.VUE_APP_CONTROL_API_URL).post("api/amortization/preview", data);
+    },
 };
