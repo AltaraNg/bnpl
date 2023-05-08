@@ -6,7 +6,7 @@
                     <div class="w-full absolute left-0 md:hidden">
                         <RouterLink :to="{ name: 'GetStarted' }"><ArrowLeftIcon class="h-8 w-10 text-primary" aria-hidden="true" /></RouterLink>
                     </div>
-                    <div class="grid grid-cols-1 justify-items-center  pt-2 sm:mt-6 ">
+                    <div class="grid grid-cols-1 justify-items-center pt-2 sm:mt-6">
                         <p class="mb-2 text-xl text-gray-600 font-medium mt-8">Order Details</p>
                         <p class="text-sm text-gray-500">TOTAL <span>(product value)</span></p>
                         <p class="text-4xl text-gray-800 font-semibold mt-1">{{ formatCurrency(OrderResult.total) }}</p>
@@ -26,22 +26,21 @@
                                     <div class="w-1/3">
                                         <p class="text-gray-500 text-sm font-medium mt-4">{{ OrderResult.repayment_cycle }} Repayment:</p>
                                         <p class="flex items-baseline text-2xl font-bold tracking-tight text-gray-900">
-                                            {{ formatCurrency(ComputedRepayment) || '0' }}
+                                            {{ formatCurrency(ComputedRepayment) || "0" }}
                                             <span class="text-sm font-semibold leading-8 tracking-normal text-gray-500"></span>
                                         </p>
                                     </div>
                                 </div>
-                                 <div class="flex items-center justify-between">
-                                      <div class="w-1/3">
+                                <div class="flex items-center justify-between">
+                                    <div class="w-1/3">
                                         <p class="text-gray-500 text-sm font-medium mt-4">Duration:</p>
                                         <p class="text-gray-900 text-2xl font-bold">{{ Order?.repayment_duration?.value / 30 }} Months</p>
                                     </div>
-                                      <div class="w-1/3">
-                                        <p class="text-gray-500 text-sm font-medium mt-4">2% Commission:</p>
-                                        <p class="text-gray-900 text-2xl font-bold">{{ formatCurrency(Order?.product?.price * 0.02) }}</p>
+                                    <div class="w-1/3">
+                                        <p class="text-gray-500 text-sm font-medium mt-4">{{ has_document == "yes" ? 5 : 2 }}% Commission:</p>
+                                        <p class="text-gray-900 text-2xl font-bold">{{ formatCurrency(Order?.product?.price * (has_document == "yes" ? 0.05 : 0.02)) }}</p>
                                     </div>
-                                 </div>
-                              
+                                </div>
                             </div>
                         </div>
                         <p class="text-gray-500 text-sm font-normal mt-8" v-if="route.params.OTPvalidate == 'false'">
@@ -55,7 +54,7 @@
                             v-if="route.params.OTPvalidate == 'false'"
                             @click="RouteOTP"
                             type="button"
-                            class=" mb-10 inline-flex items-center rounded-md border border-transparent bg-primary px-3 py-4 text-base font-medium leading-4 text-white shadow-sm focus:outline-none focus:ring-0 min-w-[250px] justify-center mt-8 w-full"
+                            class="mb-10 inline-flex items-center rounded-md border border-transparent bg-primary px-3 py-4 text-base font-medium leading-4 text-white shadow-sm focus:outline-none focus:ring-0 min-w-[250px] justify-center mt-8 w-full"
                         >
                             Continue
                         </button>
@@ -103,9 +102,9 @@ const OrderResult = ref({
     total: 0,
     actualDownpayment: 0,
     rePayment: 0,
-    product_name:null,
-    repayment_cycle:null,
-    duration:null
+    product_name: null,
+    repayment_cycle: null,
+    duration: null,
 });
 
 async function RouteOTP() {
@@ -129,9 +128,10 @@ async function processPayment() {
         repayment_cycle_id: Order.value.repayment_cycle_id,
         repayment_duration_id: Order.value.repayment_duration_id,
         product_name: Order.value.product.name,
-        cost_price: Order.value.product.price
+        cost_price: Order.value.product.price,
+        has_document: has_document,
     }).then(() => {
-        route.params.OTPvalidate = "order_created"
+        route.params.OTPvalidate = "order_created";
         router.push({
             name: "CustomerDetails",
             params: {
@@ -141,7 +141,7 @@ async function processPayment() {
     });
 }
 function close() {}
- function Calculate() {
+function Calculate() {
     try {
         const Data = {
             amount: Order.value?.product?.price,
@@ -164,7 +164,7 @@ function close() {}
         OrderResult.value.duration = Order.value?.repayment_duration?.name
         PreviewAmmortization()
     } catch (e) {
-      throw new Error(e)
+        throw new Error(e);
     }
 }
 async function PreviewAmmortization() {
@@ -212,12 +212,15 @@ const ComputedRepayment = computed(() => {
     const months = Order.value?.repayment_duration?.value / 30;
     return Order.value?.repayment_cycle?.name == "monthly" ? OrderResult.value.rePayment / months : OrderResult.value.rePayment / (months * 2);
 });
+const has_document = computed(() => {
+    return Customer.value.latest_credit_checker_verifications?.documents[0]?.document_url ? "yes" : "no";
+});
 onBeforeMount(async () => {
     await CustomerDetails();
     await Downpayment();
     await BusinessType();
     await GetCalculation();
-     Calculate();
+    Calculate();
 });
 
 const reference = computed(() => {

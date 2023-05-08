@@ -65,6 +65,20 @@ export const InitiateCreditCheck = ({ commit }, data) => {
         });
     });
 };
+export const Re_InitiateCreditCheck = ({ commit }, data) => {
+    Apis.re_initiatecreditcheck(data).then((response) => {
+        // handleSuccess("Success");
+        commit("CREDIT_CHECK_VERIFICATION", response.result.credit_check_verification);
+        router.push({
+            name: "Verification",
+            params: {
+                verification_id: response?.result?.credit_check_verification?.id,
+                phone_number: router.currentRoute.value.params.phone_number,
+                verification_status: "pending",
+            },
+        });
+    });
+};
 export const SaveResult = ({ commit }, data) => {
     commit("SAVERESULT", data);
 };

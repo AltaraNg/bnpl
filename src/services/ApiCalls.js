@@ -28,6 +28,9 @@ export default {
     initiatecreditcheck(data) {
         return new Apiservice().post("initiate/credit/check", data);
     },
+    re_initiatecreditcheck(data) {
+        return new Apiservice().post("re-initiate/credit/check", data);
+    },
     verifycreditcheck(verification_id) {
         return new Apiservice().getWithoutLoader(`verify/credit/check/${verification_id}`);
     },
@@ -57,5 +60,11 @@ export default {
     },
     preview(data) {
         return new Apiservice().changeBaseURL(process.env.VUE_APP_CONTROL_API_URL).post("api/amortization/preview", data);
+    },
+    async uploadsingle(data) {
+        return await new Apiservice().post("upload/single/file", data, false, false);
+    },
+    async uploadMultiple(data) {
+        return await new Apiservice().ArrayFormData("upload/multiple/files", data);
     },
 };
