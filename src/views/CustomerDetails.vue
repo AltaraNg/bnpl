@@ -273,12 +273,12 @@
                 </div>
                 <div>
                     <p class="text-lg mb-1 font-semibold mt-2 text-gray-800">Amortizations</p>
-                    <TableVue>
+                    <TableVue class="hidden mb-8 md:block">
                         <template #columns>
                             <th scope="col" class="px-5 py-3.5 text-left text-sm font-semibold text-gray-900">Date</th>
                             <th
                                 scope="col"
-                                class="px-5 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                 v-for="amortization in currentOrder.amortizations"
                                 :key="amortization"
                             >
@@ -298,6 +298,20 @@
                             </tr>
                         </template>
                     </TableVue>
+                    <div class="flex flex-wrap md:hidden w-full space-y-2">
+                                    <div
+                                        v-for="amortization in currentOrder.amortizations"
+                                        :key="amortization"
+                                        class="rounded-lg bg-white p-3 flex-1 flex items-center shadow-lg"
+                                    >
+                                        <div class="items-center flex flex-col justify-between w-full text-gray-800">
+                                            <p>{{ new Date(amortization.expected_payment_date).toLocaleDateString() }}</p>
+                                            <p class="font-bold">{{ formatCurrency(amortization.expected_amount) }}</p>
+                                        </div>
+
+                                        <!-- <SideModal v-if="sidebarOpen" @close="sidebarOpen = false" class=" lg:hidden"> hello </SideModal> -->
+                                    </div>
+                                </div>
                 </div>
             </div>
             <div class="mt-5 sm:mt-6 w-full flex justify-end">
