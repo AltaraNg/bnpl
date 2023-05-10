@@ -2,7 +2,7 @@
     <App>
         <div class="overflow-hidden bg-white relative px-4 lg:px-8" v-if="!store.state.loader.showLoading">
             <div class="flex w-full flex-col items-center justify-center">
-                <div class=" flex flex-col items-center  px-2 md:px-5 w-full justify-center">
+                <div class="flex flex-col items-center px-2 md:px-5 w-full justify-center">
                     <div class="w-full absolute top-0 left-0 md:hidden">
                         <RouterLink :to="{ name: 'GetStarted' }"><ArrowLeftIcon class="h-8 w-10 text-primary" aria-hidden="true" /></RouterLink>
                     </div>
@@ -12,11 +12,22 @@
                         <p class="text-4xl text-gray-800 font-semibold mt-1">{{ formatCurrency(OrderResult.total) }}</p>
                         <div
                             class="flex flex-col my-5 rounded-3xl bg-white lg:w-1/2 md:w-full w-full cursor-pointer shadow-xl ring-1 ring-black/10 lg:p-6 p-4 mt-6"
-                            @click="showModal = true"
+                            
                         >
                             <div class="flex items-center justify-between">
                                 <p class="text-base font-semibold leading-8 tracking-tight text-primary">Payment Details</p>
-                                <img src="@/assets/images/orderCompleted.gif" v-if="route.params.OTPvalidate == 'validated'" />
+                                <div @click="showModal = true">
+                                    
+                                    <button
+                                        
+                                        type="button"
+                                        class="inline-flex px-5 py-2 justify-center items-center rounded-md border border-transparent bg-primary px-4 py-2 text-base font-medium text-white shadow-sm focus:outline-none focus:ring-0 sm:text-sm"
+                                        
+                                    >
+                                    <img src="@/assets/images/orderCompleted.gif" class="mr-1 w-8" v-if="route.params.OTPvalidate == 'validated'" />
+                                        See More
+                                    </button>
+                                </div>
                             </div>
 
                             <div class="mt-3">
@@ -195,17 +206,19 @@ async function processPayment() {
         repayment_duration_id: Order.value.repayment_duration_id,
         product_name: Order.value.product.name,
         cost_price: Order.value.product.price,
-        has_document:Customer.value?.latest_credit_checker_verifications?.documents[0]?.document_url ? "yes" : "no",
-    }).then(() => {
-        router.push({
-            name: "CustomerDetails",
-            params: {
-                phone_number: Customer.value.telephone,
-            },
+        has_document: Customer.value?.latest_credit_checker_verifications?.documents[0]?.document_url ? "yes" : "no",
+    })
+        .then(() => {
+            router.push({
+                name: "CustomerDetails",
+                params: {
+                    phone_number: Customer.value.telephone,
+                },
+            });
+        })
+        .catch((e) => {
+            console.log(e);
         });
-    }).catch((e)=>{
-        console.log(e)
-    });
 }
 function close() {}
 function Calculate() {
@@ -271,7 +284,6 @@ async function Downpayment() {
     const result = await Apis.downpayments();
     payment_type_id.value = result?.data?.data?.data.find((downPayment) => downPayment.name == "twenty");
 }
-
 
 onBeforeMount(async () => {
     await CustomerDetails();

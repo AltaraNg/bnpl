@@ -186,7 +186,6 @@
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Product Name</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Product Price</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Downpayment</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Repayment</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Duration/Cycle</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Status</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Date</th>
@@ -201,9 +200,7 @@
                                 </div>
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{{ formatCurrency(history.down_payment) }}</td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">
-                                {{ formatCurrency(history.amortizations[0].expected_amount) }}
-                            </td>
+                            
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">
                                 {{ findRepaymentDuration(history.repayment_duration_id, repayment_duration) }}/
                                 {{ findRepayment(history.repayment_cycle_id, repayment_cycle) }}
