@@ -314,7 +314,7 @@ function setName(obj) {
     }
 }
 
-  function Calculate() {
+ async function createNewSale() {
     console.log(Order.repayment_cycle_id, Order.repayment_duration_id)
     try {
         const Data = { ...Order, payment_type_id: payment_type_id };
@@ -329,17 +329,15 @@ function setName(obj) {
         OrderResult.value.total = total;
         OrderResult.value.actualDownpayment = actualDownpayment;
         OrderResult.value.rePayment = rePayment;
+       await SendtoApi()
     } catch (e) {
         console.log(e)
         window.localStorage.removeItem("data");
     }
 }
 
-async function createNewSale() {
-      Calculate();
-     SendtoApi()
-}
- function SendtoApi() {
+
+ async function SendtoApi() {
    
     const data = {
         customer_id: route.params.id,
@@ -377,7 +375,7 @@ async function createNewSale() {
         valid
             ?  store.dispatch("InitiateCreditCheck", {
                   ...data,
-                  documents:  Upload(),
+                  documents: await Upload(),
               })
             : handleError("Document name and image is required");
     } else {
