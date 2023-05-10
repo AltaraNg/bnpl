@@ -273,7 +273,7 @@
                 </div>
                 <div>
                     <p class="text-lg mb-1 font-semibold mt-2 text-gray-800">Amortizations</p>
-                    <TableVue class="hidden mb-8 md:block">
+                    <TableVue class="hidden mb-8 lg:block">
                         <template #columns>
                             <th scope="col" class="px-5 py-3.5 text-left text-sm font-semibold text-gray-900">Date</th>
                             <th
@@ -298,11 +298,11 @@
                             </tr>
                         </template>
                     </TableVue>
-                    <div class="flex flex-wrap md:hidden w-full space-y-2">
+                    <div class="flex flex-wrap lg:hidden w-full space-y-2">
                                     <div
                                         v-for="amortization in currentOrder.amortizations"
                                         :key="amortization"
-                                        class="rounded-lg bg-white p-3 flex-1 flex items-center shadow-lg"
+                                        class="rounded-lg bg-white p-3 w-1/2 md:w-1/3 flex items-center shadow-lg"
                                     >
                                         <div class="items-center flex flex-col justify-between w-full text-gray-800">
                                             <p>{{ new Date(amortization.expected_payment_date).toLocaleDateString() }}</p>

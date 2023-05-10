@@ -11,7 +11,7 @@
                         <p class="text-sm text-gray-500">TOTAL <span>(product value)</span></p>
                         <p class="text-4xl text-gray-800 font-semibold mt-1">{{ formatCurrency(OrderResult.total) }}</p>
                         <div
-                            class="flex flex-col my-5 rounded-3xl bg-white lg:w-1/2 md:w-2/3 w-full cursor-pointer shadow-xl ring-1 ring-black/10 lg:p-6 p-4 mt-6"
+                            class="flex flex-col my-5 rounded-3xl bg-white lg:w-1/2  w-full cursor-pointer shadow-xl ring-1 ring-black/10 lg:p-6 p-4 mt-6"
                             @click="showModal = true"
                         >
                             <div class="flex items-center justify-between">
@@ -22,11 +22,11 @@
                             <div class="mt-3">
                                 <p class="text-lg font-semibold text-gray-600">{{ OrderResult.product_name }}</p>
                                 <div class="flex items-center justify-between">
-                                    <div class="w-1/3">
+                                    <div class="md:w-1/3 w-2/5">
                                         <p class="text-gray-500 text-sm font-medium mt-4">Downpayment:</p>
                                         <p class="text-gray-900 text-2xl font-bold">{{ formatCurrency(OrderResult.actualDownpayment) }}</p>
                                     </div>
-                                    <div class="w-1/3">
+                                    <div class="md:w-1/3 w-2/5">
                                         <p class="text-gray-500 text-sm font-medium mt-4">Product Cost Price</p>
                                         <p class="flex items-baseline text-2xl font-bold tracking-tight text-gray-900">
                                             {{ formatCurrency(Order?.product?.price) }}
@@ -35,11 +35,11 @@
                                     </div>
                                 </div>
                                 <div class="flex items-center justify-between">
-                                    <div class="w-1/3">
+                                    <div class="md:w-1/3 w-2/5">
                                         <p class="text-gray-500 text-sm font-medium mt-4">Duration:</p>
                                         <p class="text-gray-900 text-2xl font-bold">{{ Order?.repayment_duration?.value / 30 }} Months</p>
                                     </div>
-                                    <div class="w-1/3">
+                                    <div class="md:w-1/3 w-2/5">
                                         <p class="text-gray-500 text-sm font-medium mt-4">{{ has_document == "yes" ? 5 : 2 }}% Commission:</p>
                                         <p class="text-gray-900 text-2xl font-bold">
                                             {{ formatCurrency(Order?.product?.price * (has_document == "yes" ? 0.05 : 0.02)) }}
@@ -51,7 +51,7 @@
                         <BaseModal @close="showModal = false" v-if="showModal">
                             <div class="block w-full space-y-10">
                                 <p class="text-lg mb-1 font-semibold mt-2 text-gray-800 capitalize">{{ OrderResult.repayment_cycle }} Repayments:</p>
-                                <TableVue class="hidden mb-8 md:block">
+                                <TableVue class="hidden mb-8 lg::block">
                                     <template #columns>
                                         <th scope="col" class="px-5 py-3.5 text-left text-sm font-semibold text-gray-900">Date</th>
                                         <th
@@ -76,13 +76,13 @@
                                         </tr>
                                     </template>
                                 </TableVue>
-                                <div class="flex flex-wrap md:hidden w-full space-y-2">
+                                <div class="flex flex-wrap lg:hidden w-full space-y-2">
                                     <div
                                         v-for="amortization in Ammortization"
                                         :key="amortization"
-                                        class="rounded-lg bg-white p-3 flex-1 flex items-center shadow-lg"
+                                        class="rounded-lg bg-white p-3 flex w-1/2 md:w-1/3 flex items-center shadow-lg"
                                     >
-                                        <div class="items-center flex flex-col justify-between w-full text-gray-800">
+                                        <div class="items-center flex flex-col justify-center w-full text-center text-gray-800">
                                             <p>{{ new Date(amortization.expected_payment_date).toLocaleDateString() }}</p>
                                             <p class="font-bold">{{ formatCurrency(amortization.expected_amount) }}</p>
                                         </div>
