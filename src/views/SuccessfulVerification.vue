@@ -1,17 +1,17 @@
 <template>
     <App>
         <div class="overflow-hidden bg-white relative px-4 lg:px-8" v-if="!store.state.loader.showLoading">
-            <div class="flex flex-col items-center justify-center">
-                <div>
-                    <div class="w-full absolute left-0 md:hidden">
+            <div class="flex w-full flex-col items-center justify-center">
+                <div class=" flex flex-col items-center  px-2 md:px-5 w-full justify-center">
+                    <div class="w-full absolute top-0 left-0 md:hidden">
                         <RouterLink :to="{ name: 'GetStarted' }"><ArrowLeftIcon class="h-8 w-10 text-primary" aria-hidden="true" /></RouterLink>
                     </div>
-                    <div class="grid grid-cols-1 justify-items-center w-full pt-2 sm:mt-6">
+                    <div class="flex flex-col justify-center items-center w-full pt-2 sm:mt-6">
                         <p class="mb-2 text-xl text-gray-600 font-medium mt-8">Order Details</p>
                         <p class="text-sm text-gray-500">TOTAL <span>(product value)</span></p>
                         <p class="text-4xl text-gray-800 font-semibold mt-1">{{ formatCurrency(OrderResult.total) }}</p>
                         <div
-                            class="flex flex-col my-5 rounded-3xl bg-white lg:w-1/2  w-full cursor-pointer shadow-xl ring-1 ring-black/10 lg:p-6 p-4 mt-6"
+                            class="flex flex-col my-5 rounded-3xl bg-white lg:w-1/2 md:w-full w-full cursor-pointer shadow-xl ring-1 ring-black/10 lg:p-6 p-4 mt-6"
                             @click="showModal = true"
                         >
                             <div class="flex items-center justify-between">
@@ -51,7 +51,7 @@
                         <BaseModal @close="showModal = false" v-if="showModal">
                             <div class="block w-full space-y-10">
                                 <p class="text-lg mb-1 font-semibold mt-2 text-gray-800 capitalize">{{ OrderResult.repayment_cycle }} Repayments:</p>
-                                <TableVue class="hidden mb-8 lg::block">
+                                <TableVue class="hidden mb-8 lg:block">
                                     <template #columns>
                                         <th scope="col" class="px-5 py-3.5 text-left text-sm font-semibold text-gray-900">Date</th>
                                         <th
@@ -129,7 +129,7 @@
                     buttonClass="paystack"
                     buttonText="Make Payment"
                     :amount="OrderResult.actualDownpayment * 100"
-                    :email="Customer.email"
+                    :email="Customer?.email"
                     :publicKey="PUBLIC_KEY"
                     :reference="reference"
                     :onSuccess="processPayment"
@@ -195,15 +195,16 @@ async function processPayment() {
         repayment_duration_id: Order.value.repayment_duration_id,
         product_name: Order.value.product.name,
         cost_price: Order.value.product.price,
-        has_document: has_document,
+        has_document:Customer.value?.latest_credit_checker_verifications?.documents[0]?.document_url ? "yes" : "no",
     }).then(() => {
-        route.params.OTPvalidate = "order_created";
         router.push({
             name: "CustomerDetails",
             params: {
                 phone_number: Customer.value.telephone,
             },
         });
+    }).catch((e)=>{
+        console.log(e)
     });
 }
 function close() {}
@@ -271,9 +272,7 @@ async function Downpayment() {
     payment_type_id.value = result?.data?.data?.data.find((downPayment) => downPayment.name == "twenty");
 }
 
-const has_document = computed(() => {
-    return Customer.value?.latest_credit_checker_verifications?.documents[0]?.document_url ? "yes" : "no";
-});
+
 onBeforeMount(async () => {
     await CustomerDetails();
     await Downpayment();
