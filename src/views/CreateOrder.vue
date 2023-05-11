@@ -32,7 +32,7 @@
                             </div>
                             <span class="invalid-feedback">{{ errors?.amount }}</span>
                         </div>
-                        <div>
+                        <div class="pointer-events-none">
                             <app-label label-title="Repayment Duration" label-for="repayment_duration" />
                             <div class="mt-1">
                                 <app-select-input
@@ -257,7 +257,7 @@ const get_calculations = ref([]);
 const Order = reactive({
     product: "",
     amount: 0,
-    repayment_duration_id: "",
+    repayment_duration_id: "2",
     repayment_cycle_id: "",
     first_guarantor_first_name: "",
     first_guarantor_last_name: "",
@@ -345,6 +345,7 @@ function setName(obj) {
         down_payment: OrderResult.value.actualDownpayment,
         down_payment_rate_id: payment_type_id.value.id,
         product_price: OrderResult.value.total,
+        business_type_id:business_type.value.id,
         repayment: OrderResult.value.rePayment,
         repayment_cycle_id: parseInt(Order.repayment_cycle_id),
         repayment_duration_id: parseInt(Order.repayment_duration_id),
@@ -388,7 +389,7 @@ function onSelectChange(value, name) {
 async function RepaymentDuration() {
     const result = await Apis.repaymentduration();
     repayment_duration.value = result?.data?.data?.data.filter((duration) => {
-        return duration.name !== "nine_months";
+        return duration.name == "six_months";
     });
 }
 async function BusinessType() {

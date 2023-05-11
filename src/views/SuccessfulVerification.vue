@@ -12,26 +12,16 @@
                         <p class="text-4xl text-gray-800 font-semibold mt-1">{{ formatCurrency(OrderResult.total) }}</p>
                         <div
                             class="flex flex-col my-5 rounded-3xl bg-white lg:w-1/2 md:w-full w-full cursor-pointer shadow-xl ring-1 ring-black/10 lg:p-6 p-4 mt-6"
-                            
                         >
                             <div class="flex items-center justify-between">
-                                <p class="text-base font-semibold leading-8 tracking-tight text-primary">Payment Details</p>
-                                <div @click="showModal = true">
-                                    
-                                    <button
-                                        
-                                        type="button"
-                                        class="inline-flex px-5 py-2 justify-center items-center rounded-md border border-transparent bg-primary px-4 py-2 text-base font-medium text-white shadow-sm focus:outline-none focus:ring-0 sm:text-sm"
-                                        
-                                    >
-                                    <img src="@/assets/images/orderCompleted.gif" class="mr-1 w-8" v-if="route.params.OTPvalidate == 'validated'" />
-                                        See More
-                                    </button>
+                                <div>
+                                    <p class="text-base font-semibold leading-8 tracking-tight text-primary">Payment Details</p>
+                                    <p class="text-lg font-semibold text-gray-600">{{ OrderResult.product_name }}</p>
                                 </div>
+                                <img src="@/assets/images/orderCompleted.gif" class="mr-1 w-8" v-if="route.params.OTPvalidate == 'validated'" />
                             </div>
 
                             <div class="mt-3">
-                                <p class="text-lg font-semibold text-gray-600">{{ OrderResult.product_name }}</p>
                                 <div class="flex items-center justify-between">
                                     <div class="md:w-1/3 w-2/5">
                                         <p class="text-gray-500 text-sm font-medium mt-4">Downpayment:</p>
@@ -57,6 +47,17 @@
                                         </p>
                                     </div>
                                 </div>
+                                <div class="w-full mt-6 flex items-center justify-center">
+                                     <button
+                                    type="button"
+                                    @click="showModal = true"
+                                    class="inline-flex px-5 py-2 justify-center items-center rounded-md border border-transparent bg-primary px-4 py-2 text-base font-medium text-white shadow-sm focus:outline-none focus:ring-0 sm:text-sm"
+                                >
+                                    
+                                    See More
+                                </button>
+                                </div>
+                               
                             </div>
                         </div>
                         <BaseModal @close="showModal = false" v-if="showModal">
@@ -202,11 +203,12 @@ async function processPayment() {
         down_payment_rate_id: Order.value.down_payment_rate_id,
         product_price: OrderResult.value.total,
         repayment: OrderResult.value.rePayment,
+        business_type_id: Order.value.business_type_id,
         repayment_cycle_id: Order.value.repayment_cycle_id,
         repayment_duration_id: Order.value.repayment_duration_id,
         product_name: Order.value.product.name,
         cost_price: Order.value.product.price,
-        has_document: Customer.value?.latest_credit_checker_verifications?.documents[0]?.document_url ? "yes" : "no",
+        has_document: Order.value?.documents[0]?.document_url ? "yes" : "no",
     })
         .then(() => {
             router.push({
@@ -255,17 +257,12 @@ async function PreviewAmmortization() {
         product_price: OrderResult.value.total,
         repayment: OrderResult.value.rePayment,
         repayment_cycle_id: 1,
+        cost_price: Order.value.product.price,
         repayment_duration_id: Order.value.repayment_duration_id,
         product_name: Order.value.product.name,
-        bank_id: 1,
-        business_type_id: 15,
-        financed_by: "altara",
-        inventory_id: 512,
-        owner_id: 514,
-        payment_method_id: 1,
-        sales_category_id: 9,
+        business_type_id: Order.value.business_type_id,
     });
-    Ammortization.value = result.data;
+    Ammortization.value = result.result.plans;
 }
 async function CustomerDetails() {
     const result = await Apis.customerdetails(route.params.phone_number);
