@@ -61,7 +61,6 @@ export class Apiservice {
             return result.data;
         } catch (error) {
             store.dispatch("loader/hide", { root: true });
-            console.log(error)
             handleError(error.response.data.message);
             this.resetRequestConfig();
         }

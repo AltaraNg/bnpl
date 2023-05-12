@@ -7,8 +7,8 @@ export const CreateOrderSchema = object().shape({
             // Convert the currency string to a number
             const numberValue = Number(originalValue.replace(/[^0-9.-]+/g, ""));
             return isNaN(numberValue) ? undefined : numberValue;
-        }).min(1, "Amount is required")
-        .max(60000, "Amount must be less than or equal to 60000"),
+        }).min(20000, "Amount must be greater than NGN20,000")
+        .max(60000, "Amount must be less than or equal to NGN60,000"),
     repayment_duration_id: string().required("Please select repayment duration"),
     repayment_cycle_id: string().required("Please select repayment cycle"),
     first_guarantor_first_name: string().required("First name is required"),

@@ -315,7 +315,6 @@ function setName(obj) {
 }
 
  async function createNewSale() {
-    console.log(Order.repayment_cycle_id, Order.repayment_duration_id)
     try {
         const Data = { ...Order, payment_type_id: payment_type_id };
         const params = get_calculations.value.find((x) => {
@@ -331,7 +330,6 @@ function setName(obj) {
         OrderResult.value.rePayment = rePayment;
        await SendtoApi()
     } catch (e) {
-        console.log(e)
         window.localStorage.removeItem("data");
     }
 }

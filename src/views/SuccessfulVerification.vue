@@ -218,9 +218,6 @@ async function processPayment() {
                 },
             });
         })
-        .catch((e) => {
-            console.log(e);
-        });
 }
 function close() {}
 function Calculate() {
