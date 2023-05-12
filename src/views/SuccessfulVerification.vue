@@ -256,7 +256,7 @@ async function PreviewAmmortization() {
         down_payment_rate_id: Order.value.down_payment_rate_id,
         product_price: OrderResult.value.total,
         repayment: OrderResult.value.rePayment,
-        repayment_cycle_id: 1,
+        repayment_cycle_id: Order.value.repayment_cycle_id,
         cost_price: Order.value.product.price,
         repayment_duration_id: Order.value.repayment_duration_id,
         product_name: Order.value.product.name,
