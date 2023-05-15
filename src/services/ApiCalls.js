@@ -58,6 +58,9 @@ export default {
     commission(number) {
         return new Apiservice().get(`fetch/merchant/commissions?page=${number}&per_page=${10}`);
     },
+    preview(data) {
+        return new Apiservice().post("amortization/preview", data);
+    },
     async uploadsingle(data) {
         return await new Apiservice().post("upload/single/file", data, false, false);
     },

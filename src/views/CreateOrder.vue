@@ -32,7 +32,7 @@
                             </div>
                             <span class="invalid-feedback">{{ errors?.amount }}</span>
                         </div>
-                        <div>
+                        <div class="pointer-events-none">
                             <app-label label-title="Repayment Duration" label-for="repayment_duration" />
                             <div class="mt-1">
                                 <app-select-input
@@ -230,7 +230,7 @@ import plus from "@/assets/svgs/plus.vue";
 import App from "@/layouts/App.vue";
 import { handleError } from "@/utilities/GlobalFunctions";
 import { useStore } from "vuex";
-import { calculate } from "@/utilities/calculator";
+import { cashLoan } from "@/utilities/calculator";
 import { useRoute } from "vue-router";
 import Apis from "@/services/ApiCalls";
 import { CreateOrderSchema } from "@/shemas/CreateOrderSchema";
@@ -257,7 +257,7 @@ const get_calculations = ref([]);
 const Order = reactive({
     product: "",
     amount: 0,
-    repayment_duration_id: "",
+    repayment_duration_id: "2",
     repayment_cycle_id: "",
     first_guarantor_first_name: "",
     first_guarantor_last_name: "",
@@ -314,7 +314,7 @@ function setName(obj) {
     }
 }
 
-function Calculate() {
+ async function createNewSale() {
     try {
         const Data = { ...Order, payment_type_id: payment_type_id };
         const params = get_calculations.value.find((x) => {
@@ -324,24 +324,26 @@ function Calculate() {
                 x.repayment_duration_id == Order.repayment_duration_id
             );
         });
-        const { total, actualDownpayment, rePayment } = calculate(Order.amount, Data, params, 0);
-
+        const { total, actualDownpayment, rePayment } = cashLoan(Order.amount, Data, params, 0);
         OrderResult.value.total = total;
         OrderResult.value.actualDownpayment = actualDownpayment;
         OrderResult.value.rePayment = rePayment;
+       await SendtoApi()
     } catch (e) {
         window.localStorage.removeItem("data");
     }
 }
 
-async function createNewSale() {
-    await Calculate();
+
+ async function SendtoApi() {
+   
     const data = {
         customer_id: route.params.id,
         cost_price: Order.amount,
         down_payment: OrderResult.value.actualDownpayment,
         down_payment_rate_id: payment_type_id.value.id,
         product_price: OrderResult.value.total,
+        business_type_id:business_type.value.id,
         repayment: OrderResult.value.rePayment,
         repayment_cycle_id: parseInt(Order.repayment_cycle_id),
         repayment_duration_id: parseInt(Order.repayment_duration_id),
@@ -370,13 +372,13 @@ async function createNewSale() {
             return item?.file && item?.name;
         });
         valid
-            ? store.dispatch("InitiateCreditCheck", {
+            ?  store.dispatch("InitiateCreditCheck", {
                   ...data,
                   documents: await Upload(),
               })
             : handleError("Document name and image is required");
     } else {
-        store.dispatch("InitiateCreditCheck", data);
+         store.dispatch("InitiateCreditCheck", data);
     }
 }
 function onSelectChange(value, name) {
@@ -385,12 +387,12 @@ function onSelectChange(value, name) {
 async function RepaymentDuration() {
     const result = await Apis.repaymentduration();
     repayment_duration.value = result?.data?.data?.data.filter((duration) => {
-        return duration.name !== "nine_months";
+        return duration.name == "six_months";
     });
 }
 async function BusinessType() {
     const result = await Apis.businesstype();
-    business_type.value = result?.data?.data?.data.find((businesstype) => businesstype.slug == "ap_products");
+    business_type.value = result?.data?.data?.data.find((businesstype) => businesstype.slug == "ap_no_bs_new_non_verve");
 }
 async function GetCalculation() {
     const result = await Apis.getcalculations();
