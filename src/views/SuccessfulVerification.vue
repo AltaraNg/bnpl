@@ -258,6 +258,7 @@ async function PreviewAmmortization() {
         repayment_duration_id: Order.value.repayment_duration_id,
         product_name: Order.value.product.name,
         business_type_id: Order.value.business_type_id,
+        fixed_repayment:false,
     });
     Ammortization.value = result.result.plans;
 }
