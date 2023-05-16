@@ -208,6 +208,7 @@ async function processPayment() {
         repayment_duration_id: Order.value.repayment_duration_id,
         product_name: Order.value.product.name,
         cost_price: Order.value.product.price,
+        fixed_repayment:false,
         has_document: Order.value?.documents[0]?.document_url ? "yes" : "no",
     })
         .then(() => {
