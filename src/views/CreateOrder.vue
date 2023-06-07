@@ -257,7 +257,7 @@ const get_calculations = ref([]);
 const Order = reactive({
     product: "",
     amount: 0,
-    repayment_duration_id: "2",
+    repayment_duration_id: "1",
     repayment_cycle_id: "",
     first_guarantor_first_name: "",
     first_guarantor_last_name: "",
@@ -387,7 +387,7 @@ function onSelectChange(value, name) {
 async function RepaymentDuration() {
     const result = await Apis.repaymentduration();
     repayment_duration.value = result?.data?.data?.data.filter((duration) => {
-        return duration.name == "six_months";
+        return duration.name == "three_months";
     });
 }
 async function BusinessType() {
@@ -400,7 +400,7 @@ async function GetCalculation() {
 }
 async function Downpayment() {
     const result = await Apis.downpayments();
-    payment_type_id.value = result?.data?.data?.data.find((downPayment) => downPayment.name == "twenty");
+    payment_type_id.value = result?.data?.data?.data.find((downPayment) => downPayment.name == "forty");
 }
 
 watch(
