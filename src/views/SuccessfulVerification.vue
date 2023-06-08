@@ -274,11 +274,11 @@ async function GetCalculation() {
 }
 async function BusinessType() {
     const result = await Apis.businesstype();
-    business_type.value = result?.data?.data?.data.find((businesstype) => businesstype.slug == "ap_no_bs_new_non_verve");
+    business_type.value = result?.data?.data?.data.find((businesstype) => businesstype.slug == "ap_no_bs_product_non_verve");
 }
 async function Downpayment() {
     const result = await Apis.downpayments();
-    payment_type_id.value = result?.data?.data?.data.find((downPayment) => downPayment.name == "twenty");
+    payment_type_id.value = result?.data?.data?.data.find((downPayment) => downPayment.name == "forty");
 }
 
 onBeforeMount(async () => {
