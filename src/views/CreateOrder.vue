@@ -317,6 +317,7 @@ function setName(obj) {
  async function createNewSale() {
     try {
         const Data = { ...Order, payment_type_id: payment_type_id };
+
         const params = get_calculations.value.find((x) => {
             return (
                 x.business_type_id === business_type?.value?.id &&
@@ -324,6 +325,8 @@ function setName(obj) {
                 x.repayment_duration_id == Order.repayment_duration_id
             );
         });
+
+
         const { total, actualDownpayment, rePayment } = cashLoan(Order.amount, Data, params, 0);
         OrderResult.value.total = total;
         OrderResult.value.actualDownpayment = actualDownpayment;
@@ -392,7 +395,7 @@ async function RepaymentDuration() {
 }
 async function BusinessType() {
     const result = await Apis.businesstype();
-    business_type.value = result?.data?.data?.data.find((businesstype) => businesstype.slug == "ap_no_bs_new_non_verve");
+    business_type.value = result?.data?.data?.data.find((businesstype) => businesstype.slug == "ap_no_bs_product_non_verve");
 }
 async function GetCalculation() {
     const result = await Apis.getcalculations();
