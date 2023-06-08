@@ -333,7 +333,6 @@ function setName(obj) {
         OrderResult.value.rePayment = rePayment;
        await SendtoApi()
     } catch (e) {
-        console.log(e)
         window.localStorage.removeItem("data");
     }
 }
