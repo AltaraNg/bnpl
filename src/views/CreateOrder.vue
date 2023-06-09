@@ -230,7 +230,7 @@ import plus from "@/assets/svgs/plus.vue";
 import App from "@/layouts/App.vue";
 import { handleError } from "@/utilities/GlobalFunctions";
 import { useStore } from "vuex";
-import { cashLoan } from "@/utilities/calculator";
+import { calculate } from "@/utilities/calculator";
 import { useRoute } from "vue-router";
 import Apis from "@/services/ApiCalls";
 import { CreateOrderSchema } from "@/shemas/CreateOrderSchema";
@@ -325,9 +325,7 @@ function setName(obj) {
                 x.repayment_duration_id == Order.repayment_duration_id
             );
         });
-
-
-        const { total, actualDownpayment, rePayment } = cashLoan(Order.amount, Data, params, 0);
+        const { total, actualDownpayment, rePayment } = calculate(Order.amount, Data, params, 0);
         OrderResult.value.total = total;
         OrderResult.value.actualDownpayment = actualDownpayment;
         OrderResult.value.rePayment = rePayment;
