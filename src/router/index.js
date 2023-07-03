@@ -116,19 +116,19 @@ const router = createRouter({
             name: "AllTransactions",
             component: AllTransactions,
         },
-         {
+        {
             path: "/all-customers",
             name: "AllCustomers",
             component: AllCustomers,
         },
-        
+
         {
             path: "/commission",
             name: "Commission",
             component: Commission,
         },
         {
-            path: "/:id/:telephone/create-order",
+            path: "/:id/:phone_number/create-order",
             name: "CreateOrder",
             component: CreateOrder,
         },

@@ -10,7 +10,7 @@ export const ERROR = (state, error) => {
   state.status.error = error;
 };
 export const CUSTOMER_DETAILS = (state, response) => {
-    state.Customer = response;
+    state.customer_details = response?.data?.result;
 };
 export const CREATE_CUSTOMER = (state, response) => {
     state.Customer = response.result;

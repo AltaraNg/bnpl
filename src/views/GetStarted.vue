@@ -40,7 +40,7 @@
                                             </td>
                                             <td class="whitespace-nowrap py-4 text-sm text-gray-500">
                                                 <span
-                                                v-if="UserStatus(item) !== 'failed'"
+                                                v-if="hideNewSale(item) == 'hidden'"
                                                     @click="SeeMore(item)"
                                                     class="inline-flex rounded-full captalize px-2 text-xs font-semibold leading-5"
                                                     :class="[
@@ -151,10 +151,14 @@ const FindCustomer = async () => {
     return phone_number.value ? FilteredCustomer.value : Customers.value?.slice(0, 10);
 };
 function hideNewSale(customer) {
-    return UserStatus(customer) && UserStatus(customer) !== "failed" ? "hidden" : "block";
+    if(UserStatus(customer)){
+        return  UserStatus(customer) !== "failed" && UserStatus(customer) !== "Completed"  ? "hidden" : "block";
+    }
+    
 }
 function NewSale(item) {
     store.dispatch("NewSale", item);
+    
 }
 function OrderStatus(order) {
     let status = "";

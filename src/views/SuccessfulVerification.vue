@@ -297,6 +297,9 @@ const reference = computed(() => {
 
     return text;
 });
+const has_document = computed(()=>{
+   return Order.value?.documents[0]?.document_url ?"yes" :"no"
+})
 const validate = computed(() => {
     let validate = route.params.OTPvalidate == "validated" ? true : false;
 
