@@ -35,7 +35,7 @@
             </div>
         </div>
         <div v-if="Customer.latest_credit_checker_verifications">
-            <div class="lg:hidden" v-if="!Customer.orders.length > 0">
+            <div class="lg:hidden" >
                 <div class="overflow-hidden px-4 lg:px-8 pb-6">
                     <div class="relative mx-auto max-w-xl">
                         <div class="grid grid-cols-1 justify-items-center bg-green-400p pt-4">
@@ -83,7 +83,7 @@
                     </div>
                 </div>
             </div>
-            <div class="hidden my-8 lg:flex flex-col justify-center pl-8 items-center w-full" v-if="!Customer.orders.length > 0">
+            <div class="hidden my-8 lg:flex flex-col justify-center pl-8 items-center w-full" >
                 <div class="text-left w-full text-center my-6 text-gray-600 text-2xl font-semibold">Pending Verification:</div>
                 <TableVue class="w-2/3">
                     <template #columns>
@@ -127,6 +127,7 @@
                 </TableVue>
             </div>
             <div v-if="Customer.orders.length > 0">
+                <div class="text-left w-full text-left my-6 text-gray-600 text-2xl font-semibold">Orders:</div>
             <div class="lg:hidden">
                 <div class="overflow-hidden px-4 lg:px-8 pb-6">
                     <div class="relative mx-auto max-w-xl">
