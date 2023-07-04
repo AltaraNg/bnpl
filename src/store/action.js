@@ -39,7 +39,7 @@ export const CreateCustomer = ({ commit }, data) => {
         if (response) {
             commit("CREATE_CUSTOMER", response);
             handleSuccess("Success");
-            router.push({ name: "CreateOrder", params: { id: response?.result?.id, telephone:response?.result?.telephone} });
+            router.push({ name: "CreateOrder", params: { id: response?.result?.id, phone_number:response?.result?.telephone} });
         }
     });
 };

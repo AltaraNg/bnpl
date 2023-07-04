@@ -204,9 +204,11 @@ function UserStatus(customer) {
     const lastVerification = customer?.latest_credit_checker_verifications?.status;
     if (lastOrder && lastOrder !== "Completed" && lastVerification) {
         return lastOrder;
-    } else if ((!lastOrder || lastOrder === "Completed") && lastVerification) {
+    } else if ((!lastOrder || lastOrder === "Completed") && lastVerification !== "passed") {
         return lastVerification;
-    } else {
+    }else if ((lastOrder && lastOrder === "Completed") && lastVerification == "passed") {
+        return lastOrder;
+    }  else {
         return lastVerification;
     }
 }
