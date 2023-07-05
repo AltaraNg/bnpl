@@ -73,7 +73,7 @@
                                                             phone_number: item.telephone,
                                                         },
                                                     }"
-                                                    class="border rounded-full bg-primary px-3 py-1 text-white"
+                                                    class="border rounded-full bg-primary px-3 text-sm py-1 text-white"
                                                    v-if="UserStatus(item) == 'failed' && !item.latest_credit_checker_verifications?.documents[0]?.document_url"
                                                 >
                                                     Upload Document</router-link

@@ -8,7 +8,7 @@
                 relevant documents to enable your verification
             </p>
         </div>
-        <p class="mb-10 px-6 text-gray-600 text-left max-w-[90%]"><span class="font-semibold">Reason:</span>{{ Customer?.latest_credit_checker_verifications?.reason }}</p>
+        <p class="mb-10 px-6 text-gray-600 text-left max-w-[90%] font-bold"><span class="font-semibold">Reason: &nbsp; </span>{{ Customer?.latest_credit_checker_verifications?.reason }}</p>
 
         <div class="my-4 px-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
             <div v-for="(document, index) in DocumentUploads" :key="index" :class="document?.status ? 'hidden' : ''">
