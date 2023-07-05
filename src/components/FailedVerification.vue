@@ -6,7 +6,7 @@
         <p class="my-8 text-gray-600 text-center max-w-[90%]">We regret to inform you that your loan application has been denied due to failed verification. Our
             team has thoroughly reviewed the information you have
             provided and found discrepancies that prevent us from approving your loan request.</p>
-            <p class="mb-10 px-6 text-gray-600 text-left max-w-[90%] font-bold"><span class="font-semibold">Reason: &nbsp; </span>{{ Customer?.latest_credit_checker_verifications?.reason }}</p>
+            <p class="mb-10 px-6 text-gray-600 text-left max-w-[90%] font-normal">Reason: &nbsp; <span class="font-semibold">{{ Customer?.latest_credit_checker_verifications?.reason }} </span></p>
         <button type="button"
         @click="goBack"
             class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm  focus:outline-none focus:ring-0 min-w-[250px] justify-center mt-8">Go
