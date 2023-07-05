@@ -6,6 +6,7 @@
         <p class="my-8 text-gray-600 text-center max-w-[90%]">We regret to inform you that your loan application has been denied due to failed verification. Our
             team has thoroughly reviewed the information you have
             provided and found discrepancies that prevent us from approving your loan request.</p>
+            <p class="mb-10 px-6 text-gray-600 text-left max-w-[90%]"><span class="font-semibold">Reason:</span>{{ Customer?.latest_credit_checker_verifications?.reason }}</p>
         <button type="button"
         @click="goBack"
             class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm  focus:outline-none focus:ring-0 min-w-[250px] justify-center mt-8">Go
@@ -16,9 +17,20 @@
 
 <script setup>
 import App from "@/layouts/App.vue"
-import { useRouter } from "vue-router";
+import Apis from "@/services/ApiCalls";
+import { useRouter, useRoute } from "vue-router";
+import { ref, onBeforeMount } from "vue";
 const router = useRouter();
+const route = useRoute();
+const Customer = ref({});
 function goBack(){
     router.push({name:'GetStarted'})
 }
+async function CustomerDetails() {
+    const result = await Apis.customerdetails(route.params.phone_number);
+    Customer.value = result?.data?.result;
+}
+onBeforeMount(async () => {
+    CustomerDetails();
+});
 </script>
