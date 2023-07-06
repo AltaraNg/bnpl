@@ -1,7 +1,5 @@
 import { string, number } from "yup";
-import * as Yup from "yup";
-// import state from "@/store/state";
-// console.log(state.customer_details);
+import * as Yup from "yup";;
 const phoneRegExp = /^([0]{1})[0-9]{10}$/;
 export function CreateOrderSchema(orders) {
     return Yup.object().shape({
