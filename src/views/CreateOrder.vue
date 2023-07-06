@@ -6,7 +6,7 @@
                     <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">New Sale</h2>
                 </div>
 
-                <Form :validation-schema="CreateOrderSchema" v-slot="{ errors }" @submit="createNewSale">
+                <Form :validation-schema="CreateOrderSchema(Orders)" v-slot="{ errors }" @submit="createNewSale">
                     <div class="mt-9 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
                         <div>
                             <app-label label-title="Product" label-for="product" />
@@ -270,6 +270,7 @@ const Order = reactive({
 });
 const business_type = ref();
 const disabled = ref(true);
+const Orders = ref()
 const payment_type_id = ref();
 const OrderResult = ref({
     total: null,
@@ -403,6 +404,10 @@ async function Downpayment() {
     const result = await Apis.downpayments();
     payment_type_id.value = result?.data?.data?.data.find((downPayment) => downPayment.name == "forty");
 }
+async function CustomerDetails() {
+    const result = await Apis.customerdetails(route.params.phone_number);
+    Orders.value = result?.data?.result.orders;
+}
 
 watch(
     () => [...DocumentUploads.value],
@@ -420,6 +425,7 @@ onMounted(() => {
     BusinessType();
     GetCalculation();
     Downpayment();
+    CustomerDetails()
     // RepaymentCycle();
 });
 </script>
