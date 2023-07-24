@@ -235,7 +235,8 @@ function Calculate() {
                 x.repayment_duration_id === Order.value.repayment_duration_id
             );
         });
-        const { total, actualDownpayment, rePayment } = calculate(Data.amount, Data, params, 0);
+        const no_of_orders = Customer.value.orders.length
+        const { total, actualDownpayment, rePayment } = calculate(Data.amount, Data, params, 0, no_of_orders > 2 ? 2 : no_of_orders);
         OrderResult.value.total = total;
         OrderResult.value.actualDownpayment = actualDownpayment;
         OrderResult.value.rePayment = rePayment;
