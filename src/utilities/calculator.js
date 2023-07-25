@@ -1,4 +1,5 @@
-const calculate = (productPrice, data, params, percentage_discount) => {
+const calculate = (productPrice, data, params, percentage_discount, no_of_orders) => {
+  const interest = [3.5, 3, 2.75];
   const count = repaymentCount(
     data.repayment_duration_id.value,
     14
@@ -7,7 +8,7 @@ const calculate = (productPrice, data, params, percentage_discount) => {
   const upFront = Math.floor((data.payment_type_id.value.percent / 100) * marketPrice);
   const residual = Math.floor(marketPrice - upFront);
   const tempInstallment = residual / count;
-  const tempInterest = residual * (params.interest / 100);
+  const tempInterest = residual * (interest[no_of_orders] / 100);
   const totalPremium = (tempInstallment * count) + ( tempInterest * count ) + upFront;
   const labelPrice = totalPremium * (1 + params.tax / 100);
   let total = labelPrice;

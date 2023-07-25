@@ -252,7 +252,7 @@ const repayment_cycle = ref([
     },
 ]);
 const DocumentUploads = ref([{ name: "", file: "", index: "", display: "", status: "" }]);
-
+const Customer = ref();
 const get_calculations = ref([]);
 const Order = reactive({
     product: "",
@@ -326,7 +326,8 @@ function setName(obj) {
                 x.repayment_duration_id == Order.repayment_duration_id
             );
         });
-        const { total, actualDownpayment, rePayment } = calculate(Order.amount, Data, params, 0);
+        const no_of_orders = Customer.value.orders.length
+        const { total, actualDownpayment, rePayment } = calculate(Data.amount, Data, params, 0, no_of_orders > 2 ? 2 : no_of_orders);
         OrderResult.value.total = total;
         OrderResult.value.actualDownpayment = actualDownpayment;
         OrderResult.value.rePayment = rePayment;
@@ -406,6 +407,7 @@ async function Downpayment() {
 }
 async function CustomerDetails() {
     const result = await Apis.customerdetails(route.params.phone_number);
+    Customer.value = result.data.result
     Orders.value = result?.data?.result.orders;
 }
 
