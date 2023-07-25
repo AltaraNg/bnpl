@@ -1,9 +1,5 @@
 const calculate = (productPrice, data, params, percentage_discount, no_of_orders) => {
-  const interest = {
-      0:3.5,
-      1:3,
-      2:2.75
-  };
+  const interest = [3.5, 3, 2.75];
   const count = repaymentCount(
     data.repayment_duration_id.value,
     14
