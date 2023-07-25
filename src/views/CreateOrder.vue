@@ -327,9 +327,7 @@ function setName(obj) {
             );
         });
         const no_of_orders = Customer.value.orders.length
-        console.log(Customer.value.orders.length, 'customer')
         const { total, actualDownpayment, rePayment } = calculate(Data.amount, Data, params, 0, no_of_orders > 2 ? 2 : no_of_orders);
-       // const { total, actualDownpayment, rePayment } = calculate(Order.amount, Data, params, 0);
         OrderResult.value.total = total;
         OrderResult.value.actualDownpayment = actualDownpayment;
         OrderResult.value.rePayment = rePayment;
