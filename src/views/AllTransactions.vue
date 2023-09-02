@@ -40,7 +40,7 @@
                                          
                                             <span class="truncate">{{ transaction.bnpl_product.name }}</span>
                                             <span
-                                                ><span class="font-medium text-gray-900">{{ formatCurrency(transaction.price) }}</span>
+                                                ><span class="font-medium text-gray-900">{{ formatCurrency(transaction.bnpl_product.price) }}</span>
                                                 {{ transaction.order_number }}</span
                                             >
                                             <time :datetime="transaction.datetime">{{ transaction.order_date }}</time>
@@ -52,20 +52,7 @@
                         </li>
                     </ul>
 
-                    <nav class="flex items-center justify-between border-t border-gray-200 hidden bg-white px-4 py-3" aria-label="Pagination">
-                        <div class="flex flex-1 justify-between">
-                            <a
-                                href="#"
-                                class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-500"
-                                >Previous</a
-                            >
-                            <a
-                                href="#"
-                                class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-500"
-                                >Next</a
-                            >
-                        </div>
-                    </nav>
+                     <Pagination :response="response" :FetchList="FetchDashboard" />
                 </div>
 
                 <!-- Activity table (small breakpoint and up) -->
@@ -127,7 +114,7 @@
                                                 </div>
                                             </td>
                                             <td class="whitespace-nowrap px-4 py-4 text-left text-sm text-gray-500">
-                                                <span class="font-medium text-gray-900">{{ formatCurrency(transaction.product_price) }}</span>
+                                                <span class="font-medium text-gray-900">{{ formatCurrency(transaction.bnpl_product.price) }}</span>
                                             </td>
                                             <td class="hidden whitespace-nowrap px-4 py-4 text-sm text-gray-500 md:block">
                                                 <span  class="font-medium text-gray-900">
@@ -186,6 +173,7 @@ import plus from "@/assets/svgs/plus.vue";
 import {formatCurrency} from "@/utilities/GlobalFunctions"
 import Pagination from "@/components/Pagination.vue"
 
+
 const response = ref(null)
 const showModal = ref(false);
 const transactions =ref(undefined);
@@ -198,6 +186,6 @@ async function FetchDashboard(number) {
     });
 }
 onBeforeMount(async () => {
-    await FetchDashboard();
+    await FetchDashboard(1);
 });
 </script>

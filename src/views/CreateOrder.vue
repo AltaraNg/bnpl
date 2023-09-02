@@ -6,7 +6,7 @@
                     <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">New Sale</h2>
                 </div>
 
-                <Form @submit="createNewSale" :validation-schema="CreateOrderSchema" v-slot="{ errors }">
+                <Form :validation-schema="CreateOrderSchema(Orders)" v-slot="{ errors }" @submit="createNewSale">
                     <div class="mt-9 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
                         <div>
                             <app-label label-title="Product" label-for="product" />
@@ -32,7 +32,7 @@
                             </div>
                             <span class="invalid-feedback">{{ errors?.amount }}</span>
                         </div>
-                        <div>
+                        <div class="pointer-events-none">
                             <app-label label-title="Repayment Duration" label-for="repayment_duration" />
                             <div class="mt-1">
                                 <app-select-input
@@ -178,6 +178,31 @@
                                 <span class="invalid-feedback">{{ errors?.second_guarantor_home_address }}</span>
                             </div>
                         </div>
+                        <div>
+                            <p class="mb-2 text-gray-800 font-bold">Additional Documents</p>
+                            <p class="text-sm text-gray-800 leading-2">
+                                Please feel free to upload relevant documents to enable your verifications process. eg passport, drivers license
+                            </p>
+                        </div>
+                        <div></div>
+                        <div v-for="(document, index) in DocumentUploads" :key="index" :class="document?.status ? 'hidden' : ''">
+                            <div class="relative">
+                                <FileUploads
+                                    :index="index"
+                                    @fetch:currentDataURL="setDataURL"
+                                    @input="setName"
+                                    @delete="deleteFileUpload"
+                                    :image="DocumentUploads[index]?.display"
+                                />
+                            </div>
+                        </div>
+                        <div></div>
+                        <div></div>
+                        <div class="text-right lg:flex lg:justify-end sm:col-span-2">
+                            <button class="px-3 py-2 rounded text-white bg-primary font-normal" :disabled="disabled" @click="addMore">
+                                Add More
+                            </button>
+                        </div>
 
                         <div class="text-right mt-8 lg:flex lg:justify-center sm:col-span-2">
                             <defaultButton name=" New Sale" class="lg:w-1/3">
@@ -198,11 +223,12 @@ import AppInput from "@/components/AppInput.vue";
 import AppLabel from "@/components/AppLabel.vue";
 import AppSelectInput from "@/components/AppSelectInput.vue";
 import defaultButton from "@/components/button.vue";
-import { ref, reactive, onMounted } from "vue";
+import FileUploads from "@/components/FileUploads.vue";
+import { ref, reactive, onMounted, watch } from "vue";
 import CurrencyInput from "@/components/CurrencyInput.vue";
 import plus from "@/assets/svgs/plus.vue";
 import App from "@/layouts/App.vue";
-// import { handleError } from "../utilities/GlobalFunctions";
+import { handleError } from "@/utilities/GlobalFunctions";
 import { useStore } from "vuex";
 import { calculate } from "@/utilities/calculator";
 import { useRoute } from "vue-router";
@@ -225,11 +251,13 @@ const repayment_cycle = ref([
         value: 14,
     },
 ]);
+const DocumentUploads = ref([{ name: "", file: "", index: "", display: "", status: "" }]);
+const Customer = ref();
 const get_calculations = ref([]);
 const Order = reactive({
     product: "",
     amount: 0,
-    repayment_duration_id: "",
+    repayment_duration_id: "1",
     repayment_cycle_id: "",
     first_guarantor_first_name: "",
     first_guarantor_last_name: "",
@@ -241,17 +269,56 @@ const Order = reactive({
     second_guarantor_home_address: "",
 });
 const business_type = ref();
+const disabled = ref(true);
+const Orders = ref()
 const payment_type_id = ref();
 const OrderResult = ref({
     total: null,
     actualDownpayment: null,
     rePayment: null,
 });
+function deleteFileUpload(payload) {
+    DocumentUploads.value = DocumentUploads.value.map((document, index) => {
+        if (payload == index && payload !== 0) {
+            return { ...document, status: true };
+        } else {
+            return { ...document };
+        }
+    });
+}
 
+async function Upload() {
+    const arrayDoc = [];
+    const document =
+        DocumentUploads.value.length == 1 ? await Apis.uploadsingle(DocumentUploads.value[0]) : await Apis.uploadMultiple(DocumentUploads.value);
+    arrayDoc.push(document?.result?.file);
+    return DocumentUploads.value.length == 1 ? arrayDoc : document.result.files;
+}
 
-function Calculate() {
+function addMore() {
+    DocumentUploads.value.push({});
+    disabled.value = true;
+}
+function setDataURL(obj) {
+    if (!DocumentUploads.value[obj.index]) {
+        DocumentUploads.value.push({ file: obj.file, display: obj.display,  });
+    } else {
+        DocumentUploads.value[obj.index].file = obj.file;
+        DocumentUploads.value[obj.index].display = obj.display;
+    }
+}
+function setName(obj) {
+    if (!DocumentUploads.value[obj.index]) {
+        DocumentUploads.value.push({ name: obj.name });
+    } else {
+        DocumentUploads.value[obj.index].name = obj.name;
+    }
+}
+
+ async function createNewSale() {
     try {
         const Data = { ...Order, payment_type_id: payment_type_id };
+
         const params = get_calculations.value.find((x) => {
             return (
                 x.business_type_id === business_type?.value?.id &&
@@ -259,23 +326,27 @@ function Calculate() {
                 x.repayment_duration_id == Order.repayment_duration_id
             );
         });
-        const { total, actualDownpayment, rePayment } = calculate(Order.amount, Data, params, 0);
-
+        const no_of_orders = Customer.value.orders.length
+        const { total, actualDownpayment, rePayment } = calculate(Data.amount, Data, params, 0, no_of_orders > 2 ? 2 : no_of_orders);
         OrderResult.value.total = total;
         OrderResult.value.actualDownpayment = actualDownpayment;
         OrderResult.value.rePayment = rePayment;
+       await SendtoApi()
     } catch (e) {
         window.localStorage.removeItem("data");
     }
 }
 
-function createNewSale() {
-    Calculate();
-    store.dispatch("InitiateCreditCheck", {
+
+ async function SendtoApi() {
+   
+    const data = {
         customer_id: route.params.id,
+        cost_price: Order.amount,
         down_payment: OrderResult.value.actualDownpayment,
         down_payment_rate_id: payment_type_id.value.id,
-        product_price: Order.amount,
+        product_price: OrderResult.value.total,
+        business_type_id:business_type.value.id,
         repayment: OrderResult.value.rePayment,
         repayment_cycle_id: parseInt(Order.repayment_cycle_id),
         repayment_duration_id: parseInt(Order.repayment_duration_id),
@@ -294,7 +365,24 @@ function createNewSale() {
                 home_address: Order.second_guarantor_home_address,
             },
         ],
-    });
+    };
+    if (DocumentUploads.value[0].file || DocumentUploads.value[0].name) {
+        DocumentUploads.value = DocumentUploads.value.filter((doc) => {
+            return (doc?.file || doc?.name) && !doc?.status;
+        });
+
+        const valid = DocumentUploads.value.every((item) => {
+            return item?.file && item?.name;
+        });
+        valid
+            ?  store.dispatch("InitiateCreditCheck", {
+                  ...data,
+                  documents: await Upload(),
+              })
+            : handleError("Document name and image is required");
+    } else {
+         store.dispatch("InitiateCreditCheck", data);
+    }
 }
 function onSelectChange(value, name) {
     Order[name] = value;
@@ -302,12 +390,12 @@ function onSelectChange(value, name) {
 async function RepaymentDuration() {
     const result = await Apis.repaymentduration();
     repayment_duration.value = result?.data?.data?.data.filter((duration) => {
-        return duration.name !== "nine_months";
+        return duration.name == "three_months";
     });
 }
 async function BusinessType() {
     const result = await Apis.businesstype();
-    business_type.value = result?.data?.data?.data.find((businesstype) => businesstype.slug == "ap_products");
+    business_type.value = result?.data?.data?.data.find((businesstype) => businesstype.slug == "ap_no_bs_product_non_verve");
 }
 async function GetCalculation() {
     const result = await Apis.getcalculations();
@@ -315,19 +403,31 @@ async function GetCalculation() {
 }
 async function Downpayment() {
     const result = await Apis.downpayments();
-    payment_type_id.value = result?.data?.data?.data.find((downPayment) => downPayment.name == "twenty");
+    payment_type_id.value = result?.data?.data?.data.find((downPayment) => downPayment.name == "forty");
+}
+async function CustomerDetails() {
+    const result = await Apis.customerdetails(route.params.phone_number);
+    Customer.value = result.data.result
+    Orders.value = result?.data?.result.orders;
 }
 
-// async function RepaymentCycle() {
-//     const result = await Apis.repaymentcycle();
-//     repayment_cycle.value = result?.data?.data?.data;
-// }
-
+watch(
+    () => [...DocumentUploads.value],
+    () => {
+        DocumentUploads.value.map((doc) => {
+            if (!doc?.status) {
+                disabled.value = doc?.file && doc?.name ? false : true;
+            }
+        });
+    },
+    { deep: true }
+);
 onMounted(() => {
     RepaymentDuration();
     BusinessType();
     GetCalculation();
     Downpayment();
+    CustomerDetails()
     // RepaymentCycle();
 });
 </script>

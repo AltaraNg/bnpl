@@ -1,4 +1,4 @@
-name: Run tests
+name: Test Run tests
 on:
   pull_request:
     branches:
@@ -20,7 +20,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '15.x'
+        node-version: '18.x'
     - name: Run Tests
       run: |
         if echo $(git log --format=%B -n 1) | grep -q "Merge branch 'staging' into"; then

@@ -40,6 +40,7 @@
                                             </td>
                                             <td class="whitespace-nowrap py-4 text-sm text-gray-500">
                                                 <span
+                                                    v-if="hideNewSale(item) == 'hidden'"
                                                     @click="SeeMore(item)"
                                                     class="inline-flex rounded-full captalize px-2 text-xs font-semibold leading-5"
                                                     :class="[
@@ -62,6 +63,21 @@
                                             </td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500" @click="SeeMore(item)">
                                                 {{ item.telephone }}
+                                            </td>
+                                            <td  >
+                                                <router-link
+                                                    :to="{
+                                                        name: 'AdditionalVerification',
+                                                        params: {
+                                                            verification_id: item.latest_credit_checker_verifications.id,
+                                                            phone_number: item.telephone,
+                                                        },
+                                                    }"
+                                                    class="border rounded-full bg-primary px-3 text-sm py-1 text-white"
+                                                   v-if="UserStatus(item) == 'failed' && !item.latest_credit_checker_verifications?.documents[0]?.document_url"
+                                                >
+                                                    Upload Document</router-link
+                                                >
                                             </td>
                                         </tr>
                                     </template>
@@ -101,18 +117,26 @@
                                 </div>
                             </div>
                         </template>
-                        <div v-if="  Customers?.length == 0 || (!FilteredCustomer?.length && phone_number )" class="flex items-center flex-col justify-center">
-                            <ZeroState :response="(phone_number && !FilteredCustomer?.length) ? 'This customers phone number does not exist':'You have no transactions yet'" suggestion="you can create an acount by clicking below"></ZeroState>
-                                  <RouterLink :to="{ name: 'CreateCustomer', params: { telephone: phone_number } }">
+                        <div
+                            v-if="Customers?.length == 0 || (!FilteredCustomer?.length && phone_number)"
+                            class="flex items-center flex-col justify-center"
+                        >
+                            <ZeroState
+                                :response="
+                                    phone_number && !FilteredCustomer?.length
+                                        ? 'This customers phone number does not exist'
+                                        : 'You have no transactions yet'
+                                "
+                                suggestion="you can create an acount by clicking below"
+                            ></ZeroState>
+                            <RouterLink :to="{ name: 'CreateCustomer', params: { telephone: phone_number } }">
                                 <defaultButton name=" Create Account">
                                     <template v-slot:icon>
-                                        <plus />  
+                                        <plus />
                                     </template>
                                 </defaultButton>
                             </RouterLink>
                         </div>
-                        
-                        
                     </div>
                 </div>
             </div>
@@ -126,7 +150,7 @@ import TableVue from "@/components/Table";
 import { ref, onBeforeMount, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import defaultButton from "@/components/button.vue"
+import defaultButton from "@/components/button.vue";
 import plus from "@/assets/svgs/plus.vue";
 import ZeroState from "@/components/ZeroState.vue";
 import Apis from "@/services/ApiCalls";
@@ -150,7 +174,9 @@ const FindCustomer = async () => {
     return phone_number.value ? FilteredCustomer.value : Customers.value?.slice(0, 10);
 };
 function hideNewSale(customer) {
-    return UserStatus(customer) && UserStatus(customer) !== "failed" ? "hidden" : "block";
+    if (UserStatus(customer)) {
+        return UserStatus(customer) !== "failed" && UserStatus(customer) !== "Completed" ? "hidden" : "block";
+    }
 }
 function NewSale(item) {
     store.dispatch("NewSale", item);
@@ -174,7 +200,17 @@ function OrderStatus(order) {
 }
 
 function UserStatus(customer) {
-    return OrderStatus(customer?.orders[customer.orders.length - 1]?.status_id) || customer?.latest_credit_checker_verifications?.status || "";
+    const lastOrder = OrderStatus(customer?.orders[customer.orders.length - 1]?.status_id);
+    const lastVerification = customer?.latest_credit_checker_verifications?.status;
+    if (lastOrder && lastOrder !== "Completed" && lastVerification) {
+        return lastOrder;
+    } else if ((!lastOrder || lastOrder === "Completed") && lastVerification !== "passed") {
+        return lastVerification;
+    }else if ((lastOrder && lastOrder === "Completed") && lastVerification == "passed") {
+        return lastOrder;
+    }  else {
+        return lastVerification;
+    }
 }
 const DisplayCustomer = computed(() => {
     return phone_number.value ? FilteredCustomer.value : Customers.value?.slice(0, 10);
@@ -185,6 +221,5 @@ async function AllCustomers() {
 }
 onBeforeMount(() => {
     AllCustomers();
-    
 });
 </script>

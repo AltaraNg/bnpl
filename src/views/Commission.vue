@@ -28,11 +28,11 @@
                     <div v-else role="list" class="mt-2   overflow-hidden shadow sm:hidden">
                         <div v-for="transaction in commissions" :key="transaction.id">
                             <div class="flex flex-col m-5 rounded-3xl bg-white shadow-xl ring-1 ring-black/10 lg:p-6 p-4 mt-2">
-                                <div class="flex items-center justify-between">
-                                    <p class="text-base font-semibold mb-3 tracking-tight text-primary">Transaction Details</p>
+                                <div class="flex items-center ">
+                                    <p class="text-base w-6/12 font-semibold mb-3 tracking-tight text-primary">Transaction Details</p>
 
-                                    <div>
-                                        <p class="text-lg font-semibold text-gray-600">{{ transaction.product.name }}</p>
+                                    <div class="w-6/12 ml-3">
+                                        <p class="text-lg  font-semibold text-gray-600">{{ transaction.product.name }}</p>
                                         <span class="text-xs font-semibold leading- tracking-normal text-gray-500">
                                             {{transaction?.order?.order_number}}
                                         </span>
@@ -40,19 +40,19 @@
                                 </div>
 
                                 <div class="mt-3">
-                                    <div class="flex items-center justify-between">
-                                        <div>
+                                    <div class="flex items-center ">
+                                        <div class="w-6/12">
                                             <p class="text-gray-500 text-sm font-medium mt-4">Total Product Value:</p>
                                             <p class="text-gray-900 text-lg font-bold">{{ formatCurrency(transaction.product.price) }}</p>
                                         </div>
-                                        <div>
+                                        <div class="w-6/12 ml-3">
                                             <p class="text-gray-500 text-sm font-medium mt-4">{{transaction.commission.value}}% Commission value</p>
                                             <p class="flex items-baseline text-lg font-bold tracking-tight text-gray-900">
                                                 {{ formatCurrency(transaction?.amount) ||  '₦0.00'}} 
                                             </p>
                                         </div>
                                     </div>
-                                    <div>
+                                    <div class="w-5/12">
                                         <p class="text-gray-500 text-sm font-medium mt-4">Date:</p>
                                         <p class="text-gray-900 text-lg font-bold">{{ new Date(transaction.product.created_at).toLocaleDateString() }}</p>
                                     </div>

@@ -35,7 +35,7 @@
             </div>
         </div>
         <div v-if="Customer.latest_credit_checker_verifications">
-            <div class="lg:hidden" v-if="!Customer.orders.length > 0">
+            <div class="lg:hidden" >
                 <div class="overflow-hidden px-4 lg:px-8 pb-6">
                     <div class="relative mx-auto max-w-xl">
                         <div class="grid grid-cols-1 justify-items-center bg-green-400p pt-4">
@@ -83,8 +83,8 @@
                     </div>
                 </div>
             </div>
-            <div class="hidden my-8 lg:flex flex-col justify-center pl-8 items-center w-full" v-if="!Customer.orders.length > 0">
-                <div class="text-left w-full text-center my-6 text-gray-600 text-2xl font-semibold">Pending Verification:</div>
+            <div class="hidden my-8 lg:flex flex-col justify-center pl-8 items-center w-full" >
+                <div class="text-left w-full text-center my-6 text-gray-600 text-2xl font-semibold capitalize">{{ Customer.latest_credit_checker_verifications.status }} Verification:</div>
                 <TableVue class="w-2/3">
                     <template #columns>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Product Price</th>
@@ -127,6 +127,7 @@
                 </TableVue>
             </div>
             <div v-if="Customer.orders.length > 0">
+                <div class="text-left w-full text-left my-6 text-gray-600 text-2xl font-semibold">Orders:</div>
             <div class="lg:hidden">
                 <div class="overflow-hidden px-4 lg:px-8 pb-6">
                     <div class="relative mx-auto max-w-xl">
@@ -186,7 +187,6 @@
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Product Name</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Product Price</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Downpayment</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Repayment</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Duration/Cycle</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Status</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-primary">Date</th>
@@ -201,9 +201,7 @@
                                 </div>
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{{ formatCurrency(history.down_payment) }}</td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">
-                                {{ formatCurrency(history.amortizations[0].expected_amount) }}
-                            </td>
+                            
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">
                                 {{ findRepaymentDuration(history.repayment_duration_id, repayment_duration) }}/
                                 {{ findRepayment(history.repayment_cycle_id, repayment_cycle) }}
@@ -273,12 +271,12 @@
                 </div>
                 <div>
                     <p class="text-lg mb-1 font-semibold mt-2 text-gray-800">Amortizations</p>
-                    <TableVue>
+                    <TableVue class="hidden mb-8 lg:block">
                         <template #columns>
                             <th scope="col" class="px-5 py-3.5 text-left text-sm font-semibold text-gray-900">Date</th>
                             <th
                                 scope="col"
-                                class="px-5 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                 v-for="amortization in currentOrder.amortizations"
                                 :key="amortization"
                             >
@@ -298,6 +296,20 @@
                             </tr>
                         </template>
                     </TableVue>
+                    <div class="flex flex-wrap lg:hidden w-full space-y-2">
+                                    <div
+                                        v-for="amortization in currentOrder.amortizations"
+                                        :key="amortization"
+                                        class="rounded-lg bg-white p-3 w-1/2 md:w-1/3 flex items-center shadow-lg"
+                                    >
+                                        <div class="items-center flex flex-col justify-between w-full text-gray-800">
+                                            <p>{{ new Date(amortization.expected_payment_date).toLocaleDateString() }}</p>
+                                            <p class="font-bold">{{ formatCurrency(amortization.expected_amount) }}</p>
+                                        </div>
+
+                                        <!-- <SideModal v-if="sidebarOpen" @close="sidebarOpen = false" class=" lg:hidden"> hello </SideModal> -->
+                                    </div>
+                                </div>
                 </div>
             </div>
             <div class="mt-5 sm:mt-6 w-full flex justify-end">
@@ -368,9 +380,14 @@ function VerificationStatus(customer) {
               name: "SuccessfulVerification",
               params: { verification_id: customer.latest_credit_checker_verifications.id, phone_number: customer.telephone, OTPvalidate: "false" },
           })
-        : customer.latest_credit_checker_verifications.status == "failed"
+        : customer.latest_credit_checker_verifications.status == "failed" && customer.latest_credit_checker_verifications?.documents[0]?.document_url
         ? router.push({
               name: "FailedVerification",
+              params: { verification_id: customer.latest_credit_checker_verifications.id, phone_number: customer.telephone },
+          })
+        : customer.latest_credit_checker_verifications.status == "failed" && !customer.latest_credit_checker_verifications?.documents[0]?.document_url
+        ? router.push({
+              name: "AdditionalVerification",
               params: { verification_id: customer.latest_credit_checker_verifications.id, phone_number: customer.telephone },
           })
         : router.push({

@@ -13,8 +13,10 @@ import Commission from "../views/Commission.vue";
 import CreateCustomer from "../views/CreateCustomer.vue";
 import CreateOrder from '../views/CreateOrder.vue'
 import SuccessfulVerification from "@/views/SuccessfulVerification.vue";
+import AllCustomers from "@/views/AllCustomers.vue"
 import FailedVerification from "@/components/FailedVerification.vue"
 import OTP from "@/views/OTP.vue"
+import AdditionalVerification from "@/views/AdditionalVerification"
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes: [
@@ -85,6 +87,11 @@ const router = createRouter({
             component: FailedVerification,
         },
         {
+            path: "/additional_verification/:phone_number/:verification_id/failed",
+            name: "AdditionalVerification",
+            component: AdditionalVerification,
+        },
+        {
             path: "/success/:phone_number/:verification_id/:OTPvalidate",
             name: "SuccessfulVerification",
             component: SuccessfulVerification,
@@ -110,12 +117,18 @@ const router = createRouter({
             component: AllTransactions,
         },
         {
+            path: "/all-customers",
+            name: "AllCustomers",
+            component: AllCustomers,
+        },
+
+        {
             path: "/commission",
             name: "Commission",
             component: Commission,
         },
         {
-            path: "/:id/:telephone/create-order",
+            path: "/:id/:phone_number/create-order",
             name: "CreateOrder",
             component: CreateOrder,
         },

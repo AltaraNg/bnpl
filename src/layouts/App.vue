@@ -162,7 +162,7 @@ const navigation = [
   { name: "Profile", icon: UsersIcon, current: false, slug: "Profile" },
   { name: "Settings", icon: CogIcon, current: false, slug: "Settings" },
   { name: "Transactions", icon: ArrowsRightLeftIcon, current: false, slug: "AllTransactions" },
-   { name: "All Customers", icon: UserGroupIcon, current: false, slug: "GetStarted" },
+   { name: "All Customers", icon: UserGroupIcon, current: false, slug: "AllCustomers" },
    { name: "Log Out", icon: ArrowLeftOnRectangleIcon, current: false, slug: "login" },
     { name: "Commission", icon: ReceiptPercentIcon, current: false, slug: "Commission" }
 ];

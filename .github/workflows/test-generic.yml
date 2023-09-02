@@ -1,0 +1,14 @@
+name: Test Run tests
+on:
+  pull_request:
+    paths-ignore:
+      - '**.js'
+      - '**.vue'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+      - run: 'echo "No build required"'
