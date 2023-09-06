@@ -1,41 +1,41 @@
 <script setup>
-import { reactive, onMounted } from "vue";
-import { RouterView } from "vue-router";
-import Notification from "@/components/Notification.vue";
-import Loader from "@/components/Loader.vue";
-import PwaPrompt from "@/components/PwaPrompt.vue";
-import { XMarkIcon } from "@heroicons/vue/20/solid";
+  import { reactive, onMounted } from "vue";
+  import { RouterView } from "vue-router";
+  import Notification from "@/components/Notification.vue";
+  import Loader from "@/components/Loader.vue";
+  import PwaPrompt from "@/components/PwaPrompt.vue";
+  import { XMarkIcon } from "@heroicons/vue/20/solid";
 
-const state = reactive({
-  registration: null,
-  isRefresh: false,
-  refreshing: false,
-});
-
-onMounted(() => {
-  document.addEventListener("serviceWorkerUpdateEvent", appUpdateUI, {
-    once: true,
+  const state = reactive({
+    registration: null,
+    isRefresh: false,
+    refreshing: false,
   });
-  navigator.serviceWorker.addEventListener("controllerchange", () => {
-    if (state.refreshing) return;
-    state.refreshing = true;
-    window.location.reload();
-  });
-});
 
-const appUpdateUI = (e) => {
-  state.registration = e.detail;
-  state.isRefresh = true;
-};
-const update = () => {
-  state.isRefresh = false;
-  if (state.registration || state.registration.waiting) {
-    state.registration.waiting.postMessage({ type: "SKIP_WAITING" });
-  }
-};
-const dismiss = () => {
-  state.isRefresh = false;
-};
+  onMounted(() => {
+    document.addEventListener("serviceWorkerUpdateEvent", appUpdateUI, {
+      once: true,
+    });
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (state.refreshing) return;
+      state.refreshing = true;
+      window.location.reload();
+    });
+  });
+
+  const appUpdateUI = (e) => {
+    state.registration = e.detail;
+    state.isRefresh = true;
+  };
+  const update = () => {
+    state.isRefresh = false;
+    if (state.registration || state.registration.waiting) {
+      state.registration.waiting.postMessage({ type: "SKIP_WAITING" });
+    }
+  };
+  const dismiss = () => {
+    state.isRefresh = false;
+  };
 </script>
 
 <template>
@@ -69,7 +69,7 @@ const dismiss = () => {
   </div>
 </template>
 <style>
-body {
-  font-family: "Outfit", sans-serif;
-}
+  body {
+    font-family: "Outfit", sans-serif;
+  }
 </style>
