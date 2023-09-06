@@ -13,7 +13,9 @@ const state = reactive({
 });
 
 onMounted(() => {
-    document.addEventListener("serviceWorkerUpdateEvent", appUpdateUI, { once: true });
+    document.addEventListener("serviceWorkerUpdateEvent", appUpdateUI, {
+        once: true,
+    });
     navigator.serviceWorker.addEventListener("controllerchange", () => {
         if (state.refreshing) return;
         state.refreshing = true;
