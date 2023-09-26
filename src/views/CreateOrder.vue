@@ -178,31 +178,43 @@
                                 <span class="invalid-feedback">{{ errors?.second_guarantor_home_address }}</span>
                             </div>
                         </div>
-                        <div>
+                        <div class="mt-5">
                             <p class="mb-2 text-gray-800 font-bold">Additional Documents</p>
                             <p class="text-sm text-gray-800 leading-2">
                                 Please feel free to upload relevant documents to enable your verifications process. eg passport, drivers license
                             </p>
                         </div>
 
-                        <div class="flex flex-col items-end">
-                            <div class="relative w-1/2">
-                                <app-label label-title="Bank Name" label-for="bank_name" />
-                                <app-select-input
-                                    name="bank_statement_choice"
-                                    v-model="bankStatementData.bank_statement_choice"
-                                    :modelValue="bankStatementData.bank_statement_choice"
-                                    @update:modelValue="onSelectStatementChoice"
-                                >
-                                    <option value="" disabled>Select Bank Choice</option>
-                                    <option class="text-sm" v-for="option in statement_choices" :key="option.id" :value="option.id">
-                                        {{ option.name }}
-                                    </option>
-                                </app-select-input>
+                        <div class="flex flex-col mt-5" :class="Uploaded ? 'pointer-events-none opacity-50' : ''">
+                            <p class="mb-2 text-gray-800 font-bold">Bank Statement Upload</p>
+                            <div class="flex items-end">
+                                <div class="relative w-10/12">
+                                    <app-label label-title="Bank Name" label-for="bank_name" />
+                                    <app-select-input
+                                        name="bank_statement_choice"
+                                        v-model="bankStatementData.bank_statement_choice"
+                                        :modelValue="bankStatementData.bank_statement_choice"
+                                        @update:modelValue="onSelectStatementChoice"
+                                    >
+                                        <option value="" disabled>Select Bank Choice</option>
+                                        <option class="text-sm" v-for="option in statement_choices" :key="option.key" :value="option.key">
+                                            {{ option.name }}
+                                        </option>
+                                    </app-select-input>
 
-                                <input type="file" ref="pdfInput" accept="application/pdf" style="display: none" @change="handlePDFChange" />
-                                <pdf style="position: absolute; right: 10px; top: 50%; cursor: pointer" @click="uploadPDF()" />
+                                    <input type="file" ref="pdfInput" accept="application/pdf" style="display: none" @change="handlePDFChange" />
+                                    <pdf style="position: absolute; right: 10px; top: 50%; cursor: pointer" @click="uploadPDF()" />
+                                </div>
+
+                                <button
+                                    class="px-3 py-2 rounded text-white bg-primary font-normal"
+                                    :disabled="!Object.values(bankStatementData).every((value) => value)"
+                                    @click="uploadBankStatement"
+                                >
+                                    <loader v-if="loading" /> <span v-else>Upload</span>
+                                </button>
                             </div>
+
                             <div v-if="bankStatementData.bank_statement_pdf">Selected PDF: {{ bankStatementData.bank_statement_pdf.name }}</div>
                         </div>
 
@@ -249,7 +261,8 @@ import { ref, reactive, onMounted, watch } from "vue";
 import CurrencyInput from "@/components/CurrencyInput.vue";
 import plus from "@/assets/svgs/plus.vue";
 import App from "@/layouts/App.vue";
-import { handleError } from "@/utilities/GlobalFunctions";
+import loader from "@/assets/svgs/loader.vue";
+import { handleError, handleSuccess } from "@/utilities/GlobalFunctions";
 import { useStore } from "vuex";
 import { calculate } from "@/utilities/calculator";
 import { useRoute } from "vue-router";
@@ -293,9 +306,15 @@ const Order = reactive({
 const pdfInput = ref();
 const business_type = ref();
 const statement_choices = ref();
-const bankStatementData = ref({});
+const bankStatementData = ref({
+    customer_id: route.params.id,
+    bank_statement_choice: "",
+    bank_statement_pdf: "",
+});
 const disabled = ref(true);
 const Orders = ref();
+const Uploaded = ref(false);
+const loading = ref(false);
 const payment_type_id = ref();
 const OrderResult = ref({
     total: null,
@@ -310,6 +329,21 @@ function deleteFileUpload(payload) {
             return { ...document };
         }
     });
+}
+async function uploadBankStatement() {
+    loading.value = true;
+    await Apis.uploadBankStatement(bankStatementData.value)
+        .then((res) => {
+            handleSuccess("Bank Statement Uploaded");
+            Uploaded.value = true;
+            console.log(res);
+        })
+        .catch(() => {
+            handleError("Error reading bankstatement");
+        })
+        .finally(() => {
+            loading.value = false;
+        });
 }
 
 async function Upload() {
@@ -370,7 +404,7 @@ function handlePDFChange(event) {
         // Handle the selected PDF file
         bankStatementData.value.bank_statement_pdf = selectedFile;
     } else {
-        alert("Please select a valid PDF file.");
+        handleError("Please select a valid PDF file.");
     }
 }
 
@@ -429,7 +463,7 @@ async function RepaymentDuration() {
     });
 }
 function onSelectStatementChoice(value, name) {
-    bankStatementData[name] = value;
+    bankStatementData.value[name] = value;
 }
 async function getStatementChoices() {
     const result = await Apis.statementChoices();

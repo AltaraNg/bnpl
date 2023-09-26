@@ -28,6 +28,9 @@ export default {
     statementChoices() {
         return new Apiservice().changeBaseURL(process.env.VUE_APP_BANKSTATEMENT_API).get("/bank-statement-choices");
     },
+    uploadBankStatement(data) {
+        return new Apiservice().changeBaseURL(process.env.VUE_APP_BANKSTATEMENT_API).post("/bank-statements", data, true);
+    },
     initiatecreditcheck(data) {
         return new Apiservice().post("initiate/credit/check", data);
     },
