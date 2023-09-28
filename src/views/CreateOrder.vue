@@ -6,7 +6,7 @@
                     <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">New Sale</h2>
                 </div>
 
-                <Form :validation-schema="CreateOrderSchema(Orders)" v-slot="{ errors }" @submit="createNewSale">
+                <Form :validation-schema="CreateOrderSchema(Orders)" v-slot="{ errors }">
                     <div class="mt-9 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
                         <div>
                             <app-label label-title="Product" label-for="product" />
@@ -209,7 +209,7 @@
                                 <button
                                     class="px-3 py-2 rounded text-white bg-primary font-normal"
                                     :disabled="!Object.values(bankStatementData).every((value) => value)"
-                                    @click="uploadBankStatement"
+                                    @click.prevent="uploadBankStatement"
                                 >
                                     <loader v-if="loading" /> <span v-else>Upload</span>
                                 </button>
@@ -239,7 +239,7 @@
                         </div>
 
                         <div class="text-right mt-8 lg:flex lg:justify-center sm:col-span-2">
-                            <defaultButton name=" New Sale" class="lg:w-1/3">
+                            <defaultButton name=" New Sale" class="lg:w-1/3" @click.prevent="createNewSale">
                                 <template v-slot:icon>
                                     <plus />
                                 </template>
@@ -333,18 +333,13 @@ function deleteFileUpload(payload) {
 }
 async function uploadBankStatement() {
     loading.value = true;
-    await Apis.uploadBankStatement(bankStatementData.value)
-        .then(() => {
-            handleSuccess("Bank Statement Uploaded");
-            Uploaded.value = true;
-            bankStatementData.value = {};
-        })
-        .catch(() => {
-            handleError("Error reading bankstatement");
-        })
-        .finally(() => {
-            loading.value = false;
-        });
+    const response = await Apis.uploadBankStatement(bankStatementData.value);
+    if (response) {
+        handleSuccess("Bank Statement Uploaded");
+        Uploaded.value = true;
+        bankStatementData.value = {};
+    }
+    loading.value = false;
 }
 
 async function Upload() {
@@ -443,14 +438,12 @@ async function SendtoApi() {
         const valid = DocumentUploads.value.every((item) => {
             return item?.file && item?.name;
         });
-        if (valid) {
-            bankStatementData.value.bank_statement_choice && bankStatementData.value.bank_statement_pdf
-                ? handleError("Click on upload to submit bank statement")
-                : store.dispatch("InitiateCreditCheck", {
-                      ...data,
-                      documents: await Upload(),
-                  });
-        } else handleError("Document name and image is required");
+        valid
+            ? store.dispatch("InitiateCreditCheck", {
+                  ...data,
+                  documents: await Upload(),
+              })
+            : handleError("Document name and image is required");
     } else {
         store.dispatch("InitiateCreditCheck", data);
     }
