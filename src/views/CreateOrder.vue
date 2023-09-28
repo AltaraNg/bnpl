@@ -187,10 +187,9 @@
 
                         <div class="flex flex-col mt-5" :class="Uploaded ? 'pointer-events-none opacity-50' : ''">
                             <p class="mb-2 text-gray-800 font-bold">Bank Statement Upload</p>
-                            <p class="text-sm text-gray-800 leading-2">Please securely upload your bank statements using the provided input field.</p>
+                            <p class="text-sm text-gray-800 leading-2">Please upload your bank statements using the provided field.</p>
                             <div class="flex items-end">
                                 <div class="relative w-10/12 mr-2">
-                                    <app-label label-title="Bank Name" label-for="bank_name" />
                                     <app-select-input
                                         name="bank_statement_choice"
                                         v-model="bankStatementData.bank_statement_choice"
@@ -204,7 +203,7 @@
                                     </app-select-input>
 
                                     <input type="file" ref="pdfInput" accept="application/pdf" style="display: none" @change="handlePDFChange" />
-                                    <pdf style="position: absolute; right: 10px; top: 50%; cursor: pointer" @click="uploadPDF()" />
+                                    <pdf style="position: absolute; right: 10px; top: 25%; cursor: pointer" @click="uploadPDF()" />
                                 </div>
 
                                 <button
@@ -338,7 +337,7 @@ async function uploadBankStatement() {
         .then(() => {
             handleSuccess("Bank Statement Uploaded");
             Uploaded.value = true;
-            Order.bank_statement = "";
+            bankStatementData.value = {};
         })
         .catch(() => {
             handleError("Error reading bankstatement");
@@ -441,16 +440,17 @@ async function SendtoApi() {
         DocumentUploads.value = DocumentUploads.value.filter((doc) => {
             return (doc?.file || doc?.name) && !doc?.status;
         });
-
         const valid = DocumentUploads.value.every((item) => {
             return item?.file && item?.name;
         });
-        valid
-            ? store.dispatch("InitiateCreditCheck", {
-                  ...data,
-                  documents: await Upload(),
-              })
-            : handleError("Document name and image is required");
+        if (valid) {
+            bankStatementData.value.bank_statement_choice && bankStatementData.value.bank_statement_pdf
+                ? handleError("Click on upload to submit bank statement")
+                : store.dispatch("InitiateCreditCheck", {
+                      ...data,
+                      documents: await Upload(),
+                  });
+        } else handleError("Document name and image is required");
     } else {
         store.dispatch("InitiateCreditCheck", data);
     }
