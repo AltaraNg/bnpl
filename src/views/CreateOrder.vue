@@ -509,19 +509,4 @@ onMounted(() => {
     CustomerDetails();
     // RepaymentCycle();
 });
-// watch(
-//     () => bankStatementData.value,
-//     () => {
-//         Order.bank_statement = bankStatementData.value.bank_statement_choice && bankStatementData.value.bank_statement_pdf ? 'allow_upload' : null
-//     },
-//     { deep: true }
-
-// );
-watch(
-    () => Order,
-    () => {
-        console.log(Order);
-    },
-    { deep: true }
-);
 </script>

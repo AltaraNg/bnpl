@@ -1,14 +1,12 @@
 <template>
-    <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 32 32">
         <path
-            d="M25 28H6.99902C6.73381 28 6.47945 27.8946 6.29192 27.7071C6.10438 27.5196 5.99902 27.2652 5.99902 27V5C5.99902 4.73478 6.10438 4.48043 6.29192 4.29289C6.47945 4.10536 6.73381 4 6.99902 4H19L26 11V27C26 27.1313 25.9741 27.2614 25.9239 27.3827C25.8736 27.504 25.8 27.6143 25.7071 27.7071C25.6143 27.8 25.504 27.8736 25.3827 27.9239C25.2614 27.9741 25.1313 28 25 28Z"
             stroke="#074A74"
-            stroke-width="3"
             stroke-linecap="round"
             stroke-linejoin="round"
+            stroke-width="3"
+            d="M25 28H6.999a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1H19l7 7v16a1.001 1.001 0 0 1-1 1Z"
         />
-        <path d="M18.5 4V11.5H26.001" stroke="#074A74" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-        <path d="M12 16.5H20" stroke="#074A74" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-        <path d="M12 21.5H20" stroke="#074A74" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+        <path stroke="#074A74" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M18.5 4v7.5h7.501M12 16.5h8M12 21.5h8" />
     </svg>
 </template>
