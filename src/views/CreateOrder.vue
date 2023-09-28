@@ -6,7 +6,7 @@
                     <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">New Sale</h2>
                 </div>
 
-                <Form :validation-schema="CreateOrderSchema(Orders)" v-slot="{ errors }" @submit="createNewSale">
+                <Form :validation-schema="CreateOrderSchema(Orders)" v-slot="{ errors }">
                     <div class="mt-9 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
                         <div>
                             <app-label label-title="Product" label-for="product" />
@@ -178,13 +178,47 @@
                                 <span class="invalid-feedback">{{ errors?.second_guarantor_home_address }}</span>
                             </div>
                         </div>
-                        <div>
+                        <div class="mt-5">
                             <p class="mb-2 text-gray-800 font-bold">Additional Documents</p>
                             <p class="text-sm text-gray-800 leading-2">
                                 Please feel free to upload relevant documents to enable your verifications process. eg passport, drivers license
                             </p>
                         </div>
-                        <div></div>
+
+                        <div class="flex flex-col mt-5" :class="Uploaded ? 'pointer-events-none opacity-50' : ''">
+                            <p class="mb-2 text-gray-800 font-bold">Bank Statement Upload</p>
+                            <p class="text-sm text-gray-800 leading-2">Please upload your bank statements using the provided field.</p>
+                            <div class="flex items-end">
+                                <div class="relative w-10/12 mr-2">
+                                    <app-select-input
+                                        name="bank_statement_choice"
+                                        v-model="bankStatementData.bank_statement_choice"
+                                        :modelValue="bankStatementData.bank_statement_choice"
+                                        @update:modelValue="onSelectStatementChoice"
+                                    >
+                                        <option value="" disabled>Select Bank Choice</option>
+                                        <option class="text-sm" v-for="option in statement_choices" :key="option.key" :value="option.key">
+                                            {{ option.name }}
+                                        </option>
+                                    </app-select-input>
+
+                                    <input type="file" ref="pdfInput" accept="application/pdf" style="display: none" @change="handlePDFChange" />
+                                    <pdf style="position: absolute; right: 10px; top: 25%; cursor: pointer" @click="uploadPDF()" />
+                                </div>
+
+                                <button
+                                    class="px-3 py-2 rounded text-white bg-primary font-normal"
+                                    :disabled="!Object.values(bankStatementData).every((value) => value)"
+                                    @click.prevent="uploadBankStatement"
+                                >
+                                    <loader v-if="loading" /> <span v-else>Upload</span>
+                                </button>
+                            </div>
+
+                            <div v-if="bankStatementData.bank_statement_pdf">Selected PDF: {{ bankStatementData.bank_statement_pdf.name }}</div>
+                            <span class="invalid-feedback">{{ errors?.bank_statement }}</span>
+                        </div>
+
                         <div v-for="(document, index) in DocumentUploads" :key="index" :class="document?.status ? 'hidden' : ''">
                             <div class="relative">
                                 <FileUploads
@@ -205,7 +239,7 @@
                         </div>
 
                         <div class="text-right mt-8 lg:flex lg:justify-center sm:col-span-2">
-                            <defaultButton name=" New Sale" class="lg:w-1/3">
+                            <defaultButton name=" New Sale" class="lg:w-1/3" @click.prevent="createNewSale">
                                 <template v-slot:icon>
                                     <plus />
                                 </template>
@@ -228,12 +262,14 @@ import { ref, reactive, onMounted, watch } from "vue";
 import CurrencyInput from "@/components/CurrencyInput.vue";
 import plus from "@/assets/svgs/plus.vue";
 import App from "@/layouts/App.vue";
-import { handleError } from "@/utilities/GlobalFunctions";
+import loader from "@/assets/svgs/loader.vue";
+import { handleError, handleSuccess } from "@/utilities/GlobalFunctions";
 import { useStore } from "vuex";
 import { calculate } from "@/utilities/calculator";
 import { useRoute } from "vue-router";
 import Apis from "@/services/ApiCalls";
 import { CreateOrderSchema } from "@/shemas/CreateOrderSchema";
+import pdf from "@/assets/images/pdf.vue";
 const store = useStore();
 const route = useRoute();
 const repayment_duration = ref();
@@ -268,9 +304,18 @@ const Order = reactive({
     second_guarantor_telephone: "",
     second_guarantor_home_address: "",
 });
+const pdfInput = ref();
 const business_type = ref();
+const statement_choices = ref();
+const bankStatementData = ref({
+    customer_id: route.params.id,
+    bank_statement_choice: "",
+    bank_statement_pdf: "",
+});
 const disabled = ref(true);
-const Orders = ref()
+const Orders = ref();
+const Uploaded = ref(false);
+const loading = ref(false);
 const payment_type_id = ref();
 const OrderResult = ref({
     total: null,
@@ -285,6 +330,16 @@ function deleteFileUpload(payload) {
             return { ...document };
         }
     });
+}
+async function uploadBankStatement() {
+    loading.value = true;
+    const response = await Apis.uploadBankStatement(bankStatementData.value);
+    if (response) {
+        handleSuccess("Bank Statement Uploaded");
+        Uploaded.value = true;
+        bankStatementData.value = {};
+    }
+    loading.value = false;
 }
 
 async function Upload() {
@@ -301,7 +356,7 @@ function addMore() {
 }
 function setDataURL(obj) {
     if (!DocumentUploads.value[obj.index]) {
-        DocumentUploads.value.push({ file: obj.file, display: obj.display,  });
+        DocumentUploads.value.push({ file: obj.file, display: obj.display });
     } else {
         DocumentUploads.value[obj.index].file = obj.file;
         DocumentUploads.value[obj.index].display = obj.display;
@@ -315,7 +370,7 @@ function setName(obj) {
     }
 }
 
- async function createNewSale() {
+async function createNewSale() {
     try {
         const Data = { ...Order, payment_type_id: payment_type_id };
 
@@ -326,27 +381,37 @@ function setName(obj) {
                 x.repayment_duration_id == Order.repayment_duration_id
             );
         });
-        const no_of_orders = Customer.value.orders.length
+        const no_of_orders = Customer.value.orders.length;
         const { total, actualDownpayment, rePayment } = calculate(Data.amount, Data, params, 0, no_of_orders > 2 ? 2 : no_of_orders);
         OrderResult.value.total = total;
         OrderResult.value.actualDownpayment = actualDownpayment;
         OrderResult.value.rePayment = rePayment;
-       await SendtoApi()
+        await SendtoApi();
     } catch (e) {
         window.localStorage.removeItem("data");
     }
 }
+function uploadPDF() {
+    pdfInput.value.click();
+}
+function handlePDFChange(event) {
+    const selectedFile = event.target.files[0];
+    if (selectedFile && selectedFile.type === "application/pdf") {
+        // Handle the selected PDF file
+        bankStatementData.value.bank_statement_pdf = selectedFile;
+    } else {
+        handleError("Please select a valid PDF file.");
+    }
+}
 
-
- async function SendtoApi() {
-   
+async function SendtoApi() {
     const data = {
         customer_id: route.params.id,
         cost_price: Order.amount,
         down_payment: OrderResult.value.actualDownpayment,
         down_payment_rate_id: payment_type_id.value.id,
         product_price: OrderResult.value.total,
-        business_type_id:business_type.value.id,
+        business_type_id: business_type.value.id,
         repayment: OrderResult.value.rePayment,
         repayment_cycle_id: parseInt(Order.repayment_cycle_id),
         repayment_duration_id: parseInt(Order.repayment_duration_id),
@@ -370,18 +435,17 @@ function setName(obj) {
         DocumentUploads.value = DocumentUploads.value.filter((doc) => {
             return (doc?.file || doc?.name) && !doc?.status;
         });
-
         const valid = DocumentUploads.value.every((item) => {
             return item?.file && item?.name;
         });
         valid
-            ?  store.dispatch("InitiateCreditCheck", {
+            ? store.dispatch("InitiateCreditCheck", {
                   ...data,
                   documents: await Upload(),
               })
             : handleError("Document name and image is required");
     } else {
-         store.dispatch("InitiateCreditCheck", data);
+        store.dispatch("InitiateCreditCheck", data);
     }
 }
 function onSelectChange(value, name) {
@@ -392,6 +456,13 @@ async function RepaymentDuration() {
     repayment_duration.value = result?.data?.data?.data.filter((duration) => {
         return duration.name == "three_months";
     });
+}
+function onSelectStatementChoice(value, name) {
+    bankStatementData.value[name] = value;
+}
+async function getStatementChoices() {
+    const result = await Apis.statementChoices();
+    statement_choices.value = result.data;
 }
 async function BusinessType() {
     const result = await Apis.businesstype();
@@ -407,7 +478,7 @@ async function Downpayment() {
 }
 async function CustomerDetails() {
     const result = await Apis.customerdetails(route.params.phone_number);
-    Customer.value = result.data.result
+    Customer.value = result.data.result;
     Orders.value = result?.data?.result.orders;
 }
 
@@ -423,11 +494,12 @@ watch(
     { deep: true }
 );
 onMounted(() => {
+    getStatementChoices();
     RepaymentDuration();
     BusinessType();
     GetCalculation();
     Downpayment();
-    CustomerDetails()
+    CustomerDetails();
     // RepaymentCycle();
 });
 </script>

@@ -25,6 +25,12 @@ export default {
     repaymentcycle() {
         return new Apiservice().changeBaseURL(process.env.VUE_APP_CONTROL_API_URL).get("api/repayment_cycle");
     },
+    statementChoices() {
+        return new Apiservice().changeBaseURL(process.env.VUE_APP_BANKSTATEMENT_API).get("/bank-statement-choices");
+    },
+    uploadBankStatement(data) {
+        return new Apiservice().changeBaseURL(process.env.VUE_APP_BANKSTATEMENT_API).post("/bank-statements", data, true, false, false);
+    },
     initiatecreditcheck(data) {
         return new Apiservice().post("initiate/credit/check", data);
     },

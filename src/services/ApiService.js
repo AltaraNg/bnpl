@@ -38,8 +38,10 @@ export class Apiservice {
         }
     }
 
-    async post(url, data, isFormData, binary) {
-        store.dispatch("loader/show", { root: true });
+    async post(url, data, isFormData, binary, allowLoader = true) {
+        if (allowLoader) {
+            store.dispatch("loader/show", { root: true });
+        }
         // handle content type application/json
         let postData = data;
         if (isFormData) {
@@ -67,14 +69,14 @@ export class Apiservice {
     }
 
     async ArrayFormData(url, data) {
-          let documents = {}; 
-          store.dispatch("loader/show", { root: true });
-          let newArr = data.map((obj) => {
+        let documents = {};
+        store.dispatch("loader/show", { root: true });
+        let newArr = data.map((obj) => {
             delete obj.display;
-            delete obj.status
-              return obj; // return the new object without "bar" property
-          });                 
-          documents = { documents: newArr };
+            delete obj.status;
+            return obj; // return the new object without "bar" property
+        });
+        documents = { documents: newArr };
 
         this.setRequestHeaders({ "Content-Type": "multipart/form-data" });
         try {
