@@ -187,8 +187,9 @@
 
                         <div class="flex flex-col mt-5" :class="Uploaded ? 'pointer-events-none opacity-50' : ''">
                             <p class="mb-2 text-gray-800 font-bold">Bank Statement Upload</p>
+                            <p class="text-sm text-gray-800 leading-2">Please securely upload your bank statements using the provided input field.</p>
                             <div class="flex items-end">
-                                <div class="relative w-10/12">
+                                <div class="relative w-10/12 mr-2">
                                     <app-label label-title="Bank Name" label-for="bank_name" />
                                     <app-select-input
                                         name="bank_statement_choice"
@@ -216,6 +217,7 @@
                             </div>
 
                             <div v-if="bankStatementData.bank_statement_pdf">Selected PDF: {{ bankStatementData.bank_statement_pdf.name }}</div>
+                            <span class="invalid-feedback">{{ errors?.bank_statement }}</span>
                         </div>
 
                         <div v-for="(document, index) in DocumentUploads" :key="index" :class="document?.status ? 'hidden' : ''">
@@ -333,10 +335,10 @@ function deleteFileUpload(payload) {
 async function uploadBankStatement() {
     loading.value = true;
     await Apis.uploadBankStatement(bankStatementData.value)
-        .then((res) => {
+        .then(() => {
             handleSuccess("Bank Statement Uploaded");
             Uploaded.value = true;
-            console.log(res);
+            Order.bank_statement = "";
         })
         .catch(() => {
             handleError("Error reading bankstatement");
@@ -507,4 +509,19 @@ onMounted(() => {
     CustomerDetails();
     // RepaymentCycle();
 });
+// watch(
+//     () => bankStatementData.value,
+//     () => {
+//         Order.bank_statement = bankStatementData.value.bank_statement_choice && bankStatementData.value.bank_statement_pdf ? 'allow_upload' : null
+//     },
+//     { deep: true }
+
+// );
+watch(
+    () => Order,
+    () => {
+        console.log(Order);
+    },
+    { deep: true }
+);
 </script>
