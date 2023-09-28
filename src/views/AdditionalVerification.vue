@@ -1,6 +1,6 @@
 <template>
     <App>
-        <div class="grid grid-cols-1 justify-items-center bg-green-400p py-8" >
+        <div class="grid grid-cols-1 justify-items-center bg-green-400p py-8">
             <img src="/img/failed.png" alt="verification" class="max-w-[250px]" />
             <p class="text-3xl">Failed Verification</p>
             <p class="mt-4 text-gray-600 text-center max-w-[90%]">
@@ -8,7 +8,12 @@
                 relevant documents to enable your verification
             </p>
         </div>
-        <p v-if="Customer?.latest_credit_checker_verifications?.reason" class="capitalize mb-10 px-6 text-gray-600 text-center max-w-[90%] font-normal">Reason: <span class="font-semibold">{{ Customer?.latest_credit_checker_verifications?.reason }} </span></p>
+        <p
+            v-if="Customer?.latest_credit_checker_verifications?.reason"
+            class="capitalize mb-10 px-6 text-gray-600 text-center max-w-[90%] font-normal"
+        >
+            Reason: <span class="font-semibold">{{ Customer?.latest_credit_checker_verifications?.reason }} </span>
+        </p>
 
         <div class="my-4 px-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
             <div v-for="(document, index) in DocumentUploads" :key="index" :class="document?.status ? 'hidden' : ''">
@@ -26,7 +31,9 @@
                 <button class="px-3 py-2 rounded text-white bg-primary font-normal" :disabled="disabled" @click="addMore">Add More</button>
             </div>
             <div class="text-right lg:flex lg:justify-center sm:col-span-2">
-                <button class="px-10 py-2 rounded text-white bg-primary font-normal" :disabled="disabled" @click="Re_initateCreditCheck">Upload</button>
+                <button class="px-10 py-2 rounded text-white bg-primary font-normal" :disabled="disabled" @click="Re_initateCreditCheck">
+                    Upload
+                </button>
             </div>
         </div>
     </App>
@@ -64,14 +71,12 @@ async function Upload() {
     arrayDoc.push(document?.result?.file);
     return DocumentUploads.value.length == 1 ? arrayDoc : document.result.files;
 }
-async function Re_initateCreditCheck(){
+async function Re_initateCreditCheck() {
     store.dispatch("Re_InitiateCreditCheck", {
-        "credit_check_no": Customer.value.latest_credit_checker_verifications.credit_check_no,
-        documents:  await Upload(),
-        
+        credit_check_no: Customer.value.latest_credit_checker_verifications.credit_check_no,
+        documents: await Upload(),
     });
 }
-
 
 function addMore() {
     DocumentUploads.value.push({});
