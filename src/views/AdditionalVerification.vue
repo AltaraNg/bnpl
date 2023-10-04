@@ -136,7 +136,6 @@ async function Re_initateCreditCheck() {
             documents: await Upload(),
         });
     } else {
-        console.log(bankStatementData.value);
         handleError("Please upload your bank statement first");
     }
 }
@@ -195,6 +194,5 @@ watch(
 onBeforeMount(async () => {
     await CustomerDetails();
     await getStatementChoices();
-    console.log(Customer.value);
 });
 </script>
