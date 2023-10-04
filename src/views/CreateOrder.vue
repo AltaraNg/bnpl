@@ -386,7 +386,11 @@ async function createNewSale() {
         OrderResult.value.total = total;
         OrderResult.value.actualDownpayment = actualDownpayment;
         OrderResult.value.rePayment = rePayment;
-        await SendtoApi();
+        if (!bankStatementData.value.bank_statement_choice && !bankStatementData.value.bank_statement_pdf) {
+            await SendtoApi();
+        } else {
+            handleError("Please upload your bank statement first");
+        }
     } catch (e) {
         window.localStorage.removeItem("data");
     }

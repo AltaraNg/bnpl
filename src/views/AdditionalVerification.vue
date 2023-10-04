@@ -14,6 +14,40 @@
         >
             Reason: <span class="font-semibold">{{ Customer?.latest_credit_checker_verifications?.reason }} </span>
         </p>
+        <div class="w-full flex justify-end">
+            <div class="flex flex-col mt-2 pr-10" :class="Uploaded ? 'pointer-events-none opacity-50' : ''">
+                <p class="text-sm text-gray-800 leading-2">Please upload your bank statements using the provided field.</p>
+                <div class="flex items-end">
+                    <div class="relative w-10/12 mr-2">
+                        <app-select-input
+                            name="bank_statement_choice"
+                            v-model="bankStatementData.bank_statement_choice"
+                            :modelValue="bankStatementData.bank_statement_choice"
+                            @update:modelValue="onSelectStatementChoice"
+                        >
+                            <option value="" disabled>Select Bank Choice</option>
+                            <option class="text-sm" v-for="option in statement_choices" :key="option.key" :value="option.key">
+                                {{ option.name }}
+                            </option>
+                        </app-select-input>
+
+                        <input type="file" ref="pdfInput" accept="application/pdf" style="display: none" @change="handlePDFChange" />
+                        <pdf style="position: absolute; right: 10px; top: 25%; cursor: pointer" @click="uploadPDF()" />
+                    </div>
+
+                    <button
+                        class="px-3 py-2 rounded text-white bg-primary font-normal"
+                        :disabled="!Object.values(bankStatementData).every((value) => value)"
+                        @click.prevent="uploadBankStatement"
+                    >
+                        <loader v-if="loading" /> <span v-else>Upload</span>
+                    </button>
+                </div>
+
+                <div v-if="bankStatementData.bank_statement_pdf">Selected PDF: {{ bankStatementData.bank_statement_pdf.name }}</div>
+                <span class="invalid-feedback">{{ errors?.bank_statement }}</span>
+            </div>
+        </div>
 
         <div class="my-4 px-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
             <div v-for="(document, index) in DocumentUploads" :key="index" :class="document?.status ? 'hidden' : ''">
@@ -43,6 +77,10 @@
 import Apis from "@/services/ApiCalls";
 import FileUploads from "@/components/FileUploads.vue";
 import App from "@/layouts/App.vue";
+import loader from "@/assets/svgs/loader.vue";
+import pdf from "@/assets/images/pdf.vue";
+import AppSelectInput from "@/components/AppSelectInput.vue";
+import { handleSuccess, handleError } from "@/utilities/GlobalFunctions";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 import { ref, watch, onBeforeMount } from "vue";
@@ -51,6 +89,14 @@ const route = useRoute();
 const DocumentUploads = ref([{ name: "", file: "", index: "", display: "", status: "" }]);
 const disabled = ref(true);
 const Customer = ref({});
+const Uploaded = ref(false);
+const loading = ref(false);
+const statement_choices = ref();
+const pdfInput = ref();
+const bankStatementData = ref({
+    bank_statement_choice: "",
+    bank_statement_pdf: "",
+});
 function deleteFileUpload(payload) {
     DocumentUploads.value = DocumentUploads.value.map((document, index) => {
         if (payload == index && payload !== 0) {
@@ -59,6 +105,18 @@ function deleteFileUpload(payload) {
             return { ...document };
         }
     });
+}
+function uploadPDF() {
+    pdfInput.value.click();
+}
+function handlePDFChange(event) {
+    const selectedFile = event.target.files[0];
+    if (selectedFile && selectedFile.type === "application/pdf") {
+        // Handle the selected PDF file
+        bankStatementData.value.bank_statement_pdf = selectedFile;
+    } else {
+        handleError("Please select a valid PDF file.");
+    }
 }
 
 async function Upload() {
@@ -72,10 +130,14 @@ async function Upload() {
     return DocumentUploads.value.length == 1 ? arrayDoc : document.result.files;
 }
 async function Re_initateCreditCheck() {
-    store.dispatch("Re_InitiateCreditCheck", {
-        credit_check_no: Customer.value.latest_credit_checker_verifications.credit_check_no,
-        documents: await Upload(),
-    });
+    if (!bankStatementData.value.bank_statement_choice && !bankStatementData.value.bank_statement_pdf) {
+        store.dispatch("Re_InitiateCreditCheck", {
+            credit_check_no: Customer.value.latest_credit_checker_verifications.credit_check_no,
+            documents: await Upload(),
+        });
+    } else {
+        handleError("Please upload your bank statement first");
+    }
 }
 
 function addMore() {
@@ -101,6 +163,23 @@ async function CustomerDetails() {
     const result = await Apis.customerdetails(route.params.phone_number);
     Customer.value = result?.data?.result;
 }
+function onSelectStatementChoice(value, name) {
+    bankStatementData.value[name] = value;
+}
+async function getStatementChoices() {
+    const result = await Apis.statementChoices();
+    statement_choices.value = result.data;
+}
+async function uploadBankStatement() {
+    loading.value = true;
+    const response = await Apis.uploadBankStatement({ ...bankStatementData.value, customer_id: Customer.value.id });
+    if (response) {
+        handleSuccess("Bank Statement Uploaded");
+        Uploaded.value = true;
+        bankStatementData.value = {};
+    }
+    loading.value = false;
+}
 watch(
     () => [...DocumentUploads.value],
     () => {
@@ -113,6 +192,7 @@ watch(
     { deep: true }
 );
 onBeforeMount(async () => {
-    CustomerDetails();
+    await CustomerDetails();
+    await getStatementChoices();
 });
 </script>
