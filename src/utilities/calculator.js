@@ -1,7 +1,6 @@
 const calculate = (productPrice, data, params, percentage_discount) => {
     // const interest = [4, 3, 2.75];
     const count = repaymentCount(data.repayment_duration_id.value, 14);
-    console.log(data, params);
     const marketPrice = Math.floor(productPrice);
     const upFront = Math.floor((data.payment_type_id.value.percent / 100) * marketPrice);
     const residual = Math.floor(marketPrice - upFront);
