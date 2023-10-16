@@ -196,7 +196,7 @@
                                         :modelValue="bankStatementData.bank_statement_choice"
                                         @update:modelValue="onSelectStatementChoice"
                                     >
-                                        <option value="" disabled>Select Bank Choice</option>
+                                        <option value="" selected>Select Bank Choice</option>
                                         <option class="text-sm" v-for="option in statement_choices" :key="option.key" :value="option.key">
                                             {{ option.name }}
                                         </option>
@@ -214,8 +214,11 @@
                                     <loader v-if="loading" /> <span v-else>Upload</span>
                                 </button>
                             </div>
+                            <div class="flex" v-if="bankStatementData.bank_statement_pdf">
+                                Selected PDF: {{ bankStatementData.bank_statement_pdf.name }}
+                                <cancel class="mx-4 cursor-pointer" @click="clearBankStatement" />
+                            </div>
 
-                            <div v-if="bankStatementData.bank_statement_pdf">Selected PDF: {{ bankStatementData.bank_statement_pdf.name }}</div>
                             <span class="invalid-feedback">{{ errors?.bank_statement }}</span>
                         </div>
 
@@ -263,6 +266,7 @@ import CurrencyInput from "@/components/CurrencyInput.vue";
 import plus from "@/assets/svgs/plus.vue";
 import App from "@/layouts/App.vue";
 import loader from "@/assets/svgs/loader.vue";
+import cancel from "@/assets/svgs/cancel.vue";
 import { handleError, handleSuccess } from "@/utilities/GlobalFunctions";
 import { useStore } from "vuex";
 import { calculate } from "@/utilities/calculator";
@@ -322,6 +326,11 @@ const OrderResult = ref({
     actualDownpayment: null,
     rePayment: null,
 });
+
+function clearBankStatement() {
+    bankStatementData.value.bank_statement_pdf = "";
+    bankStatementData.value.bank_statement_choice = "";
+}
 function deleteFileUpload(payload) {
     DocumentUploads.value = DocumentUploads.value.map((document, index) => {
         if (payload == index && payload !== 0) {
@@ -382,11 +391,11 @@ async function createNewSale() {
             );
         });
         const no_of_orders = Customer.value.orders.length;
-        const { total, actualDownpayment, rePayment } = calculate(Data.amount, Data, params, 0, no_of_orders > 2 ? 2 : no_of_orders);
+        const { total, actualDownpayment, rePayment } = calculate(Data.amount, Data, params, no_of_orders >= 2 ? 2 : no_of_orders);
         OrderResult.value.total = total;
         OrderResult.value.actualDownpayment = actualDownpayment;
         OrderResult.value.rePayment = rePayment;
-        if (!bankStatementData.value.bank_statement_choice && !bankStatementData.value.bank_statement_pdf) {
+        if (!bankStatementData.value.bank_statement_pdf) {
             await SendtoApi();
         } else {
             handleError("Please upload your bank statement first");
