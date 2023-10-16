@@ -11,7 +11,7 @@ export function CreateOrderSchema(orders) {
                       return isNaN(numberValue) ? undefined : numberValue;
                   })
                   .min(20000, "Amount must be greater than NGN20,000")
-                  .max(125000, "Amount must be less than or equal to NGN125,000")
+                  .max(150000, "Amount must be less than or equal to NGN150,000")
             : number()
                   .transform((value, originalValue) => {
                       const numberValue = Number(originalValue.replace(/[^0-9.-]+/g, ""));
