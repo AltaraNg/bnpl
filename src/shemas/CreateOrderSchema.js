@@ -18,7 +18,7 @@ export function CreateOrderSchema(orders) {
                       return isNaN(numberValue) ? undefined : numberValue;
                   })
                   .min(20000, "Amount must be greater than NGN20,000")
-                  .max(100000, "Amount must be less than or equal to NGN100,000"),
+                  .max(150000, "Amount must be less than or equal to NGN150,000"),
         repayment_duration_id: string().required("Please select repayment duration"),
         repayment_cycle_id: string().required("Please select repayment cycle"),
         first_guarantor_first_name: string().required("First name is required"),
